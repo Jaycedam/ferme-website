@@ -1,0 +1,20 @@
+{% extends 'app/base.html' %}
+{% block title %}inicio{% endblock %}
+
+{% load static %}
+
+{% block contenido %}
+
+<h1>Perfil usuario</h1>
+
+<br>
+
+<h4>Nombre de usuario: {{ user.username }}</h4>
+<h4>Nombre: {{ user.first_name }} {{ user.last_name }}</h4>
+<h4>Email: {{ user.email }}</h4>
+
+<h4>Rut: {{ persona.rut_persona }}</h4>
+<h4>Celular: {{ persona.celular }}</h4>
+
+
+{% endblock %}
