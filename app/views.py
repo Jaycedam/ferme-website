@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .forms import CustomUserCreationForm, UserProfileForm, ModifyUserForm
+from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -36,27 +36,33 @@ def perfil(request):
 
     return render(request, 'app/perfil/perfil.html', data)
 
-# problema, modificar perfil crea otro perfil para el usuario en vez de modificar
 def modificar_perfil(request):
-    usuario = request.user
-    persona = Persona.objects.get(usuario=request.user)
-            
-    data = {
-        'form': ModifyUserForm(instance=usuario),
-        'profile_form': UserProfileForm(instance=persona)
-    }   
+    user = request.user
+
+    if Persona.objects.filter(usuario=request.user).exists():
+        profile = Persona.objects.get(usuario=user)
+
+        data = {
+            'form': ModifyUserForm(instance=user),
+            'profile_form': ModifyProfileForm(instance=profile)
+        }      
+
+    else:
+        data = {
+            'form': ModifyUserForm(instance=user),
+        }   
+
 
     if request.method == 'POST':
-        form = ModifyUserForm(data=request.POST, instance=usuario)
-        profile_form = UserProfileForm(data=request.POST, instance=persona)
+        form = ModifyUserForm(data=request.POST, instance=user)
+        profile_form = ModifyProfileForm(data=request.POST, instance=profile)
 
         if form.is_valid() and profile_form.is_valid():
             usuario = form.save()
-            profile = profile_form.save(commit=False)
+            prof = profile_form.save(False)
 
-            profile.usuario = usuario
-
-            profile.save()
+            prof.usuario = request.user
+            prof.save()
 
             return redirect(to="perfil")
 
@@ -68,12 +74,12 @@ def modificar_perfil(request):
 def register(request):
     data = {
         'form': CustomUserCreationForm(),
-        'profile_form': UserProfileForm()
+        'profile_form': ProfileForm()
     }
 
     if request.method == 'POST':
         form = CustomUserCreationForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
+        profile_form = ProfileForm(data=request.POST)
 
         if form.is_valid() and profile_form.is_valid():
             usuario = form.save()
