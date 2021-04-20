@@ -1,5 +1,5 @@
 {% extends 'app/base.html' %}
-{% block title %}inicio{% endblock %}
+{% block title %}Perfil{% endblock %}
 
 {% load static %}
 
@@ -15,6 +15,12 @@
 
 <h4>Rut: {{ persona.rut_persona }}</h4>
 <h4>Celular: {{ persona.celular }}</h4>
+
+<br>
+
+<a href="{% url 'modificar_perfil'%}">
+    <button>Editar datos</button>
+</a>
 
 
 {% endblock %}

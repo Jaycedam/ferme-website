@@ -1,30 +1,69 @@
-from django.shortcuts import render
-from .forms import CustomUserCreationForm, UserProfileForm
+from django.shortcuts import render, get_object_or_404
+from .forms import CustomUserCreationForm, UserProfileForm, ModifyUserForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models import Persona
+from .models import Persona, User
 
 # Create your views here.
 
 def admin(request):
     return render(request, '/admin/')
 
-def home(request):
-    return render(request, 'app/home.html')
+def administrador(request):
+    return render(request, 'app/administrador.html')
 
-def profile(request):
+def inicio(request):
+    return render(request, 'app/inicio.html')
+
+def perfil(request):
     current_user = request.user
-    persona = Persona.objects.get(usuario=current_user.id)
 
+    try:
+        persona = Persona.objects.get(usuario=current_user.id)
+
+        data = {
+            "persona":persona,
+            "user":current_user
+        }
+
+    except:
+        data = {
+            "user":current_user
+        }
+
+    return render(request, 'app/perfil/perfil.html', data)
+
+# problema, modificar perfil crea otro perfil para el usuario en vez de modificar
+def modificar_perfil(request):
+    usuario = request.user
+    persona = Persona.objects.get(usuario=request.user)
+            
     data = {
-        "persona":persona,
-        "user":current_user
-    }
+        'form': ModifyUserForm(instance=usuario),
+        'profile_form': UserProfileForm(instance=persona)
+    }   
 
-    return render(request, 'app/profile.html', data)
+    if request.method == 'POST':
+        form = ModifyUserForm(data=request.POST, instance=usuario)
+        profile_form = UserProfileForm(data=request.POST, instance=persona)
+
+        if form.is_valid() and profile_form.is_valid():
+            usuario = form.save()
+            profile = profile_form.save(commit=False)
+
+            profile.usuario = usuario
+
+            profile.save()
+
+            return redirect(to="perfil")
+
+        data["form"] = form
+        data["profile_form"] = profile_form
+
+    return render(request, 'app/perfil/modificar.html', data)
 
 def register(request):
     data = {
