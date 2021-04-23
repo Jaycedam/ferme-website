@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+{% block title %}Productos{% endblock %}
+
+{% block contenido %}
+
+<h1 class="title">Productos en {{ familia.familia_producto }}</h1>
+
+<div class="productos">
+    {% for i in producto %}
+
+    <div class="producto">
+        <div class="producto-container">
+            {% if i.imagen %}
+            <img src="{{ i.imagen.url }}" alt="">
+            {% endif %}
+            <h4 class="producto-title">{{ i.producto }}</h4>
+            <h6 class="producto-text">{{ i.descripcion }}</h6>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

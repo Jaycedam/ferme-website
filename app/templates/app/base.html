@@ -33,7 +33,7 @@
                         <a class="custom-nav" href="{% url 'inicio' %}">Inicio</a>
                     </li>
                     <li>
-                        <a class="custom-nav" href="">Productos</a>
+                        <a class="custom-nav" href="{% url 'familia_producto' %}">Productos</a>
                     </li>
 
                     {% if user.is_authenticated %}

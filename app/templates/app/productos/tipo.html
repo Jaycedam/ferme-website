@@ -1,0 +1,28 @@
+{% extends 'app/base.html' %}
+{% block title %}Productos{% endblock %}
+{% load static %}
+
+{% block contenido %}
+
+<h1 class="title">Productos</h1>
+
+<div class="productos">
+    {% for i in familia_producto %}
+
+    <div class="producto">
+        
+        <div class="producto-container">
+            <a href="{% url 'productos' i.id_familia_producto %}">
+                <img src="{% static 'app/img/familia_productos/Climatizacion2.jpg' %}" >
+            </a>
+
+            <h4 class="producto-title">{{ i.familia_producto }}</h4>
+        </div>
+        
+     
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

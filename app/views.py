@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models import Persona, User
+from .models import Persona, User, FamiliaProducto, Producto, TipoProducto
+import base64
 
 # Create your views here.
 
@@ -93,8 +94,30 @@ def register(request):
                 password=form.cleaned_data["password1"]
             )
             login(request, user)
-            return redirect(to="home")
+            return redirect(to="inicio")
         data["form"] = form
         data["profile_form"] = profile_form
 
     return render(request, 'registration/register.html', data)
+
+
+def familia_producto(request):
+    familia_producto = FamiliaProducto.objects.all()
+
+    data = {
+        "familia_producto":familia_producto
+    }
+
+    return render(request, 'app/productos/tipo.html', data)
+
+def productos(request, id):
+    producto = Producto.objects.filter(id_tipo_producto__id_familia_producto=id)
+
+    familia = FamiliaProducto.objects.get(id_familia_producto=id)
+
+    data = {
+        "producto":producto,
+        "familia": familia
+    }
+
+    return render(request, 'app/productos/productos.html', data)

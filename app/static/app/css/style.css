@@ -168,40 +168,34 @@ nav > ul > li > a {
     min-height: 100vh;
 }
 
-.services {
+.productos {
     display: flex;
     flex-wrap: wrap;
 }
 
-.service {
+.producto {
     width: 25%;
     display: flex;
     justify-content: center;
 }
 
-.service-container {
+.producto-container {
     width: 80%;
     margin: auto;
     padding: 10px;
     margin: 10px;
     height: auto; 
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+    display: inline-block;
 }
 
 
-.service-container img {
-    height: 50px;
+.producto-container img {
+    height: 100px;
+    object-fit: cover;
+    opacity: 0.5;
 }
 
-.service-container .service-title {
-    margin-top: 10px;
-    text-align: center;
-}
-
-.service-container .service-text {
-    margin-top: 10px;
+.producto-container .producto-title {
     text-align: center;
 }
 
@@ -313,7 +307,7 @@ footer > div {
 /* TABLET */
 
 @media(max-width: 1024px) {
-    .service {
+    .producto {
         width: 50%;
     }
 
@@ -413,11 +407,11 @@ footer > div {
         padding: 20px 0;
     }
 
-    .service {
+    .producto {
         width: 100%;
     }
 
-    .service-container {
+    .producto-container {
         width: 100%;
     }
 

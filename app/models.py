@@ -35,6 +35,7 @@ class Domicilio(models.Model):
 class FamiliaProducto(models.Model):
     id_familia_producto = models.FloatField(primary_key=True)
     familia_producto = models.CharField(max_length=200)
+    imagen = models.BinaryField(null=True)
 
     class Meta:
         managed = False
