@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import Persona, User, FamiliaProducto, Producto, TipoProducto
-import base64
 
 # Create your views here.
 

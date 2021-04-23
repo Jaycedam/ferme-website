@@ -35,7 +35,7 @@ class Domicilio(models.Model):
 class FamiliaProducto(models.Model):
     id_familia_producto = models.FloatField(primary_key=True)
     familia_producto = models.CharField(max_length=200)
-    imagen = models.BinaryField(null=True)
+    imagen = models.CharField(max_length=500, null=True)
 
     class Meta:
         managed = False
@@ -89,7 +89,6 @@ class OrdenCompra(models.Model):
 class Persona(models.Model):
     rut_persona = models.CharField(primary_key=True, max_length=10)
     celular = models.FloatField()
-    #user = models.FloatField()
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, db_column='usuario')
     
     class Meta:
@@ -106,6 +105,7 @@ class Producto(models.Model):
     stock_critico = models.FloatField()
     id_tipo_producto = models.ForeignKey('TipoProducto', models.DO_NOTHING, db_column='id_tipo_producto')
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
+    imagen = models.CharField(max_length=500, null=True)
 
     class Meta:
         managed = False
