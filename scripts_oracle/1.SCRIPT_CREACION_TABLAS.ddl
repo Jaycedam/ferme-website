@@ -56,6 +56,7 @@ CREATE TABLE oc_detalle (
     id_oc_detalle    NUMBER NOT NULL,
     id_producto      NUMBER NOT NULL,
     cantidad         NUMBER NOT NULL,
+    total            NUMBER NOT NULL,
     id_orden_compra  NUMBER NOT NULL
 );
 
@@ -130,7 +131,8 @@ CREATE TABLE recibo_detalle (
     id_detalle   NUMBER NOT NULL,
     id_producto  NUMBER NOT NULL,
     nro_doc      NUMBER NOT NULL,
-    cantidad     NUMBER NOT NULL
+    cantidad     NUMBER NOT NULL,
+    total        NUMBER NOT NULL
 );
 
 ALTER TABLE recibo_detalle ADD CONSTRAINT recibo_detalle_pk PRIMARY KEY ( id_detalle );
@@ -258,6 +260,4 @@ ALTER TABLE recibo
 ALTER TABLE tipo_producto
     ADD CONSTRAINT tipo_producto_familia_fk FOREIGN KEY ( id_familia_producto )
         REFERENCES familia_producto ( id_familia_producto );
-
-
 
