@@ -7,19 +7,17 @@
 <h1 class="title">Productos</h1>
 
 <div class="productos">
-    {% for i in familia_producto %}
-
-    <div class="producto">
-
+    {% for i in familia_producto  %}
+    <div class="container-producto-familia">
         <a href="{% url 'productos' i.id_familia_producto %}">
-            <div class="producto-container">
-                <img src="{{ i.imagen }}" >
-                <h4 class="producto-title">{{ i.familia_producto }}</h4>
+            <img src="{{ i.imagen_url }}">
+        
+            <div class="text-block">
+                <h4>{{ i.familia_producto }}</h4>
             </div>
         </a>
     </div>
-    {% endfor %}
-
+  {% endfor %}
 </div>
 
 {% endblock %}

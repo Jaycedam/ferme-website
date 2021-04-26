@@ -20,10 +20,18 @@ ALTER TABLE domicilio ADD CONSTRAINT domicilio_pk PRIMARY KEY ( id_domicilio );
 
 CREATE TABLE familia_producto (
     id_familia_producto  NUMBER NOT NULL,
-    familia_producto     VARCHAR2(200) NOT NULL
+    familia_producto     VARCHAR2(200) NOT NULL,
+    imagen_url           VARCHAR2(500)
 );
 
 ALTER TABLE familia_producto ADD CONSTRAINT familia_producto_pk PRIMARY KEY ( id_familia_producto );
+
+CREATE TABLE marca (
+    id_marca  NUMBER NOT NULL,
+    marca     VARCHAR2(200) NOT NULL
+);
+
+ALTER TABLE marca ADD CONSTRAINT marca_pk PRIMARY KEY ( id_marca );
 
 CREATE TABLE nota_credito (
     nro_nota_credito  NUMBER NOT NULL,
@@ -76,8 +84,10 @@ CREATE TABLE producto (
     precio            NUMBER NOT NULL,
     stock             NUMBER NOT NULL,
     stock_critico     NUMBER NOT NULL,
+    imagen_url        VARCHAR2(500),
     id_tipo_producto  NUMBER NOT NULL,
-    id_proveedor      NUMBER NOT NULL
+    id_proveedor      NUMBER NOT NULL,
+    marca_id_marca    NUMBER NOT NULL
 );
 
 ALTER TABLE producto ADD CONSTRAINT producto_pk PRIMARY KEY ( id_producto );
@@ -204,6 +214,10 @@ ALTER TABLE oc_detalle
 ALTER TABLE orden_compra
     ADD CONSTRAINT orden_compra_proveedor_fk FOREIGN KEY ( id_proveedor )
         REFERENCES proveedor ( id_proveedor );
+
+ALTER TABLE producto
+    ADD CONSTRAINT producto_marca_fk FOREIGN KEY ( marca_id_marca )
+        REFERENCES marca ( id_marca );
 
 ALTER TABLE producto
     ADD CONSTRAINT producto_proveedor_fk FOREIGN KEY ( id_proveedor )

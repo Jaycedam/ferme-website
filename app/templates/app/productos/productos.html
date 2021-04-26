@@ -5,19 +5,34 @@
 
 <h1 class="title">Productos en {{ familia.familia_producto }}</h1>
 
-<div class="productos">
-    {% for i in producto %}
-
-    <div class="producto">
-        <div class="producto-container">
-            {% if i.imagen %}
-            <img src="{{ i.imagen.url }}" alt="">
-            {% endif %}
-            <h4 class="producto-title">{{ i.producto }}</h4>
-            <h6 class="producto-text">{{ i.descripcion }}</h6>
-        </div>
+<div class="content-filters">
+    <div class="filtros">
+        <h2>Filtros</h2>
+        <input type="text" id="buscar_producto" placeholder="Buscar producto">
+    
     </div>
-    {% endfor %}
+
+    <div class="productos-parent">
+    
+        <div class="productos">
+            {% for i in producto  %}
+            <div class="container-producto">
+                <a href="">
+                    <div class="wrapper">
+                        <img src="{{ i.imagen_url }}">
+                        <div class="text-block">
+                            <!--agregar marca-->
+                            <h4>{{ i.producto }}</h4>
+                            <h6>${{ i.precio }}</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+        {% endfor %}
+        </div>
+
+    </div>
 
 </div>
 

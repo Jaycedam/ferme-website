@@ -35,7 +35,7 @@ class Domicilio(models.Model):
 class FamiliaProducto(models.Model):
     id_familia_producto = models.FloatField(primary_key=True)
     familia_producto = models.CharField(max_length=200)
-    imagen = models.CharField(max_length=500, null=True)
+    imagen_url = models.CharField(max_length=500, null=True)
 
     class Meta:
         managed = False
@@ -105,7 +105,7 @@ class Producto(models.Model):
     stock_critico = models.FloatField()
     id_tipo_producto = models.ForeignKey('TipoProducto', models.DO_NOTHING, db_column='id_tipo_producto')
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
-    imagen = models.CharField(max_length=500, null=True)
+    imagen_url = models.CharField(max_length=500, null=True)
 
     class Meta:
         managed = False
