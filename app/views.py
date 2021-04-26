@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import Persona, User, FamiliaProducto, Producto, TipoProducto
+from .filters import ProductoFilter
 
 # Create your views here.
 
@@ -114,9 +115,14 @@ def productos(request, id):
 
     familia = FamiliaProducto.objects.get(id_familia_producto=id)
 
+    myFilter = ProductoFilter(request.GET, queryset=producto)
+    
+    producto = myFilter.qs
+
     data = {
         "producto":producto,
-        "familia": familia
+        "familia":familia,
+        "myFilter":myFilter
     }
 
     return render(request, 'app/productos/productos.html', data)

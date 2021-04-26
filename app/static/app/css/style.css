@@ -75,13 +75,14 @@ body {
       background-color: #333333;
     }
 
-    table th {
-        color: #eee;
+    .filtros {
+        background-color: #333333;
     }
-    table td {
-        color: #eee;
+
+    .container-producto .wrapper {
+        background-color: #333333;
     }
-  }
+}
 
 .title {
     text-align: center;
@@ -219,7 +220,7 @@ nav > ul > li > a {
 }
 
 .productos-parent {
-    width: auto;
+    width: 80%;
 }
 
 .container-producto {

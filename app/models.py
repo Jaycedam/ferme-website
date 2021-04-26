@@ -13,6 +13,9 @@ class Comuna(models.Model):
     comuna = models.CharField(max_length=200)
     id_provincia = models.ForeignKey('Provincia', models.DO_NOTHING, db_column='id_provincia')
 
+    def __str__(self):
+            return self.comuna
+
     class Meta:
         managed = False
         db_table = 'comuna'
@@ -37,6 +40,9 @@ class FamiliaProducto(models.Model):
     familia_producto = models.CharField(max_length=200)
     imagen_url = models.CharField(max_length=500, null=True)
 
+    def __str__(self):
+        return self.familia_producto
+
     class Meta:
         managed = False
         db_table = 'familia_producto'
@@ -48,6 +54,9 @@ class NotaCredito(models.Model):
     descripcion = models.CharField(max_length=500, blank=True, null=True)
     nro_doc = models.ForeignKey('Recibo', models.DO_NOTHING, db_column='nro_doc')
     rut_persona = models.ForeignKey('Persona', models.DO_NOTHING, db_column='rut_persona')
+
+    def __str__(self):
+        return self.nro_nota_credito
 
     class Meta:
         managed = False
@@ -81,6 +90,9 @@ class OrdenCompra(models.Model):
     total = models.FloatField()
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
 
+    def __str__(self):
+        return self.id_orden_compra
+
     class Meta:
         managed = False
         db_table = 'orden_compra'
@@ -91,6 +103,9 @@ class Persona(models.Model):
     celular = models.FloatField()
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, db_column='usuario')
     
+    def __str__(self):
+        return self.rut_persona
+
     class Meta:
         managed = False
         db_table = 'persona'
@@ -107,6 +122,9 @@ class Producto(models.Model):
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
     imagen_url = models.CharField(max_length=500, null=True)
 
+    def __str__(self):
+        return self.producto
+
     class Meta:
         managed = False
         db_table = 'producto'
@@ -118,6 +136,9 @@ class Proveedor(models.Model):
     id_rubro = models.ForeignKey('Rubro', models.DO_NOTHING, db_column='id_rubro')
     rut_persona = models.ForeignKey(Persona, models.DO_NOTHING, db_column='rut_persona')
 
+    def __str__(self):
+        return self.nombre_empresa
+
     class Meta:
         managed = False
         db_table = 'proveedor'
@@ -127,6 +148,9 @@ class Provincia(models.Model):
     id_provincia = models.FloatField(primary_key=True)
     provincia = models.CharField(max_length=200)
     id_region = models.ForeignKey('Region', models.DO_NOTHING, db_column='id_region')
+
+    def __str__(self):
+        return self.provincia
 
     class Meta:
         managed = False
@@ -162,6 +186,9 @@ class Region(models.Model):
     id_region = models.FloatField(primary_key=True)
     region = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.region
+
     class Meta:
         managed = False
         db_table = 'region'
@@ -170,6 +197,9 @@ class Region(models.Model):
 class Rubro(models.Model):
     id_rubro = models.FloatField(primary_key=True)
     rubro = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.rubro
 
     class Meta:
         managed = False
@@ -180,6 +210,9 @@ class TipoDocumento(models.Model):
     id_tipo_doc = models.FloatField(primary_key=True)
     tipo_doc = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.tipo_doc
+
     class Meta:
         managed = False
         db_table = 'tipo_documento'
@@ -188,6 +221,9 @@ class TipoDocumento(models.Model):
 class TipoDomicilio(models.Model):
     id_tipo_domicilio = models.FloatField(primary_key=True)
     tipo_domicilio = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.tipo_domicilio
 
     class Meta:
         managed = False
@@ -198,6 +234,9 @@ class TipoProducto(models.Model):
     id_tipo_producto = models.FloatField(primary_key=True)
     tipo_producto = models.CharField(max_length=200)
     id_familia_producto = models.ForeignKey(FamiliaProducto, models.DO_NOTHING, db_column='id_familia_producto')
+
+    def __str__(self):
+        return self.tipo_producto
 
     class Meta:
         managed = False
