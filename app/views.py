@@ -6,6 +6,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import Persona, User, FamiliaProducto, Producto, TipoProducto
 from .filters import ProductoFilter
+from .get_family_id import get_current_id, set_current_id
 
 # Create your views here.
 
@@ -113,7 +114,8 @@ def productos(request, id):
     producto = Producto.objects.filter(id_tipo_producto__id_familia_producto=id)
 
     familia = FamiliaProducto.objects.get(id_familia_producto=id)
-    id_familia = familia.id_familia_producto
+
+    set_current_id(familia.id_familia_producto)
 
     #agregar parametro "id_familia" a myFilter()
     myFilter = ProductoFilter(request.GET, queryset=producto)
@@ -123,7 +125,8 @@ def productos(request, id):
     data = {
         "producto":producto,
         "familia":familia,
-        "myFilter":myFilter
+        "myFilter":myFilter,
     }
 
     return render(request, 'app/productos/productos.html', data)
+

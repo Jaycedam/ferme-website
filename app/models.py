@@ -9,7 +9,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Comuna(models.Model):
-    id_comuna = models.FloatField(primary_key=True)
+    id_comuna = models.AutoField(primary_key=True)
     comuna = models.CharField(max_length=200)
     id_provincia = models.ForeignKey('Provincia', models.DO_NOTHING, db_column='id_provincia')
 
@@ -22,7 +22,7 @@ class Comuna(models.Model):
 
 
 class Domicilio(models.Model):
-    id_domicilio = models.FloatField(primary_key=True)
+    id_domicilio = models.AutoField(primary_key=True)
     calle = models.CharField(max_length=200)
     nro = models.FloatField()
     nro_departamento = models.FloatField(blank=True, null=True)
@@ -36,7 +36,7 @@ class Domicilio(models.Model):
 
 
 class FamiliaProducto(models.Model):
-    id_familia_producto = models.FloatField(primary_key=True)
+    id_familia_producto = models.AutoField(primary_key=True)
     familia_producto = models.CharField(max_length=200)
     imagen_url = models.CharField(max_length=500, null=True)
 
@@ -46,6 +46,17 @@ class FamiliaProducto(models.Model):
     class Meta:
         managed = False
         db_table = 'familia_producto'
+
+class Marca(models.Model):
+    id_marca = models.FloatField(primary_key=True)
+    marca = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.marca
+
+    class Meta:
+        managed = False
+        db_table = 'marca'
 
 
 class NotaCredito(models.Model):
@@ -64,7 +75,7 @@ class NotaCredito(models.Model):
 
 
 class NotaCreditoDetalle(models.Model):
-    id_detalle = models.FloatField(primary_key=True)
+    id_detalle = models.AutoField(primary_key=True)
     cantidad = models.FloatField()
     nro_nota_credito = models.ForeignKey(NotaCredito, models.DO_NOTHING, db_column='nro_nota_credito')
     id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
@@ -75,9 +86,10 @@ class NotaCreditoDetalle(models.Model):
 
 
 class OcDetalle(models.Model):
-    id_oc_detalle = models.FloatField(primary_key=True)
+    id_oc_detalle = models.AutoField(primary_key=True)
     id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
     cantidad = models.FloatField()
+    total = models.FloatField()
     id_orden_compra = models.ForeignKey('OrdenCompra', models.DO_NOTHING, db_column='id_orden_compra')
 
     class Meta:
@@ -118,9 +130,10 @@ class Producto(models.Model):
     precio = models.FloatField()
     stock = models.FloatField()
     stock_critico = models.FloatField()
+    imagen_url = models.CharField(max_length=500, blank=True, null=True)
     id_tipo_producto = models.ForeignKey('TipoProducto', models.DO_NOTHING, db_column='id_tipo_producto')
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
-    imagen_url = models.CharField(max_length=500, null=True)
+    id_marca = models.ForeignKey(Marca, models.DO_NOTHING, db_column='id_marca')
 
     def __str__(self):
         return self.producto
@@ -166,6 +179,9 @@ class Recibo(models.Model):
     id_tipo_doc = models.ForeignKey('TipoDocumento', models.DO_NOTHING, db_column='id_tipo_doc')
     rut_persona = models.ForeignKey(Persona, models.DO_NOTHING, db_column='rut_persona')
 
+    def __str__(self):
+        return self.nro_doc
+
     class Meta:
         managed = False
         db_table = 'recibo'
@@ -176,6 +192,7 @@ class ReciboDetalle(models.Model):
     id_producto = models.ForeignKey(Producto, models.DO_NOTHING, db_column='id_producto')
     nro_doc = models.ForeignKey(Recibo, models.DO_NOTHING, db_column='nro_doc')
     cantidad = models.FloatField()
+    total = models.FloatField()
 
     class Meta:
         managed = False
@@ -228,7 +245,6 @@ class TipoDomicilio(models.Model):
     class Meta:
         managed = False
         db_table = 'tipo_domicilio'
-
 
 class TipoProducto(models.Model):
     id_tipo_producto = models.FloatField(primary_key=True)

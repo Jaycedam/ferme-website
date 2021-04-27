@@ -25,8 +25,8 @@
                     <div class="wrapper">
                         <img src="{{ i.imagen_url }}">
                         <div class="text-block">
-                            <!--agregar marca-->
-                            <h4>{{ i.producto }}</h4>
+                            <small class="font-weight-bold text-uppercase">Marca: {{ i.id_marca }}</small>
+                            <h5 class="text-capitalize">{{ i.producto }}</h4>
                             <h6>${{ i.precio }}</h4>
                         </div>
                     </div>
