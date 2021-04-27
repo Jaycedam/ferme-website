@@ -1,4 +1,3 @@
-from django.shortcuts import render, get_object_or_404
 from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
@@ -114,7 +113,9 @@ def productos(request, id):
     producto = Producto.objects.filter(id_tipo_producto__id_familia_producto=id)
 
     familia = FamiliaProducto.objects.get(id_familia_producto=id)
+    id_familia = familia.id_familia_producto
 
+    #agregar parametro "id_familia" a myFilter()
     myFilter = ProductoFilter(request.GET, queryset=producto)
     
     producto = myFilter.qs
