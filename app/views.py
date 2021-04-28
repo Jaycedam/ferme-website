@@ -111,22 +111,30 @@ def familia_producto(request):
     return render(request, 'app/productos/tipo.html', data)
 
 def productos(request, id):
-    producto = Producto.objects.filter(id_tipo_producto__id_familia_producto=id)
+    productos = Producto.objects.filter(id_tipo_producto__id_familia_producto=id)
 
     familia = FamiliaProducto.objects.get(id_familia_producto=id)
 
     set_current_id(familia.id_familia_producto)
 
     #agregar parametro "id_familia" a myFilter()
-    myFilter = ProductoFilter(request.GET, queryset=producto)
+    myFilter = ProductoFilter(request.GET, queryset=productos)
     
-    producto = myFilter.qs
+    productos = myFilter.qs
 
     data = {
-        "producto":producto,
+        "productos":productos,
         "familia":familia,
         "myFilter":myFilter,
     }
 
     return render(request, 'app/productos/productos.html', data)
 
+def producto(request, id):
+    producto = Producto.objects.get(id_producto=id)
+
+    data = {
+        "producto":producto
+    }
+
+    return render(request, 'app/productos/producto.html', data)

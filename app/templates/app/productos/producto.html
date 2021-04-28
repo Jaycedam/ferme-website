@@ -1,0 +1,31 @@
+{% extends 'app/base.html' %}
+{% block title %}{{ producto.producto }}{% endblock %}
+
+{% block contenido %}
+
+<div class="flex-row">
+    <div class="producto-imagen">
+        <img src="{{producto.imagen_url}}" alt="">
+    </div>
+    <div class="producto-text">
+        <small class="font-weight-bold text-uppercase">Marca: {{ producto.id_marca }}</small>
+        <h1 class="text-capitalize">{{ producto.producto }}</h4>
+        <br>
+        <h5 class="font-weight-bold">Descripción del producto:</h2>
+        <h5 class="font-weight-normal">{{ producto.descripcion }}</h4>
+        <br>
+        <h3>${{ producto.precio }}</h4>
+
+        {% if user.is_authenticated %}        
+        <br><br><br>
+        <button class="btn btn-primary float-left">
+            Agregar al carro
+            <i class="bi bi-cart"></i>
+        </button>
+        {% endif %}        
+
+    </div>
+
+</div>
+
+{% endblock %}

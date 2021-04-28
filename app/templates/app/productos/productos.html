@@ -1,12 +1,12 @@
 {% extends 'app/base.html' %}
-{% block title %}Productos{% endblock %}
+{% block title %}{{ familia.familia_producto }}{% endblock %}
 
 {% block contenido %}
 {% load crispy_forms_tags %}
 
 <h1 class="title">Productos en {{ familia.familia_producto }}</h1>
 
-<div class="content-filters">
+<div class="flex-row">
     <div class="filtros">
         <h2>Filtros</h2>
     
@@ -19,9 +19,9 @@
     <div class="productos-parent">
     
         <div class="productos">
-            {% for i in producto  %}
-            <div class="container-producto">
-                <a href="">
+            {% for i in productos  %}
+            <div class="container-productos">
+                <a href="{% url 'producto' i.id_producto %}">
                     <div class="wrapper">
                         <img src="{{ i.imagen_url }}">
                         <div class="text-block">

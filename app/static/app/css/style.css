@@ -156,7 +156,7 @@ nav > ul > li > a {
 
 /*página productos*/
 
-.content-filters {
+.flex-row {
     display: flex;
     flex-direction: row;
 }
@@ -174,7 +174,7 @@ nav > ul > li > a {
     width: 80%;
 }
 
-.container-producto {
+.container-productos {
     position: relative;
     padding: 0px 10px 20px 10px;
     width: 25%;
@@ -182,27 +182,46 @@ nav > ul > li > a {
 }
 
 
-.container-producto a {
+.container-productos a {
     text-decoration: none;
     color: black;
 }
 
-.container-producto .wrapper {
+.container-productos .wrapper {
     background-color: white;
     width: 100%;
     height: 100%;
     border-radius: 10px;
     overflow: hidden;
 }
-.container-producto .wrapper img {
+.container-productos .wrapper img {
     background-color: black;
     height: 200px;
     width: 100%;
     object-fit: cover;
 }
 
-.container-producto .wrapper .text-block {
+.container-productos .wrapper .text-block {
     padding: 10px 10px 10px 10px;
+}
+
+/*producto*/
+.producto-imagen {
+    margin-right: 50px;
+    background-color: black;
+    width: 40%;
+    height: 500px;
+}
+
+.producto-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.producto-text {
+    width: 50%;
 }
 
 .form-container {
@@ -332,7 +351,7 @@ footer > div {
         padding: 20px 0;
     }
 
-    .content-filters {
+    .flex-row {
         flex-direction: column;
     }
 
@@ -344,7 +363,7 @@ footer > div {
         width: 100%;
     }
 
-    .container-producto {
+    .container-productos {
         padding: 40px 0 0 0;
         width: 100%;
         height: 350px;
@@ -417,11 +436,11 @@ footer > div {
         background-color: #2b2b2b;
     }
 
-    .container-producto .wrapper {
+    .container-productos .wrapper {
         background-color: #2b2b2b;
     }
 
-    .container-producto a {
+    .container-productos a {
         text-decoration: none;
         color: white;
     }
