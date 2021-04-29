@@ -1,7 +1,7 @@
 import django_filters
-from django_filters import CharFilter, NumberFilter, ModelChoiceFilter
-from .get_family_id import get_current_id
+from django_filters import CharFilter, NumberFilter, ModelChoiceFilter 
 from .models import Producto, TipoProducto
+from django import forms
 
 
 class ProductoFilter(django_filters.FilterSet): 
@@ -13,4 +13,3 @@ class ProductoFilter(django_filters.FilterSet):
     class Meta:
         model = Producto
         fields = ['producto']
-

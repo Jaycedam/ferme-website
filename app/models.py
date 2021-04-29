@@ -113,7 +113,7 @@ class OrdenCompra(models.Model):
 class Persona(models.Model):
     rut_persona = models.CharField(primary_key=True, max_length=10)
     celular = models.FloatField()
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE, db_column='usuario')
+    usuario = models.OneToOneField(User, on_delete=models.DO_NOTHING, db_column='usuario')
     
     def __str__(self):
         return self.rut_persona
