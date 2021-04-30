@@ -6,6 +6,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import Persona, User, FamiliaProducto, Producto, TipoProducto
 from .filters import ProductoFilter, ProductoAdminFilter, UsuarioAdminFilter
+from django.contrib import messages
 
 # Create your views here.
 
@@ -13,7 +14,6 @@ def admin(request):
     return render(request, '/admin/')
 
 def admin_home(request):
-
     return render(request, 'app/admin/home.html')
 
 def admin_productos(request):
@@ -30,16 +30,32 @@ def admin_productos(request):
 
 def admin_usuarios(request):
     usuarios = Persona.objects.all().select_related('usuario')
-    print(usuarios)
     usuariosFiltered = UsuarioAdminFilter(request.GET, queryset=usuarios)
     usuarios = usuariosFiltered.qs
 
-    print(usuarios)
-
     data = {
         "usuarios":usuarios,
-        "usuariosFiltered":usuariosFiltered
+        "usuariosFiltered":usuariosFiltered,
+        'form': CustomUserCreationForm(),
+        'profile_form': ProfileForm()
     }
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(data=request.POST)
+        profile_form = ProfileForm(data=request.POST)
+
+        if form.is_valid() and profile_form.is_valid():
+            usuario = form.save()
+            profile = profile_form.save(commit=False)
+
+            profile.usuario = usuario
+
+            profile.save()
+
+            messages.success(request, "Usuario creado correctamente")
+
+        data["form"] = form
+        data["profile_form"] = profile_form
 
     return render(request, 'app/admin/usuarios.html', data)
 

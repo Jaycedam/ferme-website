@@ -81,7 +81,7 @@ body {
     height: 100%;
     width: 100%;
     object-fit: cover;
-    border-radius: 25px;
+    border-radius: 10px;
 }
   
 .container-producto-familia .text-block {
@@ -91,7 +91,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 25px;
+    border-radius: 10px;
     padding: 20px 20px 20px 20px;
     -webkit-user-select: none; /* Safari */        
     -moz-user-select: none; /* Firefox */
@@ -187,12 +187,14 @@ input.error {
 .admin-section {
     width: 100%;
     display: flex;
+    background-color: white;
+    border-radius: 10px;
+
 }
 
 .admin-section > div {
     width: 50%;
-    padding: 20px 50px 20px 50px;
-    background-color: white;
+    padding: 50px 50px 50px 50px;
     height: 100%;
 } 
 

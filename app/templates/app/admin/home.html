@@ -3,19 +3,19 @@
 
 {% block contenido %}
 
-<div class="container">
-    <div class="row row-cols-2">
-        <div class="col">
-            <a href="{% url 'admin_productos' %}">Productos</a>
-        </div>
-        <div class="col">
-            <a href="{% url 'admin_usuarios' %}">Usuarios</a>
-        </div>        
-        
-        <div class="col">Columna</div>
-        <div class="col">Columna</div>
-    </div>
-</div>
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{% url 'admin_home' %}">Inicio</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{% url 'admin_usuarios' %}">Usuarios</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="{% url 'admin_productos' %}">Productos</a>
+    </li>
+</ul>
+
+<br>
 
 
 
