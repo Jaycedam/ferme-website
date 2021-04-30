@@ -1,0 +1,22 @@
+{% extends 'app/base.html' %}
+{% block title %}Administrador{% endblock %}
+
+{% block contenido %}
+
+<div class="container">
+    <div class="row row-cols-2">
+        <div class="col">
+            <a href="{% url 'admin_productos' %}">Productos</a>
+        </div>
+        <div class="col">
+            <a href="{% url 'admin_usuarios' %}">Usuarios</a>
+        </div>        
+        
+        <div class="col">Columna</div>
+        <div class="col">Columna</div>
+    </div>
+</div>
+
+
+
+{% endblock %}

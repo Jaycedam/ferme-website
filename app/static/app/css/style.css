@@ -3,6 +3,9 @@
     padding: 0;
 }
 
+a {
+    text-decoration: none;
+}
 
 .logo-container {
     display: flex;
@@ -125,7 +128,6 @@ body {
 
 
 .container-productos a {
-    text-decoration: none;
     color: black;
 }
 
@@ -180,6 +182,19 @@ label.error {
 input.error {
     border: 1px solid red;
 }
+
+/* ADMIN */
+.admin-section {
+    width: 100%;
+    display: flex;
+}
+
+.admin-section > div {
+    width: 50%;
+    padding: 20px 50px 20px 50px;
+    background-color: white;
+    height: 100%;
+} 
 
 /* MEDIA QUERYS */
 /* TABLET */
@@ -324,7 +339,6 @@ input.error {
     }
 
     .container-productos a {
-        text-decoration: none;
         color: white;
     }
 

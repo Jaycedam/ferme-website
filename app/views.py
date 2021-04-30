@@ -5,15 +5,43 @@ from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import Persona, User, FamiliaProducto, Producto, TipoProducto
-from .filters import ProductoFilter
+from .filters import ProductoFilter, ProductoAdminFilter, UsuarioAdminFilter
 
 # Create your views here.
 
 def admin(request):
     return render(request, '/admin/')
 
-def administrador(request):
-    return render(request, 'app/administrador.html')
+def admin_home(request):
+
+    return render(request, 'app/admin/home.html')
+
+def admin_productos(request):
+    productos = Producto.objects.all()
+    productosFiltered = ProductoAdminFilter(request.GET, queryset=productos)
+    productos = productosFiltered.qs
+
+    data = {
+        "productos":productos,
+        "productosFiltered":productosFiltered
+    }
+
+    return render(request, 'app/admin/productos.html', data)
+
+def admin_usuarios(request):
+    usuarios = Persona.objects.all().select_related('usuario')
+    print(usuarios)
+    usuariosFiltered = UsuarioAdminFilter(request.GET, queryset=usuarios)
+    usuarios = usuariosFiltered.qs
+
+    print(usuarios)
+
+    data = {
+        "usuarios":usuarios,
+        "usuariosFiltered":usuariosFiltered
+    }
+
+    return render(request, 'app/admin/usuarios.html', data)
 
 def inicio(request):
     familia_producto = FamiliaProducto.objects.all()

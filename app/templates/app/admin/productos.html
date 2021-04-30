@@ -1,0 +1,71 @@
+{% extends 'app/base.html' %}
+{% block title %}Administrador{% endblock %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+
+<div class="admin-section">
+    <div>
+        <h2>Filtrar productos</h2>
+
+        <form method="GET">
+            {{ productosFiltered.form | crispy }}
+            <br>
+            <button type="submit" class="btn btn-primary float-left">Filtrar</button>
+            <button class="btn btn-danger float-left">Limpiar filtros</button>
+
+        </form>
+    </div>
+
+    <div>
+        <h2>Crear nuevo producto</h2>
+    </div>
+
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Stock crítico</th>
+            <th scope="col">Tipo producto</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Proveedor</th>
+            <th scope="col">Gestionar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in productos %}
+        <tr>
+            <td>{{ i.id_producto }}</td>
+            <td><a href="{{ i.imagen_url }}">{{ i.producto }}</a></td>
+            <td>${{ i.precio }}</td>
+            <td>{{ i.stock }}</td>
+            <td>{{ i.stock_critico }}</td>
+            <td>{{ i.id_tipo_producto }}</td>
+            <td>{{ i.id_marca }}</td>
+            <td>{{ i.id_proveedor }}</td>
+            <td>
+                <div class="btn-group dropend">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Opciones
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Modificar</a></li>
+                        <li><a class="dropdown-item" style="color: rgb(216, 0, 0);" href="#">Eliminar</a></li>
+                    </ul>
+                </div>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}
