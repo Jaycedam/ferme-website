@@ -59,34 +59,34 @@ def admin_usuarios(request):
 
     return render(request, 'app/admin/usuarios.html', data)
 
-def inicio(request):
+def home(request):
     familia_producto = FamiliaProducto.objects.all()
 
     data = {
         "familia_producto":familia_producto
     }
 
-    return render(request, 'app/inicio.html', data)
+    return render(request, 'app/home.html', data)
 
-def perfil(request):
-    current_user = request.user
+def profile(request):
+    user = request.user
 
     try:
-        persona = Persona.objects.get(usuario=current_user.id)
+        persona = Persona.objects.get(usuario=user.id)
 
         data = {
             "persona":persona,
-            "user":current_user
+            "user":user
         }
 
     except:
         data = {
-            "user":current_user
+            "user":user
         }
 
-    return render(request, 'app/perfil/perfil.html', data)
+    return render(request, 'app/profile/profile.html', data)
 
-def modificar_perfil(request):
+def profile_modify(request):
     user = request.user
 
     if Persona.objects.filter(usuario=request.user).exists():
@@ -118,8 +118,7 @@ def modificar_perfil(request):
 
         data["form"] = form
         data["profile_form"] = profile_form
-
-    return render(request, 'app/perfil/modificar.html', data)
+    return render(request, 'app/profile/modify.html', data)
 
 def register(request):
     data = {
@@ -149,32 +148,33 @@ def register(request):
 
     return render(request, 'registration/register.html', data)
 
-def productos(request, id):
+def products(request, id):
     productos = Producto.objects.filter(id_tipo_producto__id_familia_producto=id)
 
     familia = FamiliaProducto.objects.get(id_familia_producto=id)
 
+
     #pasar parametro "id_familia" a myFilter()
-    myFilter = ProductoFilter(request.GET, queryset=productos)
-    
-    productos = myFilter.qs
+    productosFiltered = ProductoFilter(request.GET, queryset=productos)
+
+    productos = productosFiltered.qs
 
     data = {
         "productos":productos,
         "familia":familia,
-        "myFilter":myFilter,
+        "productosFiltered":productosFiltered,
     }
 
-    return render(request, 'app/productos/productos.html', data)
+    return render(request, 'app/products/products.html', data)
 
-def producto(request, id):
+def product(request, id):
     producto = Producto.objects.get(id_producto=id)
 
     data = {
         "producto":producto
     }
 
-    return render(request, 'app/productos/producto.html', data)
+    return render(request, 'app/products/product.html', data)
 
 def cart(request):
 

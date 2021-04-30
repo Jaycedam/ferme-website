@@ -10,9 +10,11 @@
     <div class="producto-text">
         <small class="font-weight-bold text-uppercase">Marca: {{ producto.id_marca }}</small>
         <h1 class="text-capitalize">{{ producto.producto }}</h4>
+        <h5>En stock: {{ producto.stock }}</h5>
+
         <br>
-        <h5 class="font-weight-bold">Descripción del producto:</h2>
-        <h5 class="font-weight-normal">{{ producto.descripcion }}</h4>
+        <h4 class="font-weight-bold">Descripción del producto:</h4>
+        <h5 class="font-weight-normal">{{ producto.descripcion }}</h5>
         <br>
         <h3>${{ producto.precio }}</h4>
 

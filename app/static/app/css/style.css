@@ -7,6 +7,15 @@ a {
     text-decoration: none;
 }
 
+button > a {
+    color: white;
+}
+
+button > a:hover {
+    color: inherit;
+}
+
+
 .logo-container {
     display: flex;
     align-items: center;
@@ -17,14 +26,6 @@ a {
     border-radius: 10px;
 }
 
-/*
-.bg-primary {
-    background: #5307D8;
-    background: -webkit-linear-gradient(right, #5307D8, #7F02C7);
-    background: -moz-linear-gradient(right, #5307D8, #7F02C7);
-    background: linear-gradient(to left, #5307D8, #7F02C7);
-}
-*/
 
 body {
     height: 100%;

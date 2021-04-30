@@ -1,0 +1,33 @@
+{% extends 'app/base.html' %}
+{% block title %}Perfil{% endblock %}
+
+{% load static %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+
+<div class="container">
+    <h1>Hola {{user.first_name}}</h1>
+
+    <h4>Nombre de usuario: {{ user.username }}</h4>
+    <h4>Nombre: {{ user.first_name }}</h4>
+    <h4>Apellido: {{ user.last_name }}</h4>
+    <h4>Email: {{ user.email }}</h4>
+
+    <h4>Rut: {{ persona.rut_persona }}</h4>
+    <h4>Celular: {{ persona.celular }}</h4>
+
+    <br>
+
+    <a href="{% url 'profile_modify'%}">
+        <button class="btn btn-primary float-left">Editar perfil</button>
+    </a>
+
+    <br><br>
+
+    <h1>Tus compras</h1>
+    
+</div>
+
+
+{% endblock %}

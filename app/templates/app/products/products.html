@@ -11,9 +11,12 @@
         <h2>Filtros</h2>
     
         <form method="GET">
-            {{ myFilter.form|crispy }}
+            {{ productosFiltered.form|crispy }}
             <br>
             <button type="submit" class="btn btn-primary float-left">Filtrar</button>
+            <button class="btn btn-danger float-left">
+                <a href="{% url 'products' familia.id_familia_producto %}">Limpiar filtros</a>
+            </button>
         </form>
     </div>
 
@@ -22,7 +25,7 @@
         <div class="productos">
             {% for i in productos  %}
             <div class="container-productos">
-                <a href="{% url 'producto' i.id_producto %}">
+                <a href="{% url 'product' i.id_producto %}">
                     <div class="wrapper">
                         <img src="{{ i.imagen_url }}">
                         <div class="text-block">

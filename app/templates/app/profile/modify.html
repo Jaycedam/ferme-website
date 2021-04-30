@@ -1,5 +1,7 @@
 {% extends 'app/base.html' %}
-{% block title %}Modificar perfil{% endblock %}
+{% block title %}Perfil{% endblock %}
+
+{% load static %}
 
 {% block contenido %}
 {% load crispy_forms_tags %}
@@ -10,7 +12,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h2>Modificar usuario</h2>
+                    <h2>Editar perfil de usuario</h2>
                     <hr>
                     <form action="" method="post">
                         {% csrf_token %}
@@ -26,5 +28,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}
