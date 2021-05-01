@@ -22,7 +22,7 @@
 
     <div class="productos-parent">
     
-        <div class="productos">
+        <div class="flex-wrap">
             {% for i in productos  %}
             <div class="container-productos">
                 <a href="{% url 'product' i.id_producto %}">

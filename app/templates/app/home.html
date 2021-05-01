@@ -6,7 +6,7 @@
 {% block landing %}
 
 <div class="landing">
-    <h1 class="title-landing">FERME SERVICES</h1>
+    <h1 class="display-1 text-center">FERME SERVICES</h1>
     <img src="{% static 'app/img/landing.svg' %}" alt="">
     <a href="#productos">
         <i class="bi bi-arrow-down-circle-fill" style="font-size: 50px;"></i>
@@ -21,16 +21,15 @@
 
 <h1 class="title" id="productos">Nuestros productos</h1>
 
-<div class="productos">
+<div class="flex-wrap">
     {% for i in familia_producto %}
-    <div class="container-producto-familia">
+    <div class="categoria">
         <a href="{% url 'products' i.id_familia_producto %}">
-            <img src="{{ i.imagen_url }}">
-
-            <div class="text-block text-center">
-                <h4>{{ i.familia_producto }}</h4>
-            </div>
+            <img class="darken" src="{{ i.imagen_url }}">
         </a>
+        <div class="text-block text-center">
+            <h3>{{ i.familia_producto }}</h3>
+        </div>
     </div>
     {% endfor %}
 </div>
