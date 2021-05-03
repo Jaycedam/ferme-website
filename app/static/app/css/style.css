@@ -15,16 +15,17 @@ button > a:hover {
     color: inherit;
 }
 
+.card {
+    border-radius: 10px;
+    background-color: white;
+    width: 100%;
+}
+
 .logo-container {
     display: flex;
     align-items: center;
     width: auto;
 }
-
-.card {
-    border-radius: 10px;
-}
-
 
 body {
     height: 100%;
@@ -67,9 +68,9 @@ body {
 
 .categoria {
     position: relative;
-    padding: 0px 20px 20px 20px;
+    padding: 20px 20px 20px 20px;
     width: 50%;
-    height: 200px;
+    height: 250px;
     color: white;
 }
 
@@ -88,9 +89,8 @@ body {
 .categoria img {
     height: 100%;
     width: 100%;
-    mix-blend-mode: multiply;
-    border-radius: 10px;
     object-fit: cover;
+    border-radius: 10px;
 }
 
 .darken {
@@ -114,7 +114,6 @@ body {
     border-radius: 10px;
     height: 100%;
 }
-
 
 
 .container-productos {
@@ -184,10 +183,6 @@ input.error {
 /* ADMIN */
 .admin-section {
     width: 100%;
-    display: flex;
-    background-color: white;
-    border-radius: 10px;
-
 }
 
 .admin-section > div {
@@ -265,8 +260,12 @@ input.error {
     }
 
     .flex-row {
-        flex-direction: column;
+        flex-direction: column !important;
     }
+
+    .admin-section > div {
+        width: 100%;
+    } 
 
     .filtros {
         width: 100%;
@@ -326,8 +325,12 @@ input.error {
       background: #121212;
     }
   
-    body .card {
+    .card {
       background-color: #2b2b2b;
+    }
+
+    .table {
+        color: white !important;
     }
 
     .filtros {
@@ -341,6 +344,7 @@ input.error {
     .container-productos a {
         color: white;
     }
+
 
     /*BOOTSTRAP NAVBAR*/
     .bg-light {

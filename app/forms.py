@@ -3,7 +3,8 @@ from datetime import datetime
 from django.forms import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Persona
+from .models import Persona, OrdenCompra, Proveedor, OcDetalle, Domicilio, Producto, TipoProducto
+
 
 class CustomUserCreationForm(UserCreationForm):
     def clean_first_name(self):
@@ -80,3 +81,16 @@ class ModifyProfileForm(forms.ModelForm):
     class Meta:
         model = Persona
         fields = ["rut_persona", "celular",]
+
+class ProfileAdressForm(forms.ModelForm):
+    class Meta:
+        model = Domicilio
+        fields = ["calle", "nro",]
+
+class ProductRequestForm(forms.ModelForm):
+    id_proveedor = forms.ModelChoiceField(queryset=Proveedor.objects.all(), label="Proveedor")
+    id_producto = forms.ModelChoiceField(queryset=Producto.objects.all(), label="Producto")
+    class Meta: 
+        model = OcDetalle
+        fields = ["id_proveedor", "id_producto"]
+

@@ -21,7 +21,7 @@
                             {% csrf_token %}
                             {{ form | crispy }}
                             <br>
-                            <a href="{% url 'inicio' %}">Inicio</a> | 
+                            <a href="{% url 'home' %}">Inicio</a> | 
                             <a href="{% url 'register' %}">Registrarse</a>
                             <input type="submit" value="Ingresar" class="btn btn-primary float-right">
                         </form>

@@ -1,5 +1,6 @@
 django
 django-crispy-forms
+crispy-bootstrap5
 cx_oracle
 django-rest-framework
 django-filter

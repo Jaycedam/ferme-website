@@ -1,4 +1,4 @@
-from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm
+from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm, ProductRequestForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -27,6 +27,11 @@ def admin_productos(request):
     }
 
     return render(request, 'app/admin/productos.html', data)
+
+def product_request(request):
+    data = {
+    }
+    return render(request, 'app/employee/product_request.html', data)
 
 def admin_usuarios(request):
     usuarios = Persona.objects.all().select_related('usuario')
@@ -142,7 +147,7 @@ def register(request):
                 password=form.cleaned_data["password1"]
             )
             login(request, user)
-            return redirect(to="inicio")
+            return redirect(to="home")
         data["form"] = form
         data["profile_form"] = profile_form
 
@@ -152,7 +157,6 @@ def products(request, id):
     productos = Producto.objects.filter(id_tipo_producto__id_familia_producto=id)
 
     familia = FamiliaProducto.objects.get(id_familia_producto=id)
-
 
     #pasar parametro "id_familia" a myFilter()
     productosFiltered = ProductoFilter(request.GET, queryset=productos)

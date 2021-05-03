@@ -61,6 +61,12 @@
                         <a class="nav-link" href="{% url 'admin_home' %}">Administrador</a>
                     </li>    
                     {% endif %}
+                    {% if perms.app.add_ordencompra %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product_request' %}">Solicitud de productos</a>
+                    </li>    
+                    {% endif %}
+
                 </ul>
 
                 {% if user.is_authenticated %}

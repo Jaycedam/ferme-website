@@ -98,7 +98,7 @@ class OcDetalle(models.Model):
 
 
 class OrdenCompra(models.Model):
-    id_orden_compra = models.FloatField(primary_key=True)
+    id_orden_compra = models.AutoField(primary_key=True)
     total = models.FloatField()
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
 
