@@ -100,6 +100,7 @@ class OcDetalle(models.Model):
 class OrdenCompra(models.Model):
     id_orden_compra = models.AutoField(primary_key=True)
     total = models.FloatField()
+    estado = models.CharField(max_length=50)
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
 
     def __str__(self):
@@ -113,7 +114,7 @@ class OrdenCompra(models.Model):
 class Persona(models.Model):
     rut_persona = models.CharField(primary_key=True, max_length=10)
     celular = models.FloatField()
-    usuario = models.OneToOneField(User, on_delete=models.DO_NOTHING, db_column='usuario')
+    usuario = models.OneToOneField(User, on_delete=models.PROTECT, db_column='usuario')
     
     def __str__(self):
         return self.rut_persona
@@ -128,6 +129,7 @@ class Producto(models.Model):
     producto = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
     precio = models.FloatField()
+    precio_proveedor = models.FloatField()
     stock = models.FloatField()
     stock_critico = models.FloatField()
     imagen_url = models.CharField(max_length=500, blank=True, null=True)
