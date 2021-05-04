@@ -49,7 +49,7 @@ class FamiliaProducto(models.Model):
         db_table = 'familia_producto'
 
 class Marca(models.Model):
-    id_marca = models.FloatField(primary_key=True)
+    id_marca = models.AutoField(primary_key=True)
     marca = models.CharField(max_length=200)
 
     def __str__(self):
@@ -61,7 +61,7 @@ class Marca(models.Model):
 
 
 class NotaCredito(models.Model):
-    nro_nota_credito = models.FloatField(primary_key=True)
+    nro_nota_credito = models.AutoField(primary_key=True)
     fecha = models.DateField()
     descripcion = models.CharField(max_length=500, blank=True, null=True)
     nro_doc = models.ForeignKey('Recibo', models.DO_NOTHING, db_column='nro_doc')
@@ -126,7 +126,7 @@ class Persona(models.Model):
 
 
 class Producto(models.Model):
-    id_producto = models.FloatField(primary_key=True)
+    id_producto = models.AutoField(primary_key=True)
     producto = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
     precio = models.FloatField()
@@ -147,7 +147,7 @@ class Producto(models.Model):
 
 
 class Proveedor(models.Model):
-    id_proveedor = models.FloatField(primary_key=True)
+    id_proveedor = models.AutoField(primary_key=True)
     nombre_empresa = models.CharField(max_length=200)
     id_rubro = models.ForeignKey('Rubro', models.DO_NOTHING, db_column='id_rubro')
     rut_persona = models.ForeignKey(Persona, models.DO_NOTHING, db_column='rut_persona')
@@ -161,7 +161,7 @@ class Proveedor(models.Model):
 
 
 class Provincia(models.Model):
-    id_provincia = models.FloatField(primary_key=True)
+    id_provincia = models.AutoField(primary_key=True)
     provincia = models.CharField(max_length=200)
     id_region = models.ForeignKey('Region', models.DO_NOTHING, db_column='id_region')
 
@@ -191,7 +191,7 @@ class Recibo(models.Model):
 
 
 class ReciboDetalle(models.Model):
-    id_detalle = models.FloatField(primary_key=True)
+    id_detalle = models.AutoField(primary_key=True)
     id_producto = models.ForeignKey(Producto, models.DO_NOTHING, db_column='id_producto')
     nro_doc = models.ForeignKey(Recibo, models.DO_NOTHING, db_column='nro_doc')
     cantidad = models.FloatField()
@@ -203,7 +203,7 @@ class ReciboDetalle(models.Model):
 
 
 class Region(models.Model):
-    id_region = models.FloatField(primary_key=True)
+    id_region = models.AutoField(primary_key=True)
     region = models.CharField(max_length=200)
 
     def __str__(self):
@@ -215,7 +215,7 @@ class Region(models.Model):
 
 
 class Rubro(models.Model):
-    id_rubro = models.FloatField(primary_key=True)
+    id_rubro = models.AutoField(primary_key=True)
     rubro = models.CharField(max_length=200)
 
     def __str__(self):
@@ -227,7 +227,7 @@ class Rubro(models.Model):
 
 
 class TipoDocumento(models.Model):
-    id_tipo_doc = models.FloatField(primary_key=True)
+    id_tipo_doc = models.AutoField(primary_key=True)
     tipo_doc = models.CharField(max_length=50)
 
     def __str__(self):
@@ -239,7 +239,7 @@ class TipoDocumento(models.Model):
 
 
 class TipoDomicilio(models.Model):
-    id_tipo_domicilio = models.FloatField(primary_key=True)
+    id_tipo_domicilio = models.AutoField(primary_key=True)
     tipo_domicilio = models.CharField(max_length=50)
 
     def __str__(self):
@@ -250,7 +250,7 @@ class TipoDomicilio(models.Model):
         db_table = 'tipo_domicilio'
 
 class TipoProducto(models.Model):
-    id_tipo_producto = models.FloatField(primary_key=True)
+    id_tipo_producto = models.AutoField(primary_key=True)
     tipo_producto = models.CharField(max_length=200)
     id_familia_producto = models.ForeignKey(FamiliaProducto, models.DO_NOTHING, db_column='id_familia_producto')
 
