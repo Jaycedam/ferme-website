@@ -16,11 +16,9 @@
                     <hr>
                     <form action="" method="post">
                         {% csrf_token %}
-                        {{ form | crispy }}
-                        {{ profile_form | crispy }}
-                        
+                        {{ form|crispy }}
+                        {{ profile_form|crispy }}
                         <br>
-
                         <input type="submit" value="Guardar" class="btn btn-primary float-right">
                     </form>
                 </div>

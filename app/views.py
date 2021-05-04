@@ -10,6 +10,7 @@ from django.contrib import messages
 
 # Create your views here.
 
+# SECCIÓN ADMIN
 def admin(request):
     return render(request, '/admin/')
 
@@ -27,11 +28,6 @@ def admin_productos(request):
     }
 
     return render(request, 'app/admin/productos.html', data)
-
-def product_request(request):
-    data = {
-    }
-    return render(request, 'app/employee/product_request.html', data)
 
 def admin_usuarios(request):
     usuarios = Persona.objects.all().select_related('usuario')
@@ -64,6 +60,7 @@ def admin_usuarios(request):
 
     return render(request, 'app/admin/usuarios.html', data)
 
+# SECCION USUARIO GENERAL
 def home(request):
     familia_producto = FamiliaProducto.objects.all()
 
@@ -89,8 +86,6 @@ def profile(request):
         else:
             data["form"] = AdressForm(instance=profile)
 
-
-
     if request.method == 'POST':
         form = AdressForm(data=request.POST)
 
@@ -104,11 +99,10 @@ def profile(request):
 
         data["form"] = form
 
-    
-
-    
-
     return render(request, 'app/profile/profile.html', data)
+
+def adress_modify(request):
+    return render(request, 'app/profile/adress_modify.html')
 
 def profile_modify(request):
     user = request.user
@@ -126,7 +120,6 @@ def profile_modify(request):
             'form': ModifyUserForm(instance=user),
         }   
 
-
     if request.method == 'POST':
         form = ModifyUserForm(data=request.POST, instance=user)
         profile_form = ModifyProfileForm(data=request.POST, instance=profile)
@@ -137,7 +130,7 @@ def profile_modify(request):
 
             prof.usuario = request.user
             prof.save()
-
+            messages.success(request, "Perfil modificado correctamente")
             return redirect(to="profile")
 
         data["form"] = form
@@ -202,3 +195,9 @@ def product(request, id):
 def cart(request):
 
     return render(request, 'app/cart.html')
+
+# SECCION EMPLEADO
+def product_request(request):
+    data = {
+    }
+    return render(request, 'app/employee/product_request.html', data)
