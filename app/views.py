@@ -87,11 +87,7 @@ def profile(request):
         if Domicilio.objects.filter(rut_persona=profile.rut_persona).exists():
             data["domicilio"] = Domicilio.objects.get(rut_persona=profile.rut_persona) 
         else:
-            data["form"] = AdressForm(instance=profile)    
-
-    else:
-        print("No se ha registrado el perfil")
-        pass
+            data["form"] = AdressForm(instance=profile)
 
 
 
@@ -99,7 +95,10 @@ def profile(request):
         form = AdressForm(data=request.POST)
 
         if form.is_valid():
-            form.save()
+            adress_form = form.save(commit=False)
+            adress_form.rut_persona = profile
+
+            adress_form.save()
             messages.success(request, "Domicilio registrado correctamente")
             return redirect(to="profile")
 
@@ -143,7 +142,7 @@ def profile_modify(request):
 
         data["form"] = form
         data["profile_form"] = profile_form
-    return render(request, 'app/profile/modify.html', data)
+    return render(request, 'app/profile/profile_modify.html', data)
 
 def register(request):
     data = {

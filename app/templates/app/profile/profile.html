@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-sm text-center">
-            <h1>Hola {{user.first_name}} {{ user.last_name }}</h1>
+            <h1>Perfil {{user.username}}</h1>
         </div>
     </div>
 
@@ -24,7 +24,7 @@
                 <h5>Email: {{ user.email }}</h5>
                 <h5>Rut: {{ profile.rut_persona }}</h5>
                 <h5>Celular: {{ profile.celular }}</h5>
-                <a class="btn btn-primary float-left" href="{% url 'profile_modify'%}">Modificar datos</a>
+                <a class="btn btn-primary float-left" href="{% url 'profile_modify'%}">Modificar</a>
             </div>
 
             <div class="col-sm">
@@ -41,25 +41,18 @@
                 <h5>Comuna: {{ domicilio.id_comuna }}</h5>
                 <h5>Calle: {{ domicilio.calle }}</h5>
                 <h5>Nro: {{ domicilio.nro }}</h5>
-                {% if domicilio.nro_departamento %}
-                    <h5>Nro departamento: {{ domicilio.nro_departamento }}</h5>
-                {% endif %}
-
-                
-
+                    {% if domicilio.nro_departamento %}
+                        <h5>Nro departamento: {{ domicilio.nro_departamento }}</h5>
+                    {% endif %}
+                <a class="btn btn-primary float-left" href="">Modificar</a>
+                            
 
                 {% endif %}
 
             </div>
         </div>
 
-
     </div>
-
-
-    <br><br>
-
-    <h1>Tus compras</h1>
     
 </div>
 
