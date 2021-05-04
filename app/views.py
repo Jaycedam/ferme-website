@@ -1,10 +1,10 @@
-from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm, ProductRequestForm
+from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm, ProductRequestForm, AdressForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models import Persona, User, FamiliaProducto, Producto, TipoProducto
+from .models import Persona, User, FamiliaProducto, Producto, TipoProducto, Domicilio
 from .filters import ProductoFilter, ProductoAdminFilter, UsuarioAdminFilter
 from django.contrib import messages
 
@@ -76,18 +76,38 @@ def home(request):
 def profile(request):
     user = request.user
 
-    try:
-        persona = Persona.objects.get(usuario=user.id)
+    data = {
+        "user":user,
+    }
 
-        data = {
-            "persona":persona,
-            "user":user
-        }
+    if Persona.objects.filter(usuario=user).exists():
+        profile = Persona.objects.get(usuario=user)
+        data["profile"] = profile
 
-    except:
-        data = {
-            "user":user
-        }
+        if Domicilio.objects.filter(rut_persona=profile.rut_persona).exists():
+            data["domicilio"] = Domicilio.objects.get(rut_persona=profile.rut_persona) 
+        else:
+            data["form"] = AdressForm(instance=profile)    
+
+    else:
+        print("No se ha registrado el perfil")
+        pass
+
+
+
+    if request.method == 'POST':
+        form = AdressForm(data=request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Domicilio registrado correctamente")
+            return redirect(to="profile")
+
+        data["form"] = form
+
+    
+
+    
 
     return render(request, 'app/profile/profile.html', data)
 
@@ -119,7 +139,7 @@ def profile_modify(request):
             prof.usuario = request.user
             prof.save()
 
-            return redirect(to="perfil")
+            return redirect(to="profile")
 
         data["form"] = form
         data["profile_form"] = profile_form

@@ -52,6 +52,11 @@ class ProfileForm(forms.ModelForm):
         model = Persona
         fields = ["rut_persona", "celular"]
 
+class AdressForm(forms.ModelForm):
+    class Meta: 
+        model = Domicilio
+        fields = ["id_domicilio","rut_persona", "id_comuna", "id_tipo_domicilio", "calle", "nro", "nro_departamento"]
+
 
 class ModifyUserForm(forms.ModelForm):
     def clean_first_name(self):

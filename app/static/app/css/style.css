@@ -325,24 +325,12 @@ input.error {
       background: #121212;
     }
   
-    .card {
+    .card, .filtros, .container-productos .wrapper {
       background-color: #2b2b2b;
     }
 
-    .table {
+    .table, .container-productos a, .form-label {
         color: white !important;
-    }
-
-    .filtros {
-        background-color: #2b2b2b;
-    }
-
-    .container-productos .wrapper {
-        background-color: #2b2b2b;
-    }
-
-    .container-productos a {
-        color: white;
     }
 
 
@@ -351,17 +339,11 @@ input.error {
         background-color: #212529!important;
         color: white!important;
     }
-    .navbar-brand {
-        color: white!important;
-    }
-    .nav-link {
+    .navbar-brand, .nav-link, .dropdown-item {
         color: white!important;
     }
     .dropdown-menu {
         background-color: #212529!important;
-    }
-    .dropdown-item {
-        color: white!important;
     }
     .dropdown-item:hover{
         background-color: #3b4046!important;

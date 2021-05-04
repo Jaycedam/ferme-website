@@ -19,10 +19,11 @@ class Comuna(models.Model):
     class Meta:
         managed = False
         db_table = 'comuna'
+        ordering = ['comuna']
 
 
 class Domicilio(models.Model):
-    id_domicilio = models.AutoField(primary_key=True)
+    id_domicilio = models.IntegerField(primary_key=True)
     calle = models.CharField(max_length=200)
     nro = models.FloatField()
     nro_departamento = models.FloatField(blank=True, null=True)
