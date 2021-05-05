@@ -14,9 +14,7 @@
             {{ productosFiltered.form|crispy }}
             <br>
             <button type="submit" class="btn btn-primary float-left">Filtrar</button>
-            <button class="btn btn-danger float-left">
-                <a href="{% url 'products' familia.id_familia_producto %}">Limpiar filtros</a>
-            </button>
+            <a class="btn btn-danger float-left" href="{% url 'products' familia.id_familia_producto %}">Limpiar filtros</a>
         </form>
     </div>
 

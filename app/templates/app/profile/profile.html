@@ -36,8 +36,10 @@
                     <button type="submit">Registrar</button>
                 </form>
                 {% endif %}
+
                 {% if domicilio %}
                 <h3>Domicilio:</h3>
+                <h5>Tipo: {{ domicilio.id_tipo_domicilio }}</h5>
                 <h5>Comuna: {{ domicilio.id_comuna }}</h5>
                 <h5>Calle: {{ domicilio.calle }}</h5>
                 <h5>Nro: {{ domicilio.nro }}</h5>

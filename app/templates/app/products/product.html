@@ -14,24 +14,23 @@
 
         <br>
         <h4 class="font-weight-bold">Descripción del producto:</h4>
-        <h5 class="font-weight-normal">{{ producto.descripcion }}</h5>
+        <p class="font-weight-normal">{{ producto.descripcion }}</p>
         <br>
         <h3>${{ producto.precio }}</h4>
 
         {% if user.is_authenticated %}        
         <br><br><br>
         <div class="flex-row">
-            <h4>Cantidad:</h4>
-            <input type="number" placeholder="1" name="" id="">
-            <button class="btn btn-primary float-left">
+            <label for="cantidad" class="col-form-label">Cantidad:</label>
+            <input class="form-control" type="number" placeholder="1" name="cantidad" id="">
+            <a href="#" class="btn btn-primary float-left">
                 Agregar al carro
                 <i class="bi bi-cart"></i>
-            </button>
+            </a>
         </div>
         {% endif %}        
 
     </div>
-
 </div>
 
 {% endblock %}

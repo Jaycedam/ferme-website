@@ -21,6 +21,10 @@ button > a:hover {
     width: 100%;
 }
 
+img {
+    max-width: 100%;
+}
+
 .logo-container {
     display: flex;
     align-items: center;

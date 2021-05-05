@@ -102,7 +102,28 @@ def profile(request):
     return render(request, 'app/profile/profile.html', data)
 
 def adress_modify(request):
-    return render(request, 'app/profile/adress_modify.html')
+    profile = Persona.objects.get(usuario=request.user)
+
+    adress = Domicilio.objects.get(rut_persona=profile)
+
+    data = {
+        'form':AdressForm(instance=adress)
+    }
+
+    if request.method == 'POST':
+        form = AdressForm(data=request.POST, instance=adress)
+
+        if form.is_valid():
+            new_adress = form.save(commit=False)
+
+            new_adress.rut_persona = profile
+            new_adress.save()
+            messages.success(request, "Domicilio modificado correctamente")
+            return redirect(to="profile")
+
+        data["form"] = form
+
+    return render(request, 'app/profile/adress_modify.html', data)
 
 def profile_modify(request):
     user = request.user
