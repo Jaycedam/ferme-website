@@ -28,27 +28,28 @@
             </div>
 
             <div class="col-sm">
-                {% if not domicilio %}
-                <h3>Registra tu domicilio:</h3>
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <button type="submit">Registrar</button>
-                </form>
+                <h3>Domicilio:</h3>
+                {% if not profile %}
+                    <p>*Completa los datos de tu perfil para poder registrar un domicilio*</p>
+                {% endif %}
+
+                {% if not domicilio and profile %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button class="btn btn-primary float-left" type="submit">Registrar</button>
+                    </form>
                 {% endif %}
 
                 {% if domicilio %}
-                <h3>Domicilio:</h3>
-                <h5>Tipo: {{ domicilio.id_tipo_domicilio }}</h5>
-                <h5>Comuna: {{ domicilio.id_comuna }}</h5>
-                <h5>Calle: {{ domicilio.calle }}</h5>
-                <h5>Nro: {{ domicilio.nro }}</h5>
-                    {% if domicilio.nro_departamento %}
-                        <h5>Nro departamento: {{ domicilio.nro_departamento }}</h5>
-                    {% endif %}
-                <a class="btn btn-primary float-left" href="{% url 'adress_modify' %}">Modificar</a>
-                            
-
+                    <h5>Tipo: {{ domicilio.id_tipo_domicilio }}</h5>
+                    <h5>Comuna: {{ domicilio.id_comuna }}</h5>
+                    <h5>Calle: {{ domicilio.calle }}</h5>
+                    <h5>Nro: {{ domicilio.nro }}</h5>
+                        {% if domicilio.nro_departamento %}
+                            <h5>Nro departamento: {{ domicilio.nro_departamento }}</h5>
+                        {% endif %}
+                    <a class="btn btn-primary float-left" href="{% url 'adress_modify' %}">Modificar</a>
                 {% endif %}
 
             </div>
