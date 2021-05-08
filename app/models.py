@@ -126,7 +126,7 @@ class Persona(models.Model):
 
 
 class Producto(models.Model):
-    id_producto = models.AutoField(primary_key=True)
+    id_producto = models.CharField(primary_key=True, max_length=50)
     producto = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
     precio = models.FloatField()
@@ -134,6 +134,7 @@ class Producto(models.Model):
     stock = models.FloatField()
     stock_critico = models.FloatField()
     imagen_url = models.CharField(max_length=500, blank=True, null=True)
+    fecha_vencimiento = models.DateField(blank=True, null=True)
     id_tipo_producto = models.ForeignKey('TipoProducto', models.DO_NOTHING, db_column='id_tipo_producto')
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
     id_marca = models.ForeignKey(Marca, models.DO_NOTHING, db_column='id_marca')
