@@ -37,16 +37,30 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ["username", "first_name", "last_name", "email", "password1", "password2"]
 
 class ProfileForm(forms.ModelForm):
-    def clean_rut(self):
+    def clean_rut_persona(self):
         users = Persona.objects.all()
-        rut = self.cleaned_data["rut"]
+        rut = self.cleaned_data["rut_persona"]
+
+        if len(rut) != 10:
+            raise ValidationError("Formato incorrecto")
+        if len(rut) == 10 and rut[-2] != "-":
+            raise ValidationError("Formato incorrecto")
 
         for u in users:
             if u.rut_persona == rut:
                 raise ValidationError("Este rut ya está registrado")
         return rut
+    
+    def clean_celular(self):
+        celular = self.cleaned_data["celular"]
+        if len(str(celular)) != 9:
+            raise ValidationError("No están todos los dígitos")
+        if str(celular)[0] != "9":
+            raise ValidationError("Formato incorrecto, el celular debe comenzar con 9")
+        return celular
 
     rut_persona = forms.CharField(min_length=10, max_length=10, required=True, label="Rut (sin puntos con guión)")
+    celular = forms.IntegerField(required=True, label="Celular (912345678)")
 
     class Meta:
         model = Persona
@@ -81,8 +95,17 @@ class ModifyUserForm(forms.ModelForm):
         fields = ["username", "first_name", "last_name", "email"]
 
 class ModifyProfileForm(forms.ModelForm):
+    def clean_celular(self):
+        celular = self.cleaned_data["celular"]
+        if len(str(celular)) != 9:
+            raise ValidationError("No están todos los dígitos")
+        if str(celular)[0] != "9":
+            raise ValidationError("Formato incorrecto, el celular debe comenzar con 9")
+        return celular
+
     rut_persona = forms.CharField(disabled=True, label="Rut")
-    celular = forms.IntegerField()
+    celular = forms.IntegerField(required=True, label="Celular (912345678)")
+    
     class Meta:
         model = Persona
         fields = ["rut_persona", "celular",]
