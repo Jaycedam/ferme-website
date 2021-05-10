@@ -116,8 +116,13 @@ class ProfileAdressForm(forms.ModelForm):
 
 class ProductForm(forms.ModelForm):
     producto = forms.CharField(label="Nombre", min_length=3, max_length=50)
-    fecha_vencimiento = forms.DateField(widget=forms.SelectDateWidget(attrs = {'data-date-format': 'dd/mm/yyyy', 'class': 'inline-select'}))
+    fecha_vencimiento = forms.DateField(label="Fecha vencimiento (dd/mm/yy)")
+    imagen_url = forms.FileField(label="Imagen", required=False)
     class Meta: 
         model = Producto
         fields = ["producto", "descripcion", "precio", "precio_proveedor", "stock", "stock_critico", "fecha_vencimiento", "id_tipo_producto", "id_proveedor", "id_marca", "imagen_url"]
 
+class ProductModifyForm(forms.ModelForm):
+    class Meta: 
+        model = Producto
+        fields = ["producto", "descripcion", "precio", "precio_proveedor", "stock", "stock_critico", "imagen_url"]

@@ -1,0 +1,23 @@
+{% extends 'app/base.html' %}
+{% block title %}Solicitud de productos{% endblock %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+
+<h1 class="text-center">Gestión de productos</h1>
+
+<div class="container card">
+    <div class="row">
+        <div class="col">
+            <h2>Modificar producto</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <br>
+                <button type="submit" class="btn btn-primary float-left">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -37,7 +37,6 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">Id</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Stock</th>
@@ -45,31 +44,23 @@
                 <th scope="col">Tipo producto</th>
                 <th scope="col">Marca</th>
                 <th scope="col">Proveedor</th>
+                <th scope="col">Fecha vencimiento</th>
                 <th scope="col">Opciones</th>
             </tr>
         </thead>
         <tbody>
             {% for i in productos %}
             <tr>
-                <td>{{ i.id_producto }}</td>
-                <td><a href="{{ i.imagen_url }}">{{ i.producto }}</a></td>
+                <td>{{ i.producto }}</td>
                 <td>${{ i.precio }}</td>
                 <td>{{ i.stock }}</td>
                 <td>{{ i.stock_critico }}</td>
                 <td>{{ i.id_tipo_producto }}</td>
                 <td>{{ i.id_marca }}</td>
                 <td>{{ i.id_proveedor }}</td>
+                <td>{{ i.fecha_vencimiento }}</td>
                 <td>
-                    <div class="btn-group dropend">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Opciones
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Modificar</a></li>
-                            <li><a class="dropdown-item" style="color: rgb(216, 0, 0);" href="#">Eliminar</a></li>
-                        </ul>
-                    </div>
+                    <a class="btn btn-primary" href="{% url 'product_modify' i.id_producto %}">Modificar</a>
                 </td>
             </tr>
             {% endfor %}

@@ -1,11 +1,11 @@
-from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm, ProductForm, AdressForm
+from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm, ProductForm, AdressForm, ProductModifyForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .models import Persona, User, FamiliaProducto, Producto, TipoProducto, Domicilio
-from .filters import ProductoFilter, ProductoAdminFilter, UsuarioAdminFilter
+from .filters import ProductoFilter, ProductAdminFilter, UsuarioAdminFilter
 from django.contrib import messages
 
 # Create your views here.
@@ -175,7 +175,7 @@ def register(request):
     return render(request, 'registration/register.html', data)
 
 def products(request, id):
-    productos = Producto.objects.filter(id_tipo_producto__id_familia_producto=id)
+    productos = Producto.objects.filter(id_tipo_producto__id_familia_producto=id, stock__gt=0)
 
     familia = FamiliaProducto.objects.get(id_familia_producto=id)
 
@@ -207,9 +207,8 @@ def cart(request):
 
 # SECCION EMPLEADO
 def product_management(request):
-
     productos = Producto.objects.all()
-    productosFiltered = ProductoAdminFilter(request.GET, queryset=productos)
+    productosFiltered = ProductAdminFilter(request.GET, queryset=productos)
     productos = productosFiltered.qs
 
     form = ProductForm()
@@ -230,3 +229,23 @@ def product_management(request):
         data["form"] = form
 
     return render(request, 'app/employee/product_management.html', data)
+
+def product_modify(request, id):
+    product = get_object_or_404(Producto, id_producto=id)
+
+    data = {
+        'form':ProductModifyForm(instance=product)
+    }
+
+    if request.method == 'POST':
+        form = ProductModifyForm(data=request.POST, instance=product)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, "Producto modificado correctamente")
+            return redirect(to="product_management")
+
+        data["form"] = form
+
+    return render(request, 'app/employee/product_modify.html', data)

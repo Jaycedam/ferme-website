@@ -76,14 +76,15 @@
                     </li>
                     {% endif %}
 
-                    {% if user.is_superuser %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin_home' %}">Administrador</a>
-                    </li>
-                    {% endif %}
                     {% if perms.app.add_ordencompra %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'product_management' %}">Gestión de productos</a>
+                    </li>
+                    {% endif %}
+
+                    {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin_home' %}">Administrador</a>
                     </li>
                     {% endif %}
 
@@ -91,11 +92,9 @@
 
                 {% if user.is_authenticated %}
                 <li class="d-flex">
-                    <a href="{% url 'cart' %}">
-                        <button class="btn btn-primary float-right">
-                            Carro de compra
-                            <i class="bi bi-cart"></i>
-                        </button>
+                    <a class="btn btn-primary float-right" href="{% url 'cart' %}">
+                        Carro de compra
+                        <i class="bi bi-cart"></i>
                     </a>
                 </li>
                 {% endif %}
