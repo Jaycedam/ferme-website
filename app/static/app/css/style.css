@@ -7,6 +7,12 @@ a {
     text-decoration: none;
 }
 
+/* clase para dejar selector de fecha en la misma linea */
+.inline-select {
+    width: 33.3%;
+    display: inline-block;
+}
+
 button > a {
     color: white;
 }
@@ -21,17 +27,7 @@ button > a:hover {
 }
 
 .card > .row > .col {
-    padding: 20px 20px 20px 20px;
-}
-
-img {
-    max-width: 100%;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    width: auto;
+    padding: 3rem 3rem 3rem 3rem;
 }
 
 body {

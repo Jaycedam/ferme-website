@@ -1,5 +1,6 @@
 {% extends 'app/base.html' %}
 {% block title %}{{ familia.familia_producto }}{% endblock %}
+{% load static %}
 
 {% block contenido %}
 {% load crispy_forms_tags %}
@@ -9,7 +10,6 @@
 <div class="flex-row">
     <div class="filtros">
         <h2>Filtros</h2>
-
         <form method="GET">
             {{ productosFiltered.form|crispy }}
             <br>
@@ -19,13 +19,16 @@
     </div>
 
     <div class="productos-parent">
-    
         <div class="flex-wrap">
             {% for i in productos  %}
             <div class="container-productos">
                 <a href="{% url 'product' i.id_producto %}">
                     <div class="wrapper">
-                        <img src="{{ i.imagen_url }}">
+                        {% if i.imagen_url %}
+                        <img src="{{ i.imagen_url.url }}">
+                        {% else %}
+                        <img src="{% static 'app/img/noimage.png' %}">
+                        {% endif %}
                         <div class="text-block">
                             <small class="font-weight-bold text-uppercase">Marca: {{ i.id_marca }}</small>
                             <h5 class="text-capitalize">{{ i.producto }}</h4>
@@ -34,12 +37,9 @@
                     </div>
                 </a>
             </div>
-            
         {% endfor %}
         </div>
-
     </div>
-
 </div>
 
 {% endblock %}

@@ -221,7 +221,7 @@ def product_management(request):
     }
 
     if request.method == 'POST':
-        form = ProductForm(data=request.POST)
+        form = ProductForm(data=request.POST, files=request.FILES)
 
         if form.is_valid():
             form.save()

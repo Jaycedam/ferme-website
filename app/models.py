@@ -133,7 +133,7 @@ class Producto(models.Model):
     precio_proveedor = models.FloatField()
     stock = models.FloatField()
     stock_critico = models.FloatField()
-    imagen_url = models.CharField(max_length=500, blank=True, null=True)
+    imagen_url = models.ImageField(blank=True, null=True, upload_to="products/")
     fecha_vencimiento = models.DateField(blank=True, null=True)
     id_tipo_producto = models.ForeignKey('TipoProducto', models.DO_NOTHING, db_column='id_tipo_producto')
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
