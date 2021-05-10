@@ -126,7 +126,7 @@ class Persona(models.Model):
 
 
 class Producto(models.Model):
-    id_producto = models.CharField(primary_key=True, max_length=50)
+    id_producto = models.AutoField(primary_key=True)
     producto = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
     precio = models.FloatField()
@@ -175,7 +175,7 @@ class Provincia(models.Model):
 
 
 class Recibo(models.Model):
-    nro_doc = models.FloatField(primary_key=True)
+    nro_doc = models.AutoField(primary_key=True)
     fecha = models.DateField()
     subtotal = models.FloatField()
     iva = models.FloatField()
