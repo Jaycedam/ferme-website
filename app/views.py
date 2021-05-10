@@ -1,4 +1,4 @@
-from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm, ProductRequestForm, AdressForm
+from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm, ProductForm, AdressForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -16,18 +16,6 @@ def admin(request):
 
 def admin_home(request):
     return render(request, 'app/admin/home.html')
-
-def admin_productos(request):
-    productos = Producto.objects.all()
-    productosFiltered = ProductoAdminFilter(request.GET, queryset=productos)
-    productos = productosFiltered.qs
-
-    data = {
-        "productos":productos,
-        "productosFiltered":productosFiltered
-    }
-
-    return render(request, 'app/admin/productos.html', data)
 
 def admin_usuarios(request):
     usuarios = Persona.objects.all().select_related('usuario')
@@ -218,7 +206,27 @@ def cart(request):
     return render(request, 'app/cart.html')
 
 # SECCION EMPLEADO
-def product_request(request):
+def product_management(request):
+
+    productos = Producto.objects.all()
+    productosFiltered = ProductoAdminFilter(request.GET, queryset=productos)
+    productos = productosFiltered.qs
+
+    form = ProductForm()
+
     data = {
+        "form":form,
+        "productos":productos,
+        "productosFiltered":productosFiltered
     }
-    return render(request, 'app/employee/product_request.html', data)
+
+    if request.method == 'POST':
+        form = ProductForm(data=request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Producto registrado correctamente")
+
+        data["form"] = form
+
+    return render(request, 'app/employee/product_management.html', data)

@@ -115,10 +115,8 @@ class ProfileAdressForm(forms.ModelForm):
         model = Domicilio
         fields = ["calle", "nro",]
 
-class ProductRequestForm(forms.ModelForm):
-    id_proveedor = forms.ModelChoiceField(queryset=Proveedor.objects.all(), label="Proveedor")
-    id_producto = forms.ModelChoiceField(queryset=Producto.objects.all(), label="Producto")
+class ProductForm(forms.ModelForm):
     class Meta: 
-        model = OcDetalle
-        fields = ["id_proveedor", "id_producto"]
+        model = Producto
+        fields = ["producto", "descripcion", "precio", "precio_proveedor", "stock", "stock_critico", "imagen_url", "fecha_vencimiento", "id_tipo_producto", "id_proveedor", "id_marca"]
 
