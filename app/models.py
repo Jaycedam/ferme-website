@@ -39,7 +39,7 @@ class Domicilio(models.Model):
 class FamiliaProducto(models.Model):
     id_familia_producto = models.AutoField(primary_key=True)
     familia_producto = models.CharField(max_length=200)
-    imagen_url = models.CharField(max_length=500, null=True)
+    imagen_url = models.ImageField(blank=True, null=True, upload_to="product-family/")
 
     def __str__(self):
         return self.familia_producto

@@ -84,7 +84,7 @@
 
                     {% if user.is_superuser %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin_home' %}">Administrador</a>
+                        <a class="nav-link" href="{% url 'admin' %}">Administrador</a>
                     </li>
                     {% endif %}
 
@@ -102,10 +102,13 @@
         </div>
     </nav>
 
-    {% block landing %}
-    {% endblock %}
+    <div class="container-fluid">
+        {% block landing %}
+        {% endblock %}
+    </div>
 
-    <div id="content">
+
+    <div class="container">
         {% block contenido %}
         {% endblock %}
     </div>

@@ -56,7 +56,7 @@ def home(request):
         "familia_producto":familia_producto
     }
 
-    return render(request, 'app/home.html', data)
+    return render(request, 'app/shop/home.html', data)
 
 def profile(request):
     user = request.user
@@ -175,22 +175,21 @@ def register(request):
     return render(request, 'registration/register.html', data)
 
 def products(request, id):
-    productos = Producto.objects.filter(id_tipo_producto__id_familia_producto=id, stock__gt=0)
+    products = Producto.objects.filter(id_tipo_producto__id_familia_producto=id, stock__gt=0)
 
-    familia = FamiliaProducto.objects.get(id_familia_producto=id)
+    family = FamiliaProducto.objects.get(id_familia_producto=id)
 
-    #pasar parametro "id_familia" a myFilter()
-    productosFiltered = ProductoFilter(request.GET, queryset=productos)
+    productsFiltered = ProductoFilter(request.GET, queryset=products)
 
-    productos = productosFiltered.qs
+    products = productsFiltered.qs
 
     data = {
-        "productos":productos,
-        "familia":familia,
-        "productosFiltered":productosFiltered,
+        "products":products,
+        "family":family,
+        "productsFiltered":productsFiltered,
     }
 
-    return render(request, 'app/products/products.html', data)
+    return render(request, 'app/shop/products.html', data)
 
 def product(request, id):
     producto = Producto.objects.get(id_producto=id)
@@ -199,11 +198,11 @@ def product(request, id):
         "producto":producto
     }
 
-    return render(request, 'app/products/product.html', data)
+    return render(request, 'app/shop/product.html', data)
 
 def cart(request):
 
-    return render(request, 'app/cart.html')
+    return render(request, 'app/shop/cart.html')
 
 # SECCION EMPLEADO
 def product_management(request):

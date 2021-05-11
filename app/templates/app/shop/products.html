@@ -1,0 +1,42 @@
+{% extends 'app/base.html' %}
+{% block title %}{{ family.familia_producto }}{% endblock %}
+{% load static %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+
+<h1 class="text-center">Productos en {{ family.familia_producto }}</h1>
+
+<div class="row">
+    <form class="form-inline" method="GET">
+        {{ productsFiltered.form|crispy }}
+        <br>
+        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+        <a class="btn btn-outline-secondary" href="{% url 'products' family.id_familia_producto %}">Limpiar filtros</a>
+    </form>
+</div>
+
+<div class="row">
+    {% for i in products %}
+    <div class="col-3">
+        {% if i.imagen_url %}
+        <img class="thumbnail" src="{{i.imagen_url.url}}">
+        {% else %}
+        <img class="thumbnail" src="{% static 'app/img/noimage.png' %}">
+        {% endif %}
+        <div class="product-text">
+            <h6>{{i.id_marca}}</h6>
+            <h5><strong>{{i.producto}}</strong></h5>
+            <h6 style="display: inline-block">${{i.precio}}</h6>            <hr>
+
+            <button  class="btn btn-primary  float-right add-btn">Agregar al carro</button>
+            <a class="btn btn-secondary float-right" href="{% url 'product' i.id_producto %}">Detalles</a>
+
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

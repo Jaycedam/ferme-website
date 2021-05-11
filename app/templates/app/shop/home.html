@@ -1,0 +1,43 @@
+{% extends 'app/base.html' %}
+{% block title %}Inicio{% endblock %}
+
+{% load static %}
+
+{% block landing %}
+<div class="landing">
+    <h1 class="display-1 text-center">FERME SERVICES</h1>
+    <img src="{% static 'app/img/landing.svg' %}" alt="">
+    <a href="#productos">
+        <i class="bi bi-arrow-down-circle-fill" style="font-size: 50px;"></i>
+    </a>
+</div>
+{% endblock %}
+
+{% block contenido %}
+<h1 id="nosotros" class="text-center">Acerca de nosotros</h1>
+<p>Somos una empresa familiar con décadas de experiencia en el rubro Ferretero en la comuna de Puente Alto,
+    con un amplio conocimiento del medio, conservando la atención de la ferretería tradicional de antaño,
+    con modernos proceso acordes a nuestros tiempos, lo que hasta la fecha nos hace mantener altos
+    estándares en atención personalizada a nuestros clientes.</p>
+
+<h1 id="productos" class="text-center">Productos</h1>
+<div class="row">
+    {% for i in familia_producto %}
+    <div class="col-lg-6">
+        <div class="categoria">
+            <a href="{% url 'products' i.id_familia_producto %}">
+                {% if i.imagen_url %}
+                <img class="thumbnail darken" src="{{i.imagen_url.url}}">
+                {% else %}
+                <img class="thumbnail darken" src="{% static 'app/img/noimage.png' %}">
+                {% endif %}
+                <div class="text-block text-center">
+                    <h3>{{ i.familia_producto }}</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+{% block title %}{{ producto.producto }}{% endblock %}
+{% load static %}
+
+{% block contenido %}
+
+<div class="row">
+    <div class="col-6">
+        {% if producto.imagen_url %}
+        <img src="{{producto.imagen_url.url}}" alt="">
+        {% else %}
+        <img src="{% static 'app/img/noimage.png' %}">
+        {% endif %}
+    </div>
+    <div class="col-6">
+        <h6 class="font-weight-bold text-uppercase">Marca: {{ producto.id_marca }}</h6>
+        <h2 class="text-capitalize">{{ producto.producto }}</h2>
+        <h2>${{ producto.precio }}</h2>
+        <h6>En stock: {{ producto.stock }}</h6>
+        {% if producto.fecha_vencimiento %}
+        <h6>Fecha vencimiento: {{ producto.fecha_vencimiento }}</h6>
+        {% endif %}
+
+        {% if producto.descripcion %}
+        <h6 class="font-weight-bold">Descripción del producto:</h6>
+        <p class="font-weight-normal">{{ producto.descripcion }}</p>
+        {% endif %}
+
+        <br>
+
+        {% if producto.stock == 0 %}
+        <p class="text-muted">Lo sentimos, pero actualmente no existe stock para este producto. Intenta de nuevo en un par de días.</p>
+        {% endif %}
+
+
+        {% if user.is_authenticated and producto.stock > 0 %}
+        <div class="row">
+            <div class="col-6">
+                <input class="form-control" type="number" placeholder="Cantidad" name="cantidad" id="">
+            </div>
+            <div class="col-6">
+                <a href="#" class="btn btn-primary">
+                    Agregar al carro
+                    <i class="bi bi-cart"></i>
+                </a>
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}
