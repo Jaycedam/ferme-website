@@ -2,7 +2,7 @@ body {
     background-color: #EDF2F7;
 }
 
-.container {
+.container-sm {
     min-height: 100vh;
     padding: 30px 0;
 }
@@ -215,6 +215,11 @@ input.error {
     .galeria {
         grid-template-columns: 1fr 1fr;
     }
+
+    /* listado de productos */
+    .col-3 {
+        width: 50%;
+    }
 }
 
 /* SMARTPHONE */
@@ -286,6 +291,11 @@ input.error {
     .form_buttons {
         display: flex;
         justify-content: center;
+    }
+
+    /* listado de productos */
+    .col-3 {
+        width: 100%;
     }
 
 }
