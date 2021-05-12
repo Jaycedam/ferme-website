@@ -34,17 +34,12 @@
 
 
         {% if user.is_authenticated and producto.stock > 0 %}
-        <div class="row">
-            <div class="col-6">
-                <input class="form-control" type="number" placeholder="Cantidad" name="cantidad" id="">
-            </div>
-            <div class="col-6">
-                <a href="#" class="btn btn-primary">
-                    Agregar al carro
-                    <i class="bi bi-cart"></i>
-                </a>
-            </div>
-        </div>
+
+        <button data-product={{producto.id_producto}} data-action="add" class="btn btn-primary update-cart">
+            Agregar al carro
+            <i class="bi bi-cart"></i>
+        </button>
+
 
         {% endif %}
     </div>

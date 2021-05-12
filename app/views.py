@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Persona, User, FamiliaProducto, Producto, TipoProducto, Domicilio
 from .filters import ProductoFilter, ProductAdminFilter, UsuarioAdminFilter
 from django.contrib import messages
+from django.http import JsonResponse
+from .utils import cookieCart
 
 # Create your views here.
 
@@ -202,7 +204,20 @@ def product(request, id):
 
 def cart(request):
 
-    return render(request, 'app/shop/cart.html')
+    cart = cookieCart(request)
+    
+    order = cart['order']
+    items = cart['items']
+
+    data = {
+        'items':items, 
+        'order':order
+        }
+
+    print(cart)
+
+
+    return render(request, 'app/shop/cart.html', data)
 
 # SECCION EMPLEADO
 def product_management(request):
@@ -248,3 +263,4 @@ def product_modify(request, id):
         data["form"] = form
 
     return render(request, 'app/employee/product_modify.html', data)
+
