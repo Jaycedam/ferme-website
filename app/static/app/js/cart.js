@@ -14,9 +14,15 @@ function addCookieItem(id_producto, action){
 	if (action == 'add'){
 		if (cart[id_producto] == undefined){
 		cart[id_producto] = {'quantity':1}
+		Swal.fire(
+			'Felicitaciones',
+			'Producto agregado correctamente',
+			'success'
+		)
 
 		}else{
 			cart[id_producto]['quantity'] += 1
+			location.reload()
 		}
 	}
 
@@ -27,10 +33,9 @@ function addCookieItem(id_producto, action){
 			console.log('Item should be deleted')
 			delete cart[id_producto];
 		}
+		location.reload()
 	}
 	console.log('CART:', cart)
 	document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
-
-	location.reload()
 	
 }

@@ -214,10 +214,27 @@ def cart(request):
         'order':order
         }
 
-    print(cart)
-
-
     return render(request, 'app/shop/cart.html', data)
+
+def checkout(request):
+    profile = Persona.objects.get(usuario=request.user)
+
+    cart = cookieCart(request)
+    
+    order = cart['order']
+    items = cart['items']
+
+    data = {
+        'items':items, 
+        'order':order,
+        }
+        
+    if Domicilio.objects.filter(rut_persona=profile.rut_persona).exists():
+        data['adress'] = Domicilio.objects.get(rut_persona=profile.rut_persona)
+
+    return render(request, 'app/shop/checkout.html', data)
+
+
 
 # SECCION EMPLEADO
 def product_management(request):

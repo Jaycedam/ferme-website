@@ -304,11 +304,11 @@ input.error {
 @media (prefers-color-scheme: dark) {
     body {
       color: #eee;
-      background: #121212;
+      background: #131518;
     }
   
     .card, .filtros, .container-productos .wrapper, .product-text {
-      background-color: #2b2b2b;
+      background-color: #212529;
     }
 
     .table, .container-productos a, .form-label, .product-text {
@@ -329,5 +329,13 @@ input.error {
     }
     .dropdown-item:hover{
         background-color: #3b4046!important;
+    }
+
+    /* Swal */
+    .swal2-popup{
+        background-color: #212529 !important;
+    }
+    .swal2-title, .swal2-content {
+        color: white !important;
     }
 }

@@ -28,19 +28,13 @@
 
         <br>
 
-        {% if producto.stock == 0 %}
-        <p class="text-muted">Lo sentimos, pero actualmente no existe stock para este producto. Intenta de nuevo en un par de días.</p>
-        {% endif %}
-
-
-        {% if user.is_authenticated and producto.stock > 0 %}
-
+        {% if producto.stock > 0 %}
         <button data-product={{producto.id_producto}} data-action="add" class="btn btn-primary update-cart">
             Agregar al carro
             <i class="bi bi-cart"></i>
         </button>
-
-
+        {% else %}
+        <p class="text-muted">Lo sentimos, pero actualmente no existe stock para este producto. Intenta de nuevo en un par de días.</p>
         {% endif %}
     </div>
 </div>

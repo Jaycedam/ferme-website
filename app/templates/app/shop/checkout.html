@@ -1,0 +1,84 @@
+{% extends 'app/base.html' %}
+{% block title %}Inicio{% endblock %}
+{% load static %}
+
+{% block contenido %}
+
+<h1>Confirma los datos de tu compra</h1>
+<br>
+
+<div class="row d-flex align-items-center">
+    <div class="col">
+        <h5>Total:<strong> ${{order.get_cart_total}}</strong></h5>
+        </th>
+    </div>
+
+    <div class="col">
+        {% if user.is_authenticated %}
+        <a style="float:right; margin:5px;" class="btn btn-success" href="#">Confirmar compra</a>
+        {% endif %}
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">
+                Boleta
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+                Factura
+            </label>
+        </div>
+    </div>
+
+    <div class="col">
+        {% if adress %}
+        <h5>Domicilio:</h5>
+        <p>{{ adress.calle }}, {{ adress.nro }}, {{ adress.id_comuna }}</p>
+
+        {% if adress.nro_departamento %}
+        <h5>N° departamento: {{ adress.nro_departamento }}</h5>
+        {% endif %}
+
+        {% else %}
+        <p>No tienes ningún domicilio registrado. Registra uno en tu perfil para poder continuar la compra.</p>
+        <a class="btn btn-primary float-left" href="{% url 'profile' %}">Ir a perfil</a>
+        {% endif %}
+    </div>
+</div>
+
+<br>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Total</th>
+                <th scope="col">Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in items %}
+            <tr>
+                <td>{{ i.product.name }}</td>
+                <td>${{ i.product.price }}</td>
+                <td>${{ i.get_total }}</td>
+                <td>{{ i.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+{% endblock %}

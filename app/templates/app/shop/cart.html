@@ -3,6 +3,8 @@
 {% load static %}
 
 {% block contenido %}
+<h1>Carro de compra</h1>
+<br>
 
 <div class="row d-flex align-items-center">
     <div class="col">
@@ -10,8 +12,15 @@
     </div>
 
     <div class="col">
-        <a  style="float:right; margin:5px;" class="btn btn-success" href="#">Continuar con la compra</a>
+        {% if user.is_authenticated and order.get_cart_total > 0 %}
+        <a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Continuar con la compra</a>
+        {% elif not user.is_authenticated %}
+        <h5 class="text-end">Inicia sesión para continuar con la compra</h5>
+        {% elif order.get_cart_total == 0 %}
+        <h5 class="text-end">Agrega productos al carro</h5>
+        {% endif %}
     </div>
+
 </div>
 
 <br>
