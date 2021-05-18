@@ -2,8 +2,6 @@ import json
 from .models import Producto
 
 def cookieCart(request):
-
-	#Create empty cart for now for non-logged in user
 	try:
 		cart = json.loads(request.COOKIES['cart'])
 	except:
@@ -33,6 +31,5 @@ def cookieCart(request):
 			items.append(item)
 		except:
 			pass
-
 			
 	return {'order':order, 'items':items}

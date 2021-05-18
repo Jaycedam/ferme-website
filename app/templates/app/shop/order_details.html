@@ -1,27 +1,12 @@
+*****EN PROCESO*****
+
 {% extends 'app/base.html' %}
-{% block title %}Cart{% endblock %}
+{% block title %}Order{% endblock %}
 {% load static %}
 
 {% block contenido %}
-<h1>Carro de compra</h1>
+<h1>Detalle de compra</h1>
 <br>
-
-<div class="row d-flex align-items-center">
-    <div class="col">
-        <h5>Total:<strong> ${{order.get_cart_total}}</strong></h5></th>
-    </div>
-
-    <div class="col">
-        {% if user.is_authenticated and order.get_cart_total > 0 %}
-        <a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Continuar con la compra</a>
-        {% elif not user.is_authenticated %}
-        <h5 class="text-end">Inicia sesión para continuar con la compra</h5>
-        {% elif order.get_cart_total == 0 %}
-        <h5 class="text-end">Agrega productos al carro</h5>
-        {% endif %}
-    </div>
-
-</div>
 
 <br>
 
@@ -50,7 +35,6 @@
             {% endfor %}
         </tbody>
     </table>
-
 </div>
 
 {% endblock contenido %}

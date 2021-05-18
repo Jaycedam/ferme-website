@@ -61,10 +61,7 @@
 			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 		}
 		console.log('Cart:', cart)
-	
 	</script>
-
-
 </head>
 
 <body>
@@ -195,13 +192,25 @@
 
     {% if messages %}
     {% for i in messages %}
-    <script>
-        Swal.fire({
-            "title": "Mensaje",
-            "text": "{{i}}",
-            "icon": "success"
-        })
-    </script>
+
+        {% if i.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}        
+        <script>
+            Swal.fire({
+                "title": "Felicitaciones",
+                "text": "{{i}}",
+                "icon": "success"
+            })
+        </script>
+        {% else %}
+        <script>
+            Swal.fire({
+                "title": "Lo sentimos",
+                "text": "{{i}}",
+                "icon": "error"
+            })
+        </script>
+        {% endif %}
+
     {% endfor %}
     {% endif %}
 

@@ -4,11 +4,12 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models import Persona, User, FamiliaProducto, Producto, TipoProducto, Domicilio
+from .models import Persona, User, FamiliaProducto, Producto, TipoProducto, Domicilio, TipoDocumento, Recibo, ReciboDetalle
 from .filters import ProductoFilter, ProductAdminFilter, UsuarioAdminFilter
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from .utils import cookieCart
+import datetime
 
 # Create your views here.
 
@@ -62,9 +63,13 @@ def home(request):
 
 def profile(request):
     user = request.user
+    profile = Persona.objects.get(usuario=user)
+    
+    recibos = Recibo.objects.filter(rut_persona=profile)
 
     data = {
         "user":user,
+        "recibos":recibos
     }
 
     if Persona.objects.filter(usuario=user).exists():
@@ -216,8 +221,11 @@ def cart(request):
 
     return render(request, 'app/shop/cart.html', data)
 
+# Aprobar datos de compra y delivery
 def checkout(request):
     profile = Persona.objects.get(usuario=request.user)
+
+    tipoDoc = TipoDocumento.objects.all()
 
     cart = cookieCart(request)
     
@@ -227,13 +235,52 @@ def checkout(request):
     data = {
         'items':items, 
         'order':order,
+        'tipoDoc':tipoDoc,
         }
         
     if Domicilio.objects.filter(rut_persona=profile.rut_persona).exists():
         data['adress'] = Domicilio.objects.get(rut_persona=profile.rut_persona)
 
-    return render(request, 'app/shop/checkout.html', data)
+    # Recibimos tipo documento y guardamos en bd la compra
+    if request.method == 'POST':
+        id_tipo_doc = request.POST.get('tipoDoc')
+        subtotal = order['get_cart_total']
+        iva = 0
+        # definir iva si es factura
+        if id_tipo_doc == "2":
+            iva = subtotal*0.19
+        total = subtotal+iva
+                
+        try:
+            recibo = Recibo.objects.create(
+                fecha=datetime.datetime.now(), 
+                subtotal=subtotal, 
+                iva=iva,
+                total=total, 
+                id_tipo_doc=TipoDocumento.objects.get(id_tipo_doc=id_tipo_doc), 
+                rut_persona=Persona.objects.get(rut_persona=profile)
+                )
 
+            # loop de items en cookieCart
+            for i in items:
+                # instanciamos un producto desde el valor del carro de compra 
+                producto = Producto.objects.get(id_producto=i['product']['id'])
+
+                ReciboDetalle.objects.create(
+                    id_producto = producto,
+                    nro_doc = recibo,
+                    cantidad = i['quantity'],
+                    total = i['get_total']
+                )
+
+            messages.success(request, "Tu compra ha sido confirmada")
+            # agregar codigo para eliminar cookie['cart]
+        except Exception as e:
+            print(e)
+            messages.error(request, "No se ha podido realizar la compra, intenta nuevamente")
+
+        return redirect(to="home")
+    return render(request, 'app/shop/checkout.html', data)
 
 
 # SECCION EMPLEADO
