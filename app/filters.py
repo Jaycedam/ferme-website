@@ -1,6 +1,6 @@
 import django_filters
 from django_filters import CharFilter, NumberFilter, ModelChoiceFilter, ModelMultipleChoiceFilter
-from .models import Producto, TipoProducto, Marca, Persona, User
+from .models import Producto, TipoProducto, Marca, Persona, User, Proveedor, FamiliaProducto
 from django import forms
 
 class ProductoFilter(django_filters.FilterSet): 
@@ -12,6 +12,15 @@ class ProductoFilter(django_filters.FilterSet):
     class Meta:
         model = Producto
         fields = ['producto', 'id_marca']
+
+class ProductRequestFilter(django_filters.FilterSet):
+    producto = CharFilter(field_name='producto', lookup_expr='icontains', label='', widget=forms.TextInput(attrs={'placeholder': 'Buscar'}) )
+    stock__lte = NumberFilter(field_name='stock', lookup_expr='lte', label='', widget=forms.TextInput(attrs={'placeholder': 'Stock menor a', 'type':'number'}))
+    id_marca = ModelChoiceFilter(field_name='id_marca', label='', queryset=Marca.objects.all(), empty_label='Todas las marcas' )
+    id_tipo_producto__id_familia_producto = ModelChoiceFilter(empty_label='Todas las categorías', field_name='id_tipo_producto__id_familia_producto', label='', queryset=FamiliaProducto.objects.all())
+    class Meta:
+        model = Producto
+        fields = ['producto']
 
 class ProductAdminFilter(django_filters.FilterSet): 
     producto = CharFilter(field_name='producto', lookup_expr='icontains', label='Nombre')

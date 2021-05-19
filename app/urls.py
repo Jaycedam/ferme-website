@@ -15,5 +15,7 @@ urlpatterns = [
     path('administrador/home', views.admin_home, name="admin_home"),
     path('administrador/usuarios', views.admin_usuarios, name="admin_usuarios"),
     path('employee/product-management', views.product_management, name="product_management"),
+    path('employee/product-request', views.product_request, name="product_request"),
+    path('employee/product-request/<id>', views.products_by_provider, name="products_by_provider"),
     path('employee/product-modify/<id>', views.product_modify, name="product_modify"),
 ]

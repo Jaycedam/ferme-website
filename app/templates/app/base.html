@@ -16,6 +16,7 @@
     <link rel="shortcut icon" type="image/jpg" href="{% static 'app/img/tools-black.png' %}" />
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
 
+    <!--Set cookie-->
     <script type="text/javascript">
 		function getToken(name) {
 		    var cookieValue = null;
@@ -49,7 +50,6 @@
 		            return decodeURIComponent(cookiePair[1]);
 		        }
 		    }
-
 		    // Return null if not found
 		    return null;
 		}
@@ -123,8 +123,13 @@
                     {% endif %}
 
                     {% if perms.app.add_ordencompra %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'product_management' %}">Gestión de productos</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Empleados</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="nav-link" href="{% url 'product_management' %}">Gestión de productos</a></li>
+                            <li><a class="nav-link" href="{% url 'product_request' %}">Solicitud de productos</a></li>
+                        </ul>
                     </li>
                     {% endif %}
 

@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models import Persona, User, FamiliaProducto, Producto, TipoProducto, Domicilio, TipoDocumento, Recibo, ReciboDetalle
-from .filters import ProductoFilter, ProductAdminFilter, UsuarioAdminFilter
+from .models import Persona, User, FamiliaProducto, Producto, TipoProducto, Domicilio, TipoDocumento, Recibo, ReciboDetalle, Proveedor
+from .filters import ProductoFilter, ProductAdminFilter, UsuarioAdminFilter, ProductRequestFilter
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from .utils import cookieCart
@@ -307,6 +307,27 @@ def product_management(request):
         data["form"] = form
 
     return render(request, 'app/employee/product_management.html', data)
+
+def product_request(request):
+    providers = Proveedor.objects.all()
+
+    data = {
+        'providers':providers
+    }
+    return render(request, 'app/employee/product_request.html', data)
+
+def products_by_provider(request, id):
+    provider = Proveedor.objects.get(id_proveedor=id)
+    products = Producto.objects.filter(id_proveedor=id)
+    productRequestFilter = ProductRequestFilter(request.GET, queryset=products)
+    products = productRequestFilter.qs
+
+    data = {
+        'products':products,
+        'productRequestFilter':productRequestFilter,
+        'provider':provider
+    }
+    return render(request, 'app/employee/products_by_provider.html', data)
 
 def product_modify(request, id):
     product = get_object_or_404(Producto, id_producto=id)

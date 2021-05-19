@@ -115,6 +115,18 @@ class ProfileAdressForm(forms.ModelForm):
         fields = ["calle", "nro",]
 
 class ProductForm(forms.ModelForm):
+    def clean_stock(self):
+        stock = self.cleaned_data["stock"]
+        if stock < 0:
+            raise ValidationError("Ingresa un stock válido")
+        return stock
+
+    def clean_stock_critico(self):
+        stock_critico = self.cleaned_data["stock_critico"]
+        if stock_critico < 0:
+            raise ValidationError("Ingresa un stock válido")
+        return stock_critico
+
     producto = forms.CharField(label="Nombre", min_length=3, max_length=50)
     fecha_vencimiento = forms.DateField(label="Fecha vencimiento (dd/mm/yy)")
     imagen_url = forms.FileField(label="Imagen", required=False)

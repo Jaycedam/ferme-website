@@ -1,0 +1,30 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block js %}
+<script src="{% static 'app/js/order_provider.js' %}"></script>
+{% endblock %}
+
+{% block title %}Solicitar productos{% endblock %}
+
+{% block contenido %}
+<h1 class="text-center">Selecciona un proveedor</h1>
+<p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium sapiente cumque odit sint eligendi nulla, dignissimos eveniet veniam dolor iure perferendis, corrupti ducimus architecto dicta? Dignissimos nostrum quod dolores ullam.</p>
+
+<br>
+
+<div class="row">
+    {% for i in providers %}
+    <div class="col-lg-6">
+        <div class="categoria">
+            <a onclick="deleteOrder()" href="{% url 'products_by_provider' i.id_proveedor %}">
+                <img class="thumbnail darken" src="{% static 'app/img/provider.svg' %}">
+                <div class="text-block text-center">
+                    <h3>{{ i.nombre_empresa }}</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock contenido %}
