@@ -2,20 +2,6 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block js %}
-<script>
-    var order = JSON.parse(getCookie('order'))
-    if (order == undefined){
-        order = {}
-        console.log('Order Created!', order)
-        document.cookie ='order=' + JSON.stringify(order) + ";domain=;path=/"
-    }
-    console.log('order:', order)
-</script>
-<script src="{% static 'app/js/order_provider.js' %}"></script>
-{% endblock %}
-
-
 {% block title %}Solicitar productos{% endblock %}
 
 {% block contenido %}
@@ -28,7 +14,7 @@
         </a>
     </div>
     <div class="col d-flex justify-content-end">
-        <a class="btn btn-primary" href="#">Generar orden de compra</a>
+        <a class="btn btn-primary" href="{% url 'order' %}">Generar orden de compra</a>
     </div>
 
 </div>
@@ -41,7 +27,7 @@
     <form class="form-inline" method="GET">
         {{ productRequestFilter.form|crispy }}
         <br>
-        <button onclick= "deleteOrder()" type="submit" class="btn btn-outline-primary">Filtrar</button>
+        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
     </form>
 </div>
 

@@ -48,6 +48,7 @@ class FamiliaProducto(models.Model):
         managed = False
         db_table = 'familia_producto'
 
+
 class Marca(models.Model):
     id_marca = models.AutoField(primary_key=True)
     marca = models.CharField(max_length=200)
@@ -63,9 +64,8 @@ class Marca(models.Model):
 class NotaCredito(models.Model):
     nro_nota_credito = models.AutoField(primary_key=True)
     fecha = models.DateField()
-    descripcion = models.CharField(max_length=500, blank=True, null=True)
-    nro_doc = models.ForeignKey('Recibo', models.DO_NOTHING, db_column='nro_doc')
-    rut_persona = models.ForeignKey('Persona', models.DO_NOTHING, db_column='rut_persona')
+    total = models.FloatField()
+    nro_recibo = models.ForeignKey('Recibo', models.DO_NOTHING, db_column='nro_recibo')
 
     def __str__(self):
         return self.nro_nota_credito
@@ -75,41 +75,44 @@ class NotaCredito(models.Model):
         db_table = 'nota_credito'
 
 
-class NotaCreditoDetalle(models.Model):
+class NcDetalle(models.Model):
     id_detalle = models.AutoField(primary_key=True)
-    cantidad = models.FloatField()
-    nro_nota_credito = models.ForeignKey(NotaCredito, models.DO_NOTHING, db_column='nro_nota_credito')
-    id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
-
-    class Meta:
-        managed = False
-        db_table = 'nota_credito_detalle'
-
-
-class OcDetalle(models.Model):
-    id_oc_detalle = models.AutoField(primary_key=True)
     id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
     cantidad = models.FloatField()
     total = models.FloatField()
-    id_orden_compra = models.ForeignKey('OrdenCompra', models.DO_NOTHING, db_column='id_orden_compra')
+    nro_nota_credito = models.ForeignKey('NotaCredito', models.DO_NOTHING, db_column='nro_nota_credito')
 
     class Meta:
         managed = False
-        db_table = 'oc_detalle'
+        db_table = 'nc_detalle'
 
 
-class OrdenCompra(models.Model):
-    id_orden_compra = models.AutoField(primary_key=True)
+class Orden(models.Model):
+    nro_orden = models.AutoField(primary_key=True)
+    fecha = models.DateField()
     total = models.FloatField()
-    estado = models.CharField(max_length=50)
-    id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor')
+    rut_persona = models.ForeignKey('Persona', models.DO_NOTHING, db_column='rut_persona')
+    id_tipo = models.ForeignKey('TipoOrden', models.DO_NOTHING, db_column='id_tipo')
+    id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor', blank=True, null=True)
 
     def __str__(self):
-        return self.id_orden_compra
+        return self.nro_orden
 
     class Meta:
         managed = False
-        db_table = 'orden_compra'
+        db_table = 'orden'
+
+
+class OrdenDetalle(models.Model):
+    id_detalle = models.AutoField(primary_key=True)
+    cantidad = models.FloatField()
+    total = models.FloatField()
+    nro_orden = models.ForeignKey(Orden, models.DO_NOTHING, db_column='nro_orden')
+    id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
+
+    class Meta:
+        managed = False
+        db_table = 'orden_detalle'
 
 
 class Persona(models.Model):
@@ -175,32 +178,20 @@ class Provincia(models.Model):
 
 
 class Recibo(models.Model):
-    nro_doc = models.AutoField(primary_key=True)
+    nro_recibo = models.AutoField(primary_key=True)
     fecha = models.DateField()
     subtotal = models.FloatField()
     iva = models.FloatField()
     total = models.FloatField()
-    id_tipo_doc = models.ForeignKey('TipoDocumento', models.DO_NOTHING, db_column='id_tipo_doc')
-    rut_persona = models.ForeignKey(Persona, models.DO_NOTHING, db_column='rut_persona')
+    id_tipo = models.ForeignKey('TipoDocumento', models.DO_NOTHING, db_column='id_tipo')
+    nro_orden = models.ForeignKey(Orden, models.DO_NOTHING, db_column='nro_orden')
 
     def __str__(self):
-        return self.nro_doc
+        return self.nro_recibo
 
     class Meta:
         managed = False
         db_table = 'recibo'
-
-
-class ReciboDetalle(models.Model):
-    id_detalle = models.AutoField(primary_key=True)
-    id_producto = models.ForeignKey(Producto, models.DO_NOTHING, db_column='id_producto')
-    nro_doc = models.ForeignKey(Recibo, models.DO_NOTHING, db_column='nro_doc')
-    cantidad = models.FloatField()
-    total = models.FloatField()
-
-    class Meta:
-        managed = False
-        db_table = 'recibo_detalle'
 
 
 class Region(models.Model):
@@ -228,11 +219,11 @@ class Rubro(models.Model):
 
 
 class TipoDocumento(models.Model):
-    id_tipo_doc = models.AutoField(primary_key=True)
-    tipo_doc = models.CharField(max_length=50)
+    id_tipo = models.AutoField(primary_key=True)
+    tipo_documento = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.tipo_doc
+        return self.tipo_documento
 
     class Meta:
         managed = False
@@ -249,6 +240,19 @@ class TipoDomicilio(models.Model):
     class Meta:
         managed = False
         db_table = 'tipo_domicilio'
+
+
+class TipoOrden(models.Model):
+    id_tipo = models.AutoField(primary_key=True)
+    tipo = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.tipo
+
+    class Meta:
+        managed = False
+        db_table = 'tipo_orden'
+
 
 class TipoProducto(models.Model):
     id_tipo_producto = models.AutoField(primary_key=True)

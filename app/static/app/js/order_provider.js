@@ -14,7 +14,7 @@ for(var i = 0; i < updateBtns.length; i++){
 function addCookieItem(id_producto, id_proveedor, action){
 	if (action == 'add'){
 		if (order[id_producto] == undefined){
-		order[id_producto] = {'quantity':1, 'id_proveedor':id_proveedor}
+			order[id_producto] = {'quantity':1, 'id_proveedor':id_proveedor}
 		Swal.fire(
 			'Felicitaciones',
 			'Producto agregado correctamente',
@@ -36,9 +36,10 @@ function addCookieItem(id_producto, id_proveedor, action){
 		location.reload()
 	}
 	console.log('order:', order)
-	document.cookie ='order=' + JSON.stringify(order) + ";domain=;path=/"
+	document.cookie = 'order=' + JSON.stringify(order) + ";domain=;path=/;SameSite=Lax"
+
 }
 
 function deleteOrder(){
-    document.cookie = 'order=' + null + ";domain=;path=/"
+	document.cookie = 'order=' + null + ";domain=;path=/;SameSite=Lax"
 }

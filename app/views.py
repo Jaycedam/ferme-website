@@ -1,14 +1,14 @@
-from .forms import CustomUserCreationForm, ProfileForm, ModifyUserForm, ModifyProfileForm, ProductForm, AdressForm, ProductModifyForm
+from .forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .models import Persona, User, FamiliaProducto, Producto, TipoProducto, Domicilio, TipoDocumento, Recibo, ReciboDetalle, Proveedor
+from .models import *
 from .filters import ProductoFilter, ProductAdminFilter, UsuarioAdminFilter, ProductRequestFilter
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from .utils import cookieCart
+from .utils import cookieCart, cookieOrder
 import datetime
 
 # Create your views here.
@@ -63,18 +63,16 @@ def home(request):
 
 def profile(request):
     user = request.user
-    profile = Persona.objects.get(usuario=user)
-    
-    recibos = Recibo.objects.filter(rut_persona=profile)
 
     data = {
         "user":user,
-        "recibos":recibos
     }
 
     if Persona.objects.filter(usuario=user).exists():
         profile = Persona.objects.get(usuario=user)
         data["profile"] = profile
+
+        data["orders"] = Orden.objects.filter(rut_persona=profile)
 
         if Domicilio.objects.filter(rut_persona=profile.rut_persona).exists():
             data["domicilio"] = Domicilio.objects.get(rut_persona=profile.rut_persona) 
@@ -208,7 +206,6 @@ def product(request, id):
     return render(request, 'app/shop/product.html', data)
 
 def cart(request):
-
     cart = cookieCart(request)
     
     order = cart['order']
@@ -245,19 +242,13 @@ def checkout(request):
     if request.method == 'POST':
         id_tipo_doc = request.POST.get('tipoDoc')
         subtotal = order['get_cart_total']
-        iva = 0
-        # definir iva si es factura
-        if id_tipo_doc == "2":
-            iva = subtotal*0.19
-        total = subtotal+iva
                 
         try:
-            recibo = Recibo.objects.create(
+            new_order = Orden.objects.create(
                 fecha=datetime.datetime.now(), 
-                subtotal=subtotal, 
-                iva=iva,
-                total=total, 
-                id_tipo_doc=TipoDocumento.objects.get(id_tipo_doc=id_tipo_doc), 
+                total=subtotal, 
+                # guardamos orden como tipo Cliente
+                id_tipo=TipoOrden.objects.get(id_tipo=1), 
                 rut_persona=Persona.objects.get(rut_persona=profile)
                 )
 
@@ -266,15 +257,31 @@ def checkout(request):
                 # instanciamos un producto desde el valor del carro de compra 
                 producto = Producto.objects.get(id_producto=i['product']['id'])
 
-                ReciboDetalle.objects.create(
+                OrdenDetalle.objects.create(
                     id_producto = producto,
-                    nro_doc = recibo,
+                    nro_orden = new_order,
                     cantidad = i['quantity'],
                     total = i['get_total']
                 )
 
+            # Datos para boleta/factura
+            iva = 0
+            # definir iva si es factura
+            if id_tipo_doc == "2":
+                iva = subtotal*0.19
+            total = subtotal+iva
+
+            recibo = Recibo.objects.create(
+                fecha = datetime.datetime.now(),
+                subtotal = total,
+                iva = iva,
+                total = total,
+                id_tipo = TipoDocumento.objects.get(id_tipo=id_tipo_doc),
+                nro_orden = new_order,
+            )
+
             messages.success(request, "Tu compra ha sido confirmada")
-            # agregar codigo para eliminar cookie['cart]
+
         except Exception as e:
             print(e)
             messages.error(request, "No se ha podido realizar la compra, intenta nuevamente")
@@ -316,6 +323,7 @@ def product_request(request):
     }
     return render(request, 'app/employee/product_request.html', data)
 
+
 def products_by_provider(request, id):
     provider = Proveedor.objects.get(id_proveedor=id)
     products = Producto.objects.filter(id_proveedor=id)
@@ -328,6 +336,22 @@ def products_by_provider(request, id):
         'provider':provider
     }
     return render(request, 'app/employee/products_by_provider.html', data)
+
+def order(request):
+    orderProvider = cookieOrder(request)
+    
+    order = orderProvider['order']
+    items = orderProvider['items']
+
+    data = {
+        'items':items, 
+        'order':order
+        }
+
+    print(order)
+    print(items)
+
+    return render(request, 'app/employee/order.html', data)
 
 def product_modify(request, id):
     product = get_object_or_404(Producto, id_producto=id)

@@ -61,25 +61,23 @@
 
 <br><hr><br>
 
-{% if profile %}
+{% if orders %}
 <h1>Historial de compras</h1>
 
 <div class="table-responsive">
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">Tipo</th>
-                <th scope="col">N°</th>
-                <th scope="col">Fecha de compra</th>
+                <th scope="col">Orden de compra</th>
+                <th scope="col">Fecha</th>
                 <th scope="col">Total</th>
                 <th scope="col">Opciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for i in recibos %}
+            {% for i in orders %}
             <tr>
-                <td>{{ i.id_tipo_doc }}</td>
-                <td>{{ i.nro_doc }}</td>
+                <td>{{ i.nro_orden }}</td>
                 <td>{{ i.fecha }}</td>
                 <td>{{ i.total }}</td>
                 <td>

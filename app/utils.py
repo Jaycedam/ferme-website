@@ -33,3 +33,37 @@ def cookieCart(request):
 			pass
 			
 	return {'order':order, 'items':items}
+
+def cookieOrder(request):
+	try:
+		orderCookie = json.loads(request.COOKIES['order'])
+	except:
+		orderCookie = {}
+
+	items = []
+	order = {'get_order_total':0}
+
+	for i in orderCookie:
+		#We use try block to prevent items in order that may have been removed from causing error
+		try:
+			product = Producto.objects.get(id_producto=i)
+			total = (product.precio_proveedor * orderCookie[i]['quantity'])
+
+			order['get_order_total'] += total
+			# agregamos iva
+			order['get_order_total'] += round(order['get_order_total'] * 0.19) 
+
+			item = {
+				'product':{
+					'id':product.id_producto,
+					'name':product.producto, 
+					'price':product.precio
+					}, 
+				'quantity':orderCookie[i]['quantity'],
+				'get_total':total,
+				}
+			items.append(item)
+		except Exception as e:
+			print(e)
+			
+	return {'order':order, 'items':items}

@@ -17,7 +17,7 @@
             {% csrf_token %}
             <select class="form-select" name="tipoDoc" id="">
                 {% for i in tipoDoc %}
-                <option value="{{i.id_tipo_doc}}">{{i.tipo_doc}}</option>
+                <option value="{{i.id_tipo}}">{{i.tipo_documento}}</option>
                 {% endfor %}
             </select>
             <br>

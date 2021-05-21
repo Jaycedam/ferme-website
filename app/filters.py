@@ -1,6 +1,6 @@
 import django_filters
-from django_filters import CharFilter, NumberFilter, ModelChoiceFilter, ModelMultipleChoiceFilter
-from .models import Producto, TipoProducto, Marca, Persona, User, Proveedor, FamiliaProducto
+from django_filters import CharFilter, NumberFilter, ModelChoiceFilter
+from .models import Producto, TipoProducto, Marca, Persona, User, FamiliaProducto
 from django import forms
 
 class ProductoFilter(django_filters.FilterSet): 
