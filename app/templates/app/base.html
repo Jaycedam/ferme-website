@@ -58,7 +58,7 @@
         if (cart == undefined) {
             cart = {}
             console.log('Cart Created!', cart)
-            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+            document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/;SameSite=Lax"
         }
         console.log('Cart:', cart)
 

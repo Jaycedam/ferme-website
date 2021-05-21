@@ -7,11 +7,11 @@ for(var i = 0; i < updateBtns.length; i++){
         var action = this.dataset.action
         console.log('id_producto:', id_producto, 'id_provider:', id_proveedor, 'action:', action)
 
-        addCookieItem(id_producto, id_proveedor, action)
+        addOrderItem(id_producto, id_proveedor, action)
     })
 }
 
-function addCookieItem(id_producto, id_proveedor, action){
+function addOrderItem(id_producto, id_proveedor, action){
 	if (action == 'add'){
 		if (order[id_producto] == undefined){
 			order[id_producto] = {'quantity':1, 'id_proveedor':id_proveedor}

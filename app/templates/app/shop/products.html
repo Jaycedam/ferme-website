@@ -33,7 +33,8 @@
         <div class="product-text">
             <h6>{{i.id_marca}}</h6>
             <h5><strong>{{i.producto}}</strong></h5>
-            <h6 style="display: inline-block">${{i.precio}}</h6>            <hr>
+            <h6 style="display: inline-block">${{i.precio}}</h6>            
+            <hr>
 
             <button data-product={{i.id_producto}} data-action="add" class="btn btn-primary update-cart">Agregar al carro</button>
             <a class="btn btn-secondary" href="{% url 'product' i.id_producto %}">Detalles</a>
