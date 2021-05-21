@@ -8,12 +8,12 @@
 
 <div class="row d-flex align-items-center">
     <div class="col">
-        <h5>Total factura (IVA incl):<strong> ${{order.get_order_total}}</strong></h5></th>
+        <h5>Total:<strong> ${{order.get_order_total}}</strong></h5></th>
     </div>
 
     <div class="col">
         {% if order.get_order_total > 0 %}
-        <a style="float:right; margin:5px;" class="btn btn-success" href="#">Continuar con la compra</a>
+        <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout_provider' %}">Continuar con la compra</a>
         {% elif order.get_order_total == 0 %}
         <h5 class="text-end">Agrega productos a la orden</h5>
         {% endif %}
@@ -28,6 +28,7 @@
         <thead>
             <tr>
                 <th scope="col">Producto</th>
+                <th scope="col">Proveedor</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Total</th>
                 <th scope="col">Cantidad</th>
@@ -37,6 +38,7 @@
             {% for i in items %}
             <tr>
                 <td>{{ i.product.name }}</td>
+                <td>{{ i.provider }}</td>
                 <td>${{ i.product.price }}</td>
                 <td>${{ i.get_total }}</td>
                 <td>

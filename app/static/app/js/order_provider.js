@@ -3,18 +3,17 @@ var updateBtns = document.getElementsByClassName('update-order')
 for(var i = 0; i < updateBtns.length; i++){
     updateBtns[i].addEventListener('click', function(){
         var id_producto = this.dataset.product
-        var id_proveedor = this.dataset.provider
         var action = this.dataset.action
-        console.log('id_producto:', id_producto, 'id_provider:', id_proveedor, 'action:', action)
+        console.log('id_producto:', id_producto, 'action:', action)
 
-        addOrderItem(id_producto, id_proveedor, action)
+        addOrderItem(id_producto, action)
     })
 }
 
-function addOrderItem(id_producto, id_proveedor, action){
+function addOrderItem(id_producto, action){
 	if (action == 'add'){
 		if (order[id_producto] == undefined){
-			order[id_producto] = {'quantity':1, 'id_proveedor':id_proveedor}
+			order[id_producto] = {'quantity':1}
 		Swal.fire(
 			'Felicitaciones',
 			'Producto agregado correctamente',

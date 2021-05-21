@@ -6,7 +6,6 @@ def cookieCart(request):
 		cart = json.loads(request.COOKIES['cart'])
 	except:
 		cart = {}
-		print('CART:', cart)
 
 	items = []
 	order = {'get_cart_total':0}
@@ -50,15 +49,14 @@ def cookieOrder(request):
 			total = (product.precio_proveedor * orderCookie[i]['quantity'])
 
 			order['get_order_total'] += total
-			# agregamos iva
-			order['get_order_total'] += round(order['get_order_total'] * 0.19) 
 
 			item = {
 				'product':{
 					'id':product.id_producto,
 					'name':product.producto, 
-					'price':product.precio
+					'price':product.precio_proveedor
 					}, 
+				'provider':product.id_proveedor,
 				'quantity':orderCookie[i]['quantity'],
 				'get_total':total,
 				}
