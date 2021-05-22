@@ -1,27 +1,54 @@
 from django.contrib import admin
-from .models import Persona, Domicilio, FamiliaProducto, TipoProducto, Producto, Proveedor, Rubro
 from django.contrib.auth.models import User
+from .models import *
+import nested_admin
 
 # Register your models here.
 
-class PersonaAdmin(admin.ModelAdmin):
-    list_display = ["rut_persona", "usuario"]
-
-
-class RubroAdmin(admin.ModelAdmin):
-    list_display = ["rubro"]
-
-class TipoProductoAdmin(admin.ModelAdmin):
-    list_display = ["tipo_producto"]
-
-admin.site.register(Persona, PersonaAdmin)
-admin.site.register(Domicilio)
-admin.site.register(FamiliaProducto)
-admin.site.register(TipoProducto, TipoProductoAdmin)
-admin.site.register(Producto)
-admin.site.register(Proveedor)
-admin.site.register(Rubro, RubroAdmin)
-
+# CONFIG GENERAL DE ADMIN
 admin.site.site_header = 'Administración Ferme'
 admin.site.site_title = 'Ferme'
 admin.site.index_title = 'Sitio administrativo Ferme'
+
+# ADMIN DE USER-PERSONA-DOMICILIO // PROVEEDOR INLINE
+class DomicilioInline(nested_admin.NestedTabularInline):
+    model = Domicilio
+
+class ProveedorInline(nested_admin.NestedTabularInline):
+    model = Proveedor
+
+class PersonaInline(nested_admin.NestedTabularInline):
+    model = Persona
+    inlines = [ProveedorInline,DomicilioInline,]
+
+class UserAdmin(nested_admin.NestedModelAdmin):
+    list_display = ['username', 'first_name', 'last_name', 'email',]
+    list_filter = ['groups',]
+    search_fields = ['first_name', 'last_name', 'username', 'email', ]
+    inlines = [PersonaInline,]
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
+
+# ADMIN DE ORDEN-DETALLE-RECIBO INLINE
+class OrdenDetalleInline(nested_admin.NestedTabularInline):
+    model = OrdenDetalle
+
+class ReciboInline(nested_admin.NestedTabularInline):
+    model = Recibo
+
+class OrdenAdmin(nested_admin.NestedModelAdmin):
+    list_display = ['nro_orden', 'fecha', 'total', 'rut_persona',]
+    list_filter = ['id_tipo',]
+    search_fields = ['nro_orden',]
+    inlines = [OrdenDetalleInline,ReciboInline]
+
+admin.site.register(Orden, OrdenAdmin)
+
+# ADMIN DE LISTADOS SIN PERSONALIZACION
+admin.site.register(FamiliaProducto)
+admin.site.register(Marca)
+admin.site.register(Producto)
+admin.site.register(Rubro)
+admin.site.register(TipoProducto)
+

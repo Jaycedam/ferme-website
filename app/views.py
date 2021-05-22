@@ -17,40 +17,6 @@ import datetime
 def admin(request):
     return render(request, '/admin/')
 
-def admin_home(request):
-    return render(request, 'app/admin/home.html')
-
-def admin_usuarios(request):
-    usuarios = Persona.objects.all().select_related('usuario')
-    usuariosFiltered = UsuarioAdminFilter(request.GET, queryset=usuarios)
-    usuarios = usuariosFiltered.qs
-
-    data = {
-        "usuarios":usuarios,
-        "usuariosFiltered":usuariosFiltered,
-        'form': CustomUserCreationForm(),
-        'profile_form': ProfileForm()
-    }
-
-    if request.method == 'POST':
-        form = CustomUserCreationForm(data=request.POST)
-        profile_form = ProfileForm(data=request.POST)
-
-        if form.is_valid() and profile_form.is_valid():
-            usuario = form.save()
-            profile = profile_form.save(commit=False)
-
-            profile.usuario = usuario
-
-            profile.save()
-
-            messages.success(request, "Usuario creado correctamente")
-
-        data["form"] = form
-        data["profile_form"] = profile_form
-
-    return render(request, 'app/admin/usuarios.html', data)
-
 # SECCION USUARIO GENERAL
 def home(request):
     familia_producto = FamiliaProducto.objects.all()
@@ -320,6 +286,26 @@ def product_management(request):
 
     return render(request, 'app/employee/product_management.html', data)
 
+def product_modify(request, id):
+    product = get_object_or_404(Producto, id_producto=id)
+
+    data = {
+        'form':ProductModifyForm(instance=product)
+    }
+
+    if request.method == 'POST':
+        form = ProductModifyForm(data=request.POST, instance=product)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, "Producto modificado correctamente")
+            return redirect(to="product_management")
+
+        data["form"] = form
+
+    return render(request, 'app/employee/product_modify.html', data)
+
 def product_request(request):
     providers = Proveedor.objects.all()
 
@@ -440,24 +426,4 @@ def checkout_provider(request):
         return redirect(to="home")
     return render(request, 'app/employee/checkout.html', data)
 
-
-def product_modify(request, id):
-    product = get_object_or_404(Producto, id_producto=id)
-
-    data = {
-        'form':ProductModifyForm(instance=product)
-    }
-
-    if request.method == 'POST':
-        form = ProductModifyForm(data=request.POST, instance=product)
-
-        if form.is_valid():
-            form.save()
-
-            messages.success(request, "Producto modificado correctamente")
-            return redirect(to="product_management")
-
-        data["form"] = form
-
-    return render(request, 'app/employee/product_modify.html', data)
 

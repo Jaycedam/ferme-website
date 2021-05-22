@@ -29,7 +29,7 @@ class Domicilio(models.Model):
     nro_departamento = models.FloatField(blank=True, null=True)
     id_comuna = models.ForeignKey(Comuna, models.DO_NOTHING, db_column='id_comuna')
     id_tipo_domicilio = models.ForeignKey('TipoDomicilio', models.DO_NOTHING, db_column='id_tipo_domicilio')
-    rut_persona = models.ForeignKey('Persona', models.DO_NOTHING, db_column='rut_persona')
+    rut_persona = models.OneToOneField('Persona', models.DO_NOTHING, db_column='rut_persona')
 
     class Meta:
         managed = False
@@ -96,11 +96,12 @@ class Orden(models.Model):
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor', blank=True, null=True)
 
     def __str__(self):
-        return self.nro_orden
+        return str(self.nro_orden)
 
     class Meta:
         managed = False
         db_table = 'orden'
+        verbose_name_plural = "Ordenes"
 
 
 class OrdenDetalle(models.Model):
@@ -154,7 +155,7 @@ class Proveedor(models.Model):
     id_proveedor = models.AutoField(primary_key=True)
     nombre_empresa = models.CharField(max_length=200)
     id_rubro = models.ForeignKey('Rubro', models.DO_NOTHING, db_column='id_rubro')
-    rut_persona = models.ForeignKey(Persona, models.DO_NOTHING, db_column='rut_persona')
+    rut_persona = models.OneToOneField(Persona, models.DO_NOTHING, db_column='rut_persona')
 
     def __str__(self):
         return self.nombre_empresa
@@ -184,10 +185,10 @@ class Recibo(models.Model):
     iva = models.FloatField()
     total = models.FloatField()
     id_tipo = models.ForeignKey('TipoDocumento', models.DO_NOTHING, db_column='id_tipo')
-    nro_orden = models.ForeignKey(Orden, models.DO_NOTHING, db_column='nro_orden')
+    nro_orden = models.OneToOneField(Orden, models.DO_NOTHING, db_column='nro_orden')
 
     def __str__(self):
-        return self.nro_recibo
+        return str(self.nro_recibo)
 
     class Meta:
         managed = False
