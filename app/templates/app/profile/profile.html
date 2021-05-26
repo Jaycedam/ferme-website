@@ -80,7 +80,6 @@
         <thead>
             <tr>
                 <th scope="col">Orden de compra</th>
-                <th scope="col">Tipo</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Total</th>
                 <th scope="col">Opciones</th>
@@ -90,7 +89,6 @@
             {% for i in provider_order %}
             <tr>
                 <td>{{ i.nro_orden }}</td>
-                <td>{{ i.id_tipo }}</td>
                 <td>{{ i.fecha }}</td>
                 <td>{{ i.total }}</td>
                 <td>
@@ -112,7 +110,6 @@
         <thead>
             <tr>
                 <th scope="col">Orden de compra</th>
-                <th scope="col">Tipo</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Total</th>
                 <th scope="col">Opciones</th>
@@ -122,7 +119,6 @@
             {% for i in orders %}
             <tr>
                 <td>{{ i.nro_orden }}</td>
-                <td>{{ i.id_tipo }}</td>
                 <td>{{ i.fecha }}</td>
                 <td>{{ i.total }}</td>
                 <td>

@@ -1,0 +1,41 @@
+{% extends 'employees/base.html' %}
+{% block title %}Cart{% endblock %}
+{% load static %}
+
+{% block content %}
+<h1>Bienvenido, {{user.username}}</h1>
+<br>
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum animi sunt architecto nesciunt, sapiente molestias error cumque quia minus commodi est harum illum magnam molestiae corporis sint iste laudantium expedita.
+<br><br>
+{% if orders %}
+<hr>
+<h1 id="compras">Seguimiento de órdenes realizadas</h1>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Orden de compra</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Total</th>
+                <th scope="col">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in orders %}
+            <tr>
+                <td>{{ i.nro_orden }}</td>
+                <td>{{ i.fecha }}</td>
+                <td>${{ i.total }}</td>
+                <td>-</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<hr>
+
+<h1>Estadísticas</h1>
+{% endblock content %}
