@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
 from .models import *
 import nested_admin
 
@@ -21,7 +22,7 @@ class PersonaInline(nested_admin.NestedTabularInline):
     model = Persona
     inlines = [ProveedorInline,DomicilioInline,]
 
-class UserAdmin(nested_admin.NestedModelAdmin):
+class UserAdmin2(nested_admin.NestedModelAdmin):
     list_display = ['username', 'first_name', 'last_name', 'email',]
     list_filter = ['groups',]
     search_fields = ['first_name', 'last_name', 'username', 'email', ]
