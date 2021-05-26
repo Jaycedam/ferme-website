@@ -14,8 +14,12 @@ El proyecto utiliza el patrón de Django MVT
 
 ## Setup ambiente de desarrollo:
 * Actualizar tus credenciales de Oracle en **ferme/settings.py**
-* Ejecutar .ddl en la base de datos
+* Ejecutar scripts de oracle 1, 2 y 3
 * Migrar tablas de Django **“python ./manage.py migrate”** _(path proyecto)_
 * Crear superusuario **“python ./manage.py createsuperuser”** _(path proyecto)_
-* Ejecturar scripts 2 y 3 en la base de datos _(4 es opcional y sólo para fines de testing)_
 * Iniciar servidor **“python ./manage.py runserver”** _(path proyecto)_
+
+## Datos de muestra:
+```
+Se pueden insertar datos de muestra para testing utilizando el script sql 4
+```
