@@ -70,11 +70,39 @@ def order_details(request, id):
     doc = Recibo.objects.get(nro_orden=id)
     order = Orden.objects.get(nro_orden=id)
     order_items = OrdenDetalle.objects.filter(nro_orden=id)
+    status = Estado.objects.all()
+
     data = {
         'doc':doc,
         'order':order,
-        'order_items':order_items
+        'order_items':order_items,
+        'status':status,
     }
+
+    # obtenemos datos del proveedor si existe
+    try:
+        profile = Persona.objects.get(usuario=request.user)
+        provider = Proveedor.objects.get(rut_persona=profile)
+        # si el proveedor actual es el mismo que la orden, se manda el proveedor por data
+        if order.id_proveedor == provider:
+            data['provider'] = provider
+    except Exception as e:
+        print(e)
+        pass
+
+    if request.method == 'POST':
+        try:
+            # actualizamos el estado al seleccionado en el form y guardamos
+            order.id_estado =  Estado.objects.get(id_estado=request.POST.get('status')) 
+            order.save()
+
+            messages.success(request, "Estado modificado correctamente")
+
+        except Exception as e:
+            messages.error(request, "No se ha podido actualizar el estado")
+            print(e)
+        
+
     return render(request, 'shop/profile/order_details.html', data)
 
 def adress_modify(request):
@@ -232,7 +260,9 @@ def checkout(request):
                 total=subtotal, 
                 # guardamos orden como tipo Cliente
                 id_tipo=TipoOrden.objects.get(id_tipo=1), 
-                rut_persona=Persona.objects.get(rut_persona=profile)
+                rut_persona=Persona.objects.get(rut_persona=profile),
+                # asignamos orden como pendiente
+                id_estado=Estado.objects.get(id_estado=1)
                 )
 
             # loop de items en cookieCart
@@ -242,9 +272,10 @@ def checkout(request):
 
                 OrdenDetalle.objects.create(
                     id_producto = producto,
-                    nro_orden = new_order,
+                    precio=producto.precio,
                     cantidad = i['quantity'],
-                    total = i['get_total']
+                    total = i['get_total'],
+                    nro_orden = new_order
                 )
 
             # Datos para boleta/factura
@@ -263,9 +294,14 @@ def checkout(request):
                 nro_orden = new_order,
             )
 
+            # si todo funciona cambiamos el estado de la orden a confirmada
+            new_order.id_estado=Estado.objects.get(id_estado=2)
+            new_order.save()
+
             messages.success(request, "Tu compra ha sido confirmada")
 
         except Exception as e:
+            # agregar codigo para cambiar estado de orden a rechazada
             print(e)
             messages.error(request, "No se ha podido realizar la compra, intenta nuevamente")
 

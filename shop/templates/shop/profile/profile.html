@@ -80,6 +80,7 @@
         <thead>
             <tr>
                 <th scope="col">Orden de compra</th>
+                <th scope="col">Estado</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Total</th>
                 <th scope="col">Opciones</th>
@@ -89,6 +90,7 @@
             {% for i in provider_order %}
             <tr>
                 <td>{{ i.nro_orden }}</td>
+                <td>{{ i.id_estado }}</td>
                 <td>{{ i.fecha }}</td>
                 <td>{{ i.total }}</td>
                 <td>
@@ -110,6 +112,7 @@
         <thead>
             <tr>
                 <th scope="col">Orden de compra</th>
+                <th scope="col">Estado</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Total</th>
                 <th scope="col">Opciones</th>
@@ -119,11 +122,11 @@
             {% for i in orders %}
             <tr>
                 <td>{{ i.nro_orden }}</td>
+                <td>{{ i.id_estado }}</td>
                 <td>{{ i.fecha }}</td>
                 <td>{{ i.total }}</td>
                 <td>
                     <a class="btn btn-primary float-left" href="{% url 'order_details' i.nro_orden %}">Ver detalle</a>
-                    <a class="btn btn-secondary" href="#">Descargar recibo</a>
                 </td>
             </tr>
             {% endfor %}

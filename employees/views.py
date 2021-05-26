@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .filters import ProductAdminFilter, UsuarioAdminFilter, ProductRequestFilter
 from .models import *
 from .utils import cookieOrder
 from .forms import *
 from django.contrib import messages
+import datetime
 
 # Create your views here.
 def home(request):
-    profile = Persona.objects.get(usuario=request.user)
+
     orders = Orden.objects.filter(id_tipo=2)
     data = {
         'orders':orders
@@ -138,7 +139,9 @@ def checkout_provider(request):
                 # guardamos orden como tipo Proveedor
                 id_tipo=TipoOrden.objects.get(id_tipo=2), 
                 rut_persona=Persona.objects.get(rut_persona=profile),
-                id_proveedor=Proveedor.objects.get(id_proveedor=provider.id_proveedor)
+                id_proveedor=Proveedor.objects.get(id_proveedor=provider.id_proveedor),
+                # asignamos orden como pendiente
+                id_estado=Estado.objects.get(id_estado=1)
                 )
 
             # loop de items en cookieCart
@@ -148,9 +151,10 @@ def checkout_provider(request):
 
                 OrdenDetalle.objects.create(
                     id_producto = producto,
-                    nro_orden = new_order,
+                    precio=producto.precio,
                     cantidad = i['quantity'],
-                    total = i['get_total']
+                    total = i['get_total'],
+                    nro_orden = new_order
                 )
 
             # Datos para boleta/factura
@@ -175,7 +179,7 @@ def checkout_provider(request):
             print(e)
             messages.error(request, "No se ha podido realizar la compra, intenta nuevamente")
 
-        return redirect(to="home")
+        return redirect(to="employees_home")
     return render(request, 'employees/checkout.html', data)
 
 

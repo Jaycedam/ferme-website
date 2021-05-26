@@ -4,20 +4,29 @@
 
 {% block contenido %}
 
-<a class="btn btn-primary" href="{% url 'profile' %}#compras">
-    <i class="bi bi-caret-left-fill"></i>            
-    Volver a compras
-</a>
-
-<br><br>
-
 <h1>Orden de compra N°{{order.nro_orden}}</h1>
 <br>
 <h5>Fecha de emisión: {{order.fecha}}</h5>
 <h5>Total: ${{order.total}}</h5>
 
+{% if provider %}
+
+<form method="POST">
+    <div class="d-flex">
+        {% csrf_token %}
+        <select class="form-select" name="status" id="">
+            {% for i in status %}
+            <option value="{{i.id_estado}}">{{i.estado}}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-success" type="submit">Actualizar estado</button>
+    </div>
+    <br>
+</form>
+{% endif %}
 <br>
 <a class="btn btn-secondary" href="#">Descargar recibo</a>
+
 <br><hr><br>
 
 <h1>Detalle</h1>
@@ -26,6 +35,7 @@
         <thead>
             <tr>
                 <th scope="col">Producto</th>
+                <th scope="col">Precio</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Total</th>
             </tr>
@@ -34,6 +44,7 @@
             {% for i in order_items %}
             <tr>
                 <td>{{ i.id_producto }}</td>
+                <td>${{ i.precio }}</td>
                 <td>{{ i.cantidad }}</td>
                 <td>${{ i.total }}</td>
             </tr>

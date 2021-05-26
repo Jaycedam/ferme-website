@@ -1,3 +1,10 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -30,6 +37,16 @@ class Domicilio(models.Model):
         managed = False
         db_table = 'domicilio'
 
+class Estado(models.Model):
+    id_estado = models.FloatField(primary_key=True)
+    estado = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.estado
+
+    class Meta:
+        managed = False
+        db_table = 'estado'
 
 class FamiliaProducto(models.Model):
     id_familia_producto = models.AutoField(primary_key=True)
@@ -61,6 +78,7 @@ class NotaCredito(models.Model):
     fecha = models.DateField()
     total = models.FloatField()
     nro_recibo = models.ForeignKey('Recibo', models.DO_NOTHING, db_column='nro_recibo')
+    id_estado = models.ForeignKey(Estado, models.DO_NOTHING, db_column='id_estado')
 
     def __str__(self):
         return self.nro_nota_credito
@@ -73,6 +91,7 @@ class NotaCredito(models.Model):
 class NcDetalle(models.Model):
     id_detalle = models.AutoField(primary_key=True)
     id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
+    precio = models.FloatField()
     cantidad = models.FloatField()
     total = models.FloatField()
     nro_nota_credito = models.ForeignKey('NotaCredito', models.DO_NOTHING, db_column='nro_nota_credito')
@@ -89,6 +108,7 @@ class Orden(models.Model):
     rut_persona = models.ForeignKey('Persona', models.DO_NOTHING, db_column='rut_persona')
     id_tipo = models.ForeignKey('TipoOrden', models.DO_NOTHING, db_column='id_tipo')
     id_proveedor = models.ForeignKey('Proveedor', models.DO_NOTHING, db_column='id_proveedor', blank=True, null=True)
+    id_estado = models.ForeignKey(Estado, models.DO_NOTHING, db_column='id_estado')
 
     def __str__(self):
         return str(self.nro_orden)
@@ -101,10 +121,11 @@ class Orden(models.Model):
 
 class OrdenDetalle(models.Model):
     id_detalle = models.AutoField(primary_key=True)
+    id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
+    precio = models.FloatField()
     cantidad = models.FloatField()
     total = models.FloatField()
     nro_orden = models.ForeignKey(Orden, models.DO_NOTHING, db_column='nro_orden')
-    id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
 
     class Meta:
         managed = False
