@@ -123,7 +123,7 @@ class ProductForm(forms.ModelForm):
         return stock_critico
 
     producto = forms.CharField(label="Nombre", min_length=3, max_length=50)
-    fecha_vencimiento = forms.DateField(label="Fecha vencimiento (dd/mm/yy)")
+    fecha_vencimiento = forms.DateField(label="Fecha vencimiento (dd/mm/yy)", required=False)
     imagen_url = forms.FileField(label="Imagen", required=False)
     class Meta: 
         model = Producto

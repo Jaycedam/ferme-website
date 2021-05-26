@@ -66,6 +66,17 @@ def profile(request):
 
     return render(request, 'app/profile/profile.html', data)
 
+def order_details(request, id):
+    doc = Recibo.objects.get(nro_orden=id)
+    order = Orden.objects.get(nro_orden=id)
+    order_items = OrdenDetalle.objects.filter(nro_orden=id)
+    data = {
+        'doc':doc,
+        'order':order,
+        'order_items':order_items
+    }
+    return render(request, 'app/profile/order_details.html', data)
+
 def adress_modify(request):
     profile = Persona.objects.get(usuario=request.user)
 

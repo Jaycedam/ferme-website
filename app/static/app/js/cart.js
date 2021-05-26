@@ -12,11 +12,19 @@ function addCartItem(id_producto, action){
 	if (action == 'add'){
 		if (cart[id_producto] == undefined){
 		cart[id_producto] = {'quantity':1}
-		Swal.fire(
-			'Felicitaciones',
-			'Producto agregado correctamente',
-			'success'
-		)
+
+		Swal.fire({
+			icon: 'success',
+			title: 'Producto agregado',
+			text: '¿Quieres ir al carro de compras?',
+			showCancelButton: true,
+			confirmButtonText: 'Ir al carro <i class="bi bi-cart"></i>',
+			cancelButtonText: 'Seguir comprando',
+		  }).then((result) => {
+			if (result.isConfirmed) {
+			  location.href="/cart"
+			} 
+		  })
 
 		}else{
 			cart[id_producto]['quantity'] += 1
