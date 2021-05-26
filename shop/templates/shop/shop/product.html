@@ -1,4 +1,4 @@
-{% extends 'app/base.html' %}
+{% extends 'shop/base.html' %}
 {% block title %}{{ producto.producto }}{% endblock %}
 {% load static %}
 
@@ -9,7 +9,7 @@
         {% if producto.imagen_url %}
         <img src="{{producto.imagen_url.url}}" alt="">
         {% else %}
-        <img src="{% static 'app/img/noimage.png' %}">
+        <img src="{% static 'shop/img/noimage.png' %}">
         {% endif %}
     </div>
     <div class="col-6">

@@ -8,7 +8,7 @@ from .models import *
 from .filters import ProductoFilter
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from .utils import cookieCart, cookieOrder
+from .utils import cookieCart
 import datetime
 
 # Create your views here.
@@ -25,7 +25,7 @@ def home(request):
         "familia_producto":familia_producto
     }
 
-    return render(request, 'app/shop/home.html', data)
+    return render(request, 'shop/shop/home.html', data)
 
 def profile(request):
     user = request.user
@@ -64,7 +64,7 @@ def profile(request):
 
         data["form"] = form
 
-    return render(request, 'app/profile/profile.html', data)
+    return render(request, 'shop/profile/profile.html', data)
 
 def order_details(request, id):
     doc = Recibo.objects.get(nro_orden=id)
@@ -75,7 +75,7 @@ def order_details(request, id):
         'order':order,
         'order_items':order_items
     }
-    return render(request, 'app/profile/order_details.html', data)
+    return render(request, 'shop/profile/order_details.html', data)
 
 def adress_modify(request):
     profile = Persona.objects.get(usuario=request.user)
@@ -99,7 +99,7 @@ def adress_modify(request):
 
         data["form"] = form
 
-    return render(request, 'app/profile/adress_modify.html', data)
+    return render(request, 'shop/profile/adress_modify.html', data)
 
 def profile_modify(request):
     user = request.user
@@ -132,7 +132,7 @@ def profile_modify(request):
 
         data["form"] = form
         data["profile_form"] = profile_form
-    return render(request, 'app/profile/profile_modify.html', data)
+    return render(request, 'shop/profile/profile_modify.html', data)
 
 def register(request):
     data = {
@@ -177,7 +177,7 @@ def products(request, id):
         "productsFiltered":productsFiltered,
     }
 
-    return render(request, 'app/shop/products.html', data)
+    return render(request, 'shop/shop/products.html', data)
 
 def product(request, id):
     producto = Producto.objects.get(id_producto=id)
@@ -186,7 +186,7 @@ def product(request, id):
         "producto":producto
     }
 
-    return render(request, 'app/shop/product.html', data)
+    return render(request, 'shop/shop/product.html', data)
 
 def cart(request):
     cart = cookieCart(request)
@@ -199,7 +199,7 @@ def cart(request):
         'order':order
         }
 
-    return render(request, 'app/shop/cart.html', data)
+    return render(request, 'shop/shop/cart.html', data)
 
 # Aprobar datos de compra y delivery
 def checkout(request):
@@ -270,5 +270,5 @@ def checkout(request):
             messages.error(request, "No se ha podido realizar la compra, intenta nuevamente")
 
         return redirect(to="home")
-    return render(request, 'app/shop/checkout.html', data)
+    return render(request, 'shop/shop/checkout.html', data)
 

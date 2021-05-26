@@ -1,4 +1,4 @@
-{% extends 'app/base.html' %}
+{% extends 'shop/base.html' %}
 {% block title %}{{ family.familia_producto }}{% endblock %}
 {% load static %}
 
@@ -28,7 +28,7 @@
         {% if i.imagen_url %}
         <img class="thumbnail" src="{{i.imagen_url.url}}">
         {% else %}
-        <img class="thumbnail" src="{% static 'app/img/noimage.png' %}">
+        <img class="thumbnail" src="{% static 'shop/img/noimage.png' %}">
         {% endif %}
         <div class="product-text">
             <h6>{{i.id_marca}}</h6>

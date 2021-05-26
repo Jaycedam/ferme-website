@@ -1,4 +1,4 @@
 from django.db import models
-from app.models import *
+from shop.models import *
 
 # Create your models here.
