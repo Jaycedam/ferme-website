@@ -18,18 +18,11 @@ class DomicilioInline(nested_admin.NestedTabularInline):
 class ProveedorInline(nested_admin.NestedTabularInline):
     model = Proveedor
 
-class PersonaInline(nested_admin.NestedTabularInline):
+class PersonaAdmin(nested_admin.NestedModelAdmin):
     model = Persona
-    inlines = [ProveedorInline,DomicilioInline,]
+    inlines = [DomicilioInline,ProveedorInline,]
 
-class UserAdmin2(nested_admin.NestedModelAdmin):
-    list_display = ['username', 'first_name', 'last_name', 'email',]
-    list_filter = ['groups',]
-    search_fields = ['first_name', 'last_name', 'username', 'email', ]
-    inlines = [PersonaInline,]
-
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
+admin.site.register(Persona, PersonaAdmin)
 
 # ADMIN DE ORDEN-DETALLE-RECIBO INLINE
 class OrdenDetalleInline(nested_admin.NestedTabularInline):
