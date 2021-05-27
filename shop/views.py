@@ -38,18 +38,13 @@ def profile(request):
         profile = Persona.objects.get(usuario=user)
         data["profile"] = profile
 
-        data["orders"] = Orden.objects.filter(rut_persona=profile, id_tipo=1)
-
         if Domicilio.objects.filter(rut_persona=profile.rut_persona).exists():
             data["domicilio"] = Domicilio.objects.get(rut_persona=profile.rut_persona) 
         else:
             data["form"] = AdressForm(instance=profile)
         
         if Proveedor.objects.filter(rut_persona=profile).exists():
-            provider = Proveedor.objects.get(rut_persona=profile)
-            data["provider"] = provider
-            data["provider_order"] = Orden.objects.filter(id_proveedor=provider)
-
+            data['provider'] = Proveedor.objects.get(rut_persona=profile)
 
     if request.method == 'POST':
         form = AdressForm(data=request.POST)
@@ -65,45 +60,6 @@ def profile(request):
         data["form"] = form
 
     return render(request, 'shop/profile/profile.html', data)
-
-def order_details(request, id):
-    doc = Recibo.objects.get(nro_orden=id)
-    order = Orden.objects.get(nro_orden=id)
-    order_items = OrdenDetalle.objects.filter(nro_orden=id)
-    status = Estado.objects.all()
-
-    data = {
-        'doc':doc,
-        'order':order,
-        'order_items':order_items,
-        'status':status,
-    }
-
-    # obtenemos datos del proveedor si existe
-    try:
-        profile = Persona.objects.get(usuario=request.user)
-        provider = Proveedor.objects.get(rut_persona=profile)
-        # si el proveedor actual es el mismo que la orden, se manda el proveedor por data
-        if order.id_proveedor == provider:
-            data['provider'] = provider
-    except Exception as e:
-        print(e)
-        pass
-
-    if request.method == 'POST':
-        try:
-            # actualizamos el estado al seleccionado en el form y guardamos
-            order.id_estado =  Estado.objects.get(id_estado=request.POST.get('status')) 
-            order.save()
-
-            messages.success(request, "Estado modificado correctamente")
-
-        except Exception as e:
-            messages.error(request, "No se ha podido actualizar el estado")
-            print(e)
-        
-
-    return render(request, 'shop/profile/order_details.html', data)
 
 def adress_modify(request):
     profile = Persona.objects.get(usuario=request.user)

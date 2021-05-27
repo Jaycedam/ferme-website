@@ -30,7 +30,7 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum animi sunt archit
                 <td>${{ i.total }}</td>
                 <td>{{ i.id_estado }}</td>
                 <td>
-                    <a class="btn btn-primary float-left" href="{% url 'order_details' i.nro_orden %}">Ver detalle</a>
+                    <a class="btn btn-primary float-left" href="{% url 'order' i.nro_orden %}">Ver detalle</a>
                 </td>
             </tr>
             {% endfor %}
@@ -41,5 +41,4 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum animi sunt archit
 
 <hr>
 
-<h1>Estadísticas</h1>
 {% endblock content %}

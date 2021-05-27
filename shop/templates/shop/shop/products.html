@@ -5,10 +5,11 @@
 {% block contenido %}
 {% load crispy_forms_tags %}
 
-<a class="btn btn-primary" href="{% url 'home' %}#productos">
+<a class="btn btn-outline-secondary" href="{% url 'home' %}#productos">
     <i class="bi bi-caret-left-fill"></i>            
     Volver
 </a>
+<br><br>
 
 <h1 class="text-center">Productos en {{ family.familia_producto }}</h1>
 <br>

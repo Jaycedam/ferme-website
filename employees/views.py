@@ -10,10 +10,12 @@ import datetime
 def home(request):
 
     orders = Orden.objects.filter(id_tipo=2)
+
     data = {
         'orders':orders
     }
     return render(request, 'employees/home.html', data)
+
 
 def product_management(request):
     productos = Producto.objects.all()

@@ -6,20 +6,22 @@
 
 <h1>Orden de compra N°{{order.nro_orden}}</h1>
 <br>
-<h5>Fecha de emisión: {{order.fecha}}</h5>
 <h5>Total: ${{order.total}}</h5>
+<h5>Fecha de emisión: {{order.fecha}}</h5>
+<h5>Estado: {{order.id_estado}}</h5>
 
 {% if provider %}
-
+<br>
 <form method="POST">
-    <div class="d-flex">
+    <div class="d-flex align-items-center">
         {% csrf_token %}
-        <select class="form-select" name="status" id="">
+        <select style="width: auto; margin-right: .5rem" class="form-select" name="status" id="">
             {% for i in status %}
             <option value="{{i.id_estado}}">{{i.estado}}</option>
             {% endfor %}
         </select>
-        <button class="btn btn-success" type="submit">Actualizar estado</button>
+        <br>
+        <button class="btn btn-primary" type="submit">Actualizar estado</button>
     </div>
     <br>
 </form>
