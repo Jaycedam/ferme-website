@@ -14,11 +14,23 @@ function addOrderItem(id_producto, action){
 	if (action == 'add'){
 		if (order[id_producto] == undefined){
 			order[id_producto] = {'quantity':1}
-		Swal.fire(
-			'Felicitaciones',
-			'Producto agregado correctamente',
-			'success'
-		)
+
+		Swal.fire({
+			icon: 'success',
+			title: 'Producto agregado',
+			text: '¿Quieres generar la orden de compra?',
+			showCancelButton: true,
+			confirmButtonText: 'Generar orden <i class="bi bi-file-earmark-text"></i>',
+			confirmButtonColor: '#0b5ed7',
+			cancelButtonText: 'Agregar más productos',
+			reverseButtons: true,
+			}).then((result) => {
+			if (result.isConfirmed) {
+				location.href="/employees/order"
+			} 
+
+		})
+
 		}else{
 			order[id_producto]['quantity'] += 1
 			location.reload()

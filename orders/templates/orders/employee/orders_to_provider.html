@@ -1,0 +1,46 @@
+{% extends 'employees/base.html' %}
+{% block title %}Orders{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1 class="text-center">Estado solicitud de productos</h1>
+<br>
+<div class="row">
+    <form class="form-inline" method="GET">
+        {{ ordersFiltered.form|crispy }}
+        <br>
+        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+        <a class="btn btn-outline-secondary" href="{% url 'orders_to_provider' %}">Limpiar filtros</a>
+    </form>
+</div>
+
+<br>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">N° orden</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Total</th>
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in orders %}
+            <tr>
+                <td>{{ i.nro_orden }}</td>
+                <td>{{ i.id_proveedor }}</td>
+                <td>{{ i.id_estado }}</td>
+                <td>{{ i.fecha }}</td>
+                <td>${{ i.total }}</td>
+                <td>
+                    <a class="btn btn-primary float-left" href="{% url 'order_provider' i.nro_orden %}">Ver detalle</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

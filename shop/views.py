@@ -25,6 +25,12 @@ def home(request):
         "familia_producto":familia_producto
     }
 
+    # mandamos data si el usuario es proveedor
+    try:
+        data['provider'] = Proveedor.objects.get(rut_persona=Persona.objects.get(usuario=request.user))
+    except:
+        pass
+
     return render(request, 'shop/shop/home.html', data)
 
 def profile(request):
@@ -78,7 +84,7 @@ def adress_modify(request):
 
             new_adress.rut_persona = profile
             new_adress.save()
-            messages.success(request, "Domicilio modificado correctamente")
+            messages.success(request, "Tu perfil ha sido actualizado")
             return redirect(to="profile")
 
         data["form"] = form
@@ -111,12 +117,37 @@ def profile_modify(request):
 
             prof.usuario = request.user
             prof.save()
-            messages.success(request, "Perfil modificado correctamente")
+            messages.success(request, "Tu perfil ha sido actualizado")
             return redirect(to="profile")
 
         data["form"] = form
         data["profile_form"] = profile_form
     return render(request, 'shop/profile/profile_modify.html', data)
+
+def provider_modify(request):
+    profile = Persona.objects.get(usuario=request.user)
+
+    provider = Proveedor.objects.get(rut_persona=profile)
+
+    data = {
+        'form':ModifyProviderForm(instance=provider)
+    }
+
+    if request.method == 'POST':
+        form = ModifyProviderForm(data=request.POST, instance=provider)
+
+        if form.is_valid():
+            new_provider = form.save(commit=False)
+
+            new_provider.rut_persona = profile
+            new_provider.save()
+            messages.success(request, "Tu perfil ha sido actualizado")
+            return redirect(to="profile")
+
+        data["form"] = form
+
+    return render(request, 'shop/profile/provider_modify.html', data)
+
 
 def register(request):
     data = {

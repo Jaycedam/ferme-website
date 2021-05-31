@@ -20,6 +20,8 @@ function addCartItem(id_producto, action){
 			showCancelButton: true,
 			confirmButtonText: 'Ir al carro <i class="bi bi-cart"></i>',
 			cancelButtonText: 'Seguir comprando',
+			confirmButtonColor: '#0b5ed7',
+			reverseButtons: true,
 		  }).then((result) => {
 			if (result.isConfirmed) {
 			  location.href="/cart"

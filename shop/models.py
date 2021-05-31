@@ -117,7 +117,7 @@ class Orden(models.Model):
         managed = False
         db_table = 'orden'
         verbose_name_plural = "Ordenes"
-        ordering = ['-fecha']
+        ordering = ['-fecha', '-nro_orden']
 
 
 class OrdenDetalle(models.Model):

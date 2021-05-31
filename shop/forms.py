@@ -3,7 +3,7 @@ from datetime import datetime
 from django.forms import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Persona, Domicilio, Producto
+from .models import Persona, Domicilio, Producto, Proveedor
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -108,3 +108,9 @@ class ModifyProfileForm(forms.ModelForm):
     class Meta:
         model = Persona
         fields = ["rut_persona", "celular",]
+
+class ModifyProviderForm(forms.ModelForm):
+
+    class Meta:
+        model = Proveedor
+        fields = ["nombre_empresa","id_rubro"]

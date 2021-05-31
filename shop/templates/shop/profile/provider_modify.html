@@ -1,5 +1,5 @@
 {% extends 'shop/base.html' %}
-{% block title %}Domicilio{% endblock %}
+{% block title %}Perfil{% endblock %}
 
 {% load static %}
 
@@ -9,11 +9,11 @@
 <div class="row justify-content-center">
     <div class="col-6">
         <div class="card">
-            <h2>Editar domicilio</h2>
+            <h2>Editar datos de proveedor</h2>
             <hr>
             <form action="" method="post">
                 {% csrf_token %}
-                {{ form | crispy }}
+                {{ form|crispy }}
                 <br>
                 <a class="btn btn-secondary float-right" href="{% url 'profile' %}">Cancelar</a>
                 <input type="submit" value="Guardar" class="btn btn-primary float-right">

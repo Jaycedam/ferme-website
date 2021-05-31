@@ -1,4 +1,4 @@
-alter table producto modify precio_proveedor default 0;
+alter table producto modify precio_proveedor default 100;
 
 -- MARCA
 INSERT INTO MARCA (MARCA) VALUES('SCARAB');

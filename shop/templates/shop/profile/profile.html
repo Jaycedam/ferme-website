@@ -3,21 +3,22 @@
 
 {% load static %}
 
-{% block contenido %}
+{% block content %}
 {% load crispy_forms_tags %}
 
 <div class="row">
     <div class="col-sm">
-        <h1>Perfil {{user.username}}</h1>
+        <h1 class="text-center">Perfil {{user.username}}</h1>
     </div>
 </div>
 
 <br>
 
 <div class="card p-5">
-    <div class="row">
+    <div class="row" style="gap: 1rem;">
         <div class="col-sm">
-            <h3>Datos personales:</h3>
+            <h3>Datos personales</h3>
+            <hr>
             <h5>Nombre de usuario: {{ user.username }}</h5>
             <h5>Nombre: {{ user.first_name }}</h5>
             <h5>Apellido: {{ user.last_name }}</h5>
@@ -26,24 +27,26 @@
             <h5>Celular: {{ profile.celular }}</h5>
             <br>
             <a class="btn btn-primary float-left" href="{% url 'profile_modify'%}">Modificar</a>
+        </div>
 
-
-            {% if provider %}
+        {% if provider %}
+        <div class="col-sm">
+            <h3>Datos proveedor</h3>
             <hr>
-            <h3>Datos proveedor:</h3>
             <h5>Id: {{ provider.id_proveedor }}</h5>
             <h5>Empresa: {{ provider.nombre_empresa }}</h5>
             <h5>Rubro: {{ provider.id_rubro }}</h5>
             <br>
-            <a class="btn btn-primary float-left" href="#">Modificar</a>
-            {% endif %}
-
+            <a class="btn btn-primary float-left" href="{% url 'provider_modify' %}">Modificar</a>
         </div>
-
+        {% endif %}
+        
         <div class="col-sm">
-            <h3>Domicilio:</h3>
+            <h3>Domicilio</h3>
+            <hr>
             {% if not profile %}
-            <p>*Tu perfil no se encuentra completo, por favor llena los datos de tu perfil o contacta a un administrador.*</p>
+            <p>*Tu perfil no se encuentra completo, por favor llena los datos de tu perfil o contacta a un
+                administrador.*</p>
             {% endif %}
 
             {% if not domicilio and profile %}
@@ -63,9 +66,9 @@
             {% if domicilio.nro_departamento %}
             <h5>Nro departamento: {{ domicilio.nro_departamento }}</h5>
             {% endif %}
+            <br>
             <a class="btn btn-primary float-left" href="{% url 'adress_modify' %}">Modificar</a>
             {% endif %}
-
         </div>
     </div>
 </div>

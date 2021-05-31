@@ -4,6 +4,16 @@
 {% load static %}
 
 {% block landing %}
+
+{% if provider %}
+<div class="d-flex justify-content-end">
+    <a style="margin-top: .5rem;" class="btn btn-outline-primary" href="{% url 'order_requests' %}">
+        Gestionar solicitudes
+        <i class="bi bi-file-earmark-check"></i>
+    </a>
+</div>    
+{% endif %}
+
 <div class="landing">
     <h1 class="display-1 text-center">FERME SERVICES</h1>
     <img src="{% static 'shop/img/landing.svg' %}" alt="">
@@ -13,7 +23,7 @@
 </div>
 {% endblock %}
 
-{% block contenido %}
+{% block content %}
 <h1 id="productos" class="text-center">Productos</h1>
 <div class="row">
     {% for i in familia_producto %}

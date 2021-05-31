@@ -16,7 +16,6 @@ def home(request):
     }
     return render(request, 'employees/home.html', data)
 
-
 def product_management(request):
     productos = Producto.objects.all()
     productosFiltered = ProductAdminFilter(request.GET, queryset=productos)
@@ -116,7 +115,6 @@ def checkout_provider(request):
 
     # Recibimos tipo documento y guardamos en bd la compra
     if request.method == 'POST':
-        id_tipo_doc = request.POST.get('tipoDoc')
         subtotal = order['get_order_total']
 
         # iteramos el listado de productos y agregamos todos los proveedores pertenecientes al producto a un listado
@@ -158,22 +156,6 @@ def checkout_provider(request):
                     total = i['get_total'],
                     nro_orden = new_order
                 )
-
-            # Datos para boleta/factura
-            iva = 0
-            # definir iva si es factura
-            if id_tipo_doc == "2":
-                iva = subtotal*0.19
-            total = subtotal+iva
-
-            recibo = Recibo.objects.create(
-                fecha = datetime.datetime.now(),
-                subtotal = total,
-                iva = iva,
-                total = total,
-                id_tipo = TipoDocumento.objects.get(id_tipo=id_tipo_doc),
-                nro_orden = new_order,
-            )
 
             messages.success(request, "Tu orden ha sido generada")
 

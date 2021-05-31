@@ -7,16 +7,12 @@
 {% block content %}
 
 <div class="row">
-    <div class="col">
-        <a class="btn btn-primary" href="{% url 'product_request' %}">
-            <i class="bi bi-caret-left-fill"></i>            
-            Volver
+    <div class="col d-flex justify-content-end">
+        <a class="btn btn-primary" href="{% url 'order' %}">
+            Generar orden
+            <i class="bi bi-file-earmark-text"></i>
         </a>
     </div>
-    <div class="col d-flex justify-content-end">
-        <a class="btn btn-primary" href="{% url 'order' %}">Generar orden de compra</a>
-    </div>
-
 </div>
 
 
@@ -37,7 +33,7 @@
         {% if i.imagen_url %}
         <img class="thumbnail" src="{{i.imagen_url.url}}">
         {% else %}
-        <img class="thumbnail" src="{% static 'app/img/noimage.png' %}">
+        <img class="thumbnail" src="{% static 'shop/img/noimage.png' %}">
         {% endif %}
         <div class="product-text">
             <h6>{{i.id_marca}}</h6>
@@ -45,7 +41,10 @@
             <h6>Stock: {{i.stock}}</h6>
             <h6 style="display: inline-block">Precio proveedor: ${{i.precio_proveedor}}</h6>            
             <hr>
-            <button data-product={{i.id_producto}} data-action="add" class="btn btn-primary update-order">Agregar</button>
+            <button data-product={{i.id_producto}} data-action="add" class="btn btn-primary update-order">
+                Agregar
+                <i class="bi bi-file-earmark-text"></i>
+            </button>
         </div>
     </div>
     {% endfor %}
