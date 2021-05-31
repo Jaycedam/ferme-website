@@ -32,6 +32,7 @@
                 <th scope="col">Producto</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Total</th>
+                <th scope="col">Stock disponible</th>
                 <th scope="col">Cantidad</th>
             </tr>
         </thead>
@@ -41,6 +42,7 @@
                 <td>{{ i.product.name }}</td>
                 <td>${{ i.product.price }}</td>
                 <td>${{ i.get_total }}</td>
+                <td>{{ i.product.stock }}</td>
                 <td>
                     {{ i.quantity }}
                     <button data-product="{{i.product.id}}" data-action="add" class="btn btn-dark bi bi-caret-up-fill update-cart"></button>
