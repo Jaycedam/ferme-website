@@ -4,10 +4,10 @@ from .models import Producto, Marca
 from django import forms
 
 class ProductoFilter(django_filters.FilterSet): 
-    producto = CharFilter(field_name='producto', lookup_expr='icontains', label='', widget=forms.TextInput(attrs={'placeholder': 'Buscar'}) )
-    precio__gte = NumberFilter(field_name='precio', lookup_expr='gte', label='', widget=forms.TextInput(attrs={'placeholder': 'Precio mayor a', 'type':'number'}))
-    precio__lte = NumberFilter(field_name='precio', lookup_expr='lte', label='', widget=forms.TextInput(attrs={'placeholder': 'Precio menor a', 'type':'number'}))
-    id_marca = ModelChoiceFilter(field_name='id_marca', label='', queryset=Marca.objects.all(), empty_label='Todas las marcas' )
+    producto = CharFilter(field_name='producto', lookup_expr='icontains', label='Buscar')
+    precio__gte = NumberFilter(field_name='precio', lookup_expr='gte', label='Precio mínimo', widget=forms.TextInput(attrs={'placeholder': '$', 'type':'number'}))
+    precio__lte = NumberFilter(field_name='precio', lookup_expr='lte', label='Precio máximo', widget=forms.TextInput(attrs={'placeholder': '$', 'type':'number'}))
+    id_marca = ModelChoiceFilter(field_name='id_marca', label='Marca', queryset=Marca.objects.all(), empty_label='' )
 
     class Meta:
         model = Producto

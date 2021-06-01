@@ -16,29 +16,35 @@ def home(request):
     }
     return render(request, 'employees/home.html', data)
 
-def product_management(request):
-    productos = Producto.objects.all()
-    productosFiltered = ProductAdminFilter(request.GET, queryset=productos)
-    productos = productosFiltered.qs
-
+def product_create(request):
     form = ProductForm()
-
     data = {
-        "form":form,
-        "productos":productos,
-        "productosFiltered":productosFiltered
-    }
-
+        "form":form
+        }
+    
     if request.method == 'POST':
         form = ProductForm(data=request.POST, files=request.FILES)
 
         if form.is_valid():
             form.save()
             messages.success(request, "Producto registrado correctamente")
+            return redirect(to="product_management")
 
         data["form"] = form
 
-    return render(request, 'employees/product_management.html', data)
+    return render(request, 'employees/product/create.html', data)
+
+def product_management(request):
+    productos = Producto.objects.all()
+    productosFiltered = ProductAdminFilter(request.GET, queryset=productos)
+    productos = productosFiltered.qs
+
+    data = {
+        "productos":productos,
+        "productosFiltered":productosFiltered
+    }
+
+    return render(request, 'employees/product/list.html', data)
 
 def product_modify(request, id):
     product = get_object_or_404(Producto, id_producto=id)
@@ -58,7 +64,7 @@ def product_modify(request, id):
 
         data["form"] = form
 
-    return render(request, 'employees/product_modify.html', data)
+    return render(request, 'employees/product/modify.html', data)
 
 def product_request(request):
     providers = Proveedor.objects.all()
@@ -67,7 +73,7 @@ def product_request(request):
         'providers':providers
     }
 
-    return render(request, 'employees/product_request.html', data)
+    return render(request, 'employees/order/product_request.html', data)
 
 def products_by_provider(request, id):
     provider = Proveedor.objects.get(id_proveedor=id)
@@ -81,7 +87,7 @@ def products_by_provider(request, id):
         'provider':provider
     }
 
-    return render(request, 'employees/products_by_provider.html', data)
+    return render(request, 'employees/order/products_by_provider.html', data)
 
 def order(request):
     orderProvider = cookieOrder(request)
@@ -94,7 +100,7 @@ def order(request):
         'order':order
         }
 
-    return render(request, 'employees/order.html', data)
+    return render(request, 'employees/order/order.html', data)
 
 # Aprobar datos de compra y delivery
 def checkout_provider(request):
@@ -164,6 +170,6 @@ def checkout_provider(request):
             messages.error(request, "No se ha podido realizar la compra, intenta nuevamente")
 
         return redirect(to="employees_home")
-    return render(request, 'employees/checkout.html', data)
+    return render(request, 'employees/order/checkout.html', data)
 
 

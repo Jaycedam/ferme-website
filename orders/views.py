@@ -138,18 +138,22 @@ def order_request(request, id):
             status = request.POST.get('status')
             # si es aprobado, se crea factura
             if status == "2":
+                iva = round(order.total*0.19)
+                subtotal = order.total - iva
+                total = subtotal + iva
+
                 Recibo.objects.create(
                     fecha = datetime.datetime.now(),
-                    subtotal = order.total,
-                    iva = order.total * 0.19,
-                    total = order.total + (order.total * 0.19),
+                    subtotal = subtotal,
+                    iva = iva,
+                    total = total,
                     # tipo factura
                     id_tipo = TipoDocumento.objects.get(id_tipo=2),
                     nro_orden =  Orden.objects.get(nro_orden=order.nro_orden),
                 )
             
             #actualizamos el estado al seleccionado en el form y guardamos
-            order.id_estado =  Estado.objects.get(id_estado=status) 
+            order.id_estado = Estado.objects.get(id_estado=status) 
             order.save() 
 
             messages.success(request, "Estado modificado correctamente")

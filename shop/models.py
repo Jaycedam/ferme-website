@@ -66,7 +66,7 @@ class Marca(models.Model):
     marca = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.marca
+        return self.marca.capitalize()
 
     class Meta:
         managed = False
@@ -278,7 +278,7 @@ class TipoProducto(models.Model):
     id_familia_producto = models.ForeignKey(FamiliaProducto, models.DO_NOTHING, db_column='id_familia_producto')
 
     def __str__(self):
-        return self.tipo_producto
+        return self.tipo_producto.capitalize()
 
     class Meta:
         managed = False

@@ -4,37 +4,24 @@
 {% block content %}
 {% load crispy_forms_tags %}
 
-<h1 class="text-center">Gestión de productos</h1>
-
-<div class="card">
-    <div class="row">
-        <div class="col">
-            <h2>Filtrar productos</h2>
-            <br>
-            <form method="GET">
-                {{ productosFiltered.form | crispy }}
-                <br>
-                <button type="submit" class="btn btn-primary float-left">Filtrar</button>
-                <a class="btn btn-danger float-left" href="{% url 'product_management' %}">Limpiar filtros</a>
-            </form>
-        </div>
-
-        <div class="col">
-            <h2>Registrar nuevo producto</h2>
-            <br>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form | crispy }}
-                <br>
-                <button type="submit" class="btn btn-primary float-left">Guardar</button>
-            </form>
-        </div>
+<div class="row align-items-center">
+    <div class="col">
+        <h1>Gestión de productos Ferme</h1>
+    </div>
+    <div class="col d-flex justify-content-end">
+        <a class="btn btn-outline-primary float-left" style="height: min-content;" href="{% url 'product_create' %}">Registrar nuevo producto</a>
     </div>
 </div>
 
-<br>
-<h1 class="text-center">Listado de productos</h1>
-
+<br><hr>
+<div class="row">
+    <form class="form-inline" method="GET">
+        {{ productosFiltered.form|crispy }}
+        <br>
+        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+        <a class="btn btn-outline-secondary" href="{% url 'product_management' %}">Limpiar filtros</a>
+    </form>
+</div>
 <div class="table-responsive">
     <table class="table table-hover">
         <thead>

@@ -17,6 +17,7 @@ def cookieOrder(request):
 			total = (product.precio_proveedor * orderCookie[i]['quantity'])
 
 			order['get_order_total'] += total
+			order['get_order_total'] += round(order['get_order_total'] * 0.19)
 
 			item = {
 				'product':{
