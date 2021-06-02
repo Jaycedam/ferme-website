@@ -1,6 +1,6 @@
 from .forms import *
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -33,6 +33,7 @@ def home(request):
 
     return render(request, 'shop/shop/home.html', data)
 
+@login_required
 def profile(request):
     user = request.user
 
@@ -67,6 +68,7 @@ def profile(request):
 
     return render(request, 'shop/profile/profile.html', data)
 
+@login_required
 def adress_modify(request):
     profile = Persona.objects.get(usuario=request.user)
 
@@ -91,6 +93,7 @@ def adress_modify(request):
 
     return render(request, 'shop/profile/adress_modify.html', data)
 
+@login_required
 def profile_modify(request):
     user = request.user
 
@@ -124,6 +127,7 @@ def profile_modify(request):
         data["profile_form"] = profile_form
     return render(request, 'shop/profile/profile_modify.html', data)
 
+@login_required
 def provider_modify(request):
     profile = Persona.objects.get(usuario=request.user)
 
@@ -216,6 +220,7 @@ def cart(request):
     return render(request, 'shop/shop/cart.html', data)
 
 # Aprobar datos de compra y delivery
+@login_required
 def checkout(request):
     profile = Persona.objects.get(usuario=request.user)
 

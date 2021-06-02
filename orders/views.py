@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .filters import OrderToProviderFilter, OrdersFilter
 import datetime
@@ -8,6 +9,7 @@ import datetime
 # Create your views here.
 ############################### CLIENTE ###############################
 # listado de ordenes general
+@login_required
 def orders(request):
     user = request.user
 
@@ -32,8 +34,8 @@ def orders(request):
 
     return render(request, 'orders/customer/orders.html', data)
 
-
 # detalles de una orden general
+@login_required
 def order(request, id):
     order = Orden.objects.get(nro_orden=id)
     order_items = OrdenDetalle.objects.filter(nro_orden=id)
@@ -92,6 +94,7 @@ def order_provider(request, id):
 
 ############################### PROVEEDOR ###############################
 # listado de ordenes asociadas al proveedor actual 
+@login_required
 def order_requests(request):
     data = {}
     try:
@@ -112,6 +115,7 @@ def order_requests(request):
 
 
 # detalles de orden asociada a proveedor actual
+@login_required # agregar validacion que la orden pertenezca al usuario actual
 def order_request(request, id):
     order = Orden.objects.get(nro_orden=id)
     order_items = OrdenDetalle.objects.filter(nro_orden=id)
