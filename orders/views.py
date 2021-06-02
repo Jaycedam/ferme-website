@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import *
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from .filters import OrderToProviderFilter, OrdersFilter
 import datetime
@@ -55,6 +56,7 @@ def order(request, id):
 
 ############################### EMPLEADO ###############################
 # listado de ordenes hacia proveedor
+@staff_member_required
 def orders_to_provider(request):
     orders = Orden.objects.filter(id_tipo=2)
     ordersFiltered = OrderToProviderFilter(request.GET, queryset=orders)
@@ -69,6 +71,7 @@ def orders_to_provider(request):
 
 
 # detalles de una orden hacia un proveedor
+@staff_member_required
 def order_provider(request, id):
     order = Orden.objects.get(nro_orden=id)
     order_items = OrdenDetalle.objects.filter(nro_orden=id)
@@ -85,6 +88,8 @@ def order_provider(request, id):
         pass
 
     return render(request, 'orders/employee/order_provider.html', data)
+
+
 ############################### PROVEEDOR ###############################
 # listado de ordenes asociadas al proveedor actual 
 def order_requests(request):

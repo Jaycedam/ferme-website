@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.admin.views.decorators import staff_member_required
 from .filters import ProductAdminFilter, UsuarioAdminFilter, ProductRequestFilter
 from .models import *
 from .utils import cookieOrder
@@ -7,6 +8,7 @@ from django.contrib import messages
 import datetime
 
 # Create your views here.
+@staff_member_required
 def home(request):
 
     orders = Orden.objects.filter(id_tipo=2)
@@ -16,6 +18,7 @@ def home(request):
     }
     return render(request, 'employees/home.html', data)
 
+@staff_member_required
 def product_create(request):
     form = ProductForm()
     data = {
@@ -34,6 +37,7 @@ def product_create(request):
 
     return render(request, 'employees/product/create.html', data)
 
+@staff_member_required
 def product_management(request):
     productos = Producto.objects.all()
     productosFiltered = ProductAdminFilter(request.GET, queryset=productos)
@@ -46,6 +50,7 @@ def product_management(request):
 
     return render(request, 'employees/product/list.html', data)
 
+@staff_member_required
 def product_modify(request, id):
     product = get_object_or_404(Producto, id_producto=id)
 
@@ -66,6 +71,7 @@ def product_modify(request, id):
 
     return render(request, 'employees/product/modify.html', data)
 
+@staff_member_required
 def product_request(request):
     providers = Proveedor.objects.all()
 
@@ -75,6 +81,7 @@ def product_request(request):
 
     return render(request, 'employees/order/product_request.html', data)
 
+@staff_member_required
 def products_by_provider(request, id):
     provider = Proveedor.objects.get(id_proveedor=id)
     products = Producto.objects.filter(id_proveedor=id)
@@ -89,6 +96,7 @@ def products_by_provider(request, id):
 
     return render(request, 'employees/order/products_by_provider.html', data)
 
+@staff_member_required
 def order(request):
     orderProvider = cookieOrder(request)
     
@@ -103,6 +111,7 @@ def order(request):
     return render(request, 'employees/order/order.html', data)
 
 # Aprobar datos de compra y delivery
+@staff_member_required
 def checkout_provider(request):
     profile = Persona.objects.get(usuario=request.user)
 
@@ -172,4 +181,14 @@ def checkout_provider(request):
         return redirect(to="employees_home")
     return render(request, 'employees/order/checkout.html', data)
 
+#### seccion administrador ####
+def admin_home(request):
+    data = {}
+    return render(request, 'employees/admin/home.html', data)
 
+def admin_users(request):
+    users = User.objects.select_related('persona').all()
+    data = {
+        'users':users
+    }
+    return render(request, 'employees/admin/user/list.html', data)

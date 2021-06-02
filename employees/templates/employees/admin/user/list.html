@@ -1,0 +1,67 @@
+{% extends 'employees/base.html' %}
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+
+<div class="row align-items-center">
+    <div class="col">
+        <h1>Administrar usuarios</h1>
+    </div>
+    <div class="col d-flex justify-content-end">
+        <a class="btn btn-outline-primary float-left" style="height: min-content;" href="#">Registrar nuevo usuario</a>
+    </div>
+</div>
+
+<br><hr>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nombre de usuario</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Email</th>
+                <th scope="col">Rut</th>
+                <th scope="col">Domicilio</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Empleado</th>
+
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in users %}
+            <tr>
+                <td>{{ i.username }}</td>
+                <td>{{ i.first_name }} {{i.last_name}}</td>
+                <td>{{ i.email }}</td>
+                <td>{{ i.persona.rut_persona }}</td>
+
+                {% if i.persona.domicilio %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+               
+                {% if i.persona.proveedor %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+
+                {% if i.is_staff %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+
+                <td>
+                    <a class="btn btn-primary" href="#">Modificar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
