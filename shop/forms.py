@@ -80,6 +80,11 @@ class AdressForm(forms.ModelForm):
     class Meta: 
         model = Domicilio
         fields = ["id_comuna", "id_tipo_domicilio", "calle", "nro", "nro_departamento"]
+    
+    def __init__(self, *args, **kwargs):
+        super(AdressForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
 class ModifyUserForm(forms.ModelForm):
     def clean_first_name(self):
@@ -94,7 +99,7 @@ class ModifyUserForm(forms.ModelForm):
             return last_name
         raise ValidationError("Ingrese sólo letras")
 
-    username = forms.CharField(disabled=True, label="Nombre de usuario")
+    username = forms.CharField(label="Nombre de usuario")
     first_name = forms.CharField(min_length=3, max_length=80, required=True, label="Nombre")
     last_name = forms.CharField(min_length=3, max_length=80, required=True, label="Apellido")
     email = forms.EmailField(required=True, label="Correo electrónico")
@@ -102,6 +107,11 @@ class ModifyUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["username", "first_name", "last_name", "email"]
+
+    def __init__(self, *args, **kwargs):
+        super(ModifyUserForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
 class ModifyProfileForm(forms.ModelForm):
     def clean_celular(self):
@@ -119,8 +129,18 @@ class ModifyProfileForm(forms.ModelForm):
         model = Persona
         fields = ["rut_persona", "celular",]
 
+    def __init__(self, *args, **kwargs):
+        super(ModifyProfileForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
 class ModifyProviderForm(forms.ModelForm):
 
     class Meta:
         model = Proveedor
         fields = ["nombre_empresa","id_rubro"]
+
+    def __init__(self, *args, **kwargs):
+        super(ModifyProviderForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'

@@ -6,17 +6,19 @@
 
 <div class="row justify-content-md-center">
     <div class="card form-container">
-        <h2 class="display">Crear nuevo usuario</h2>
+        <h2 class="display">{{title}}</h2>
         <hr>
         <form method="POST">
             {% csrf_token %}
             <div class="row">
                 <h4>Datos de usuario</h4>
                 <div class="col-sm-6 form-element">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="is_staff" id="is_staff">
-                        <label class="form-check-label" for="is_staff">¿Es empleado?</label>
-                    </div>
+                    <label class="form-label" for="first_name">{{form.is_staff.label_tag}}</label>
+                    {{form.is_staff}}
+                </div>
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="first_name">{{form.is_superuser.label_tag}}</label>
+                    {{form.is_superuser}}
                 </div>
             </div>
 

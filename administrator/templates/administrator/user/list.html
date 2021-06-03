@@ -33,6 +33,7 @@
                 <th scope="col">Rut</th>
                 <th scope="col">Proveedor</th>
                 <th scope="col">Empleado</th>
+                <th scope="col">Superusuario</th>
 
                 <th scope="col">Opciones</th>
             </tr>
@@ -57,8 +58,14 @@
                 <td>No</td>
                 {% endif %}
 
+                {% if i.is_superuser %}
+                <td>Sí</td>
+                {% else %}
+                <td>No</td>
+                {% endif %}
+
                 <td>
-                    <a class="btn btn-outline-dark" href="#">Modificar</a>
+                    <a class="btn btn-outline-dark" href="{% url 'admin_modify_user' i.id %}">Modificar</a>
                 </td>
             </tr>
             {% endfor %}
