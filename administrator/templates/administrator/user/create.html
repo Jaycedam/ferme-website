@@ -4,10 +4,10 @@
 {% block content %}
 {% load crispy_forms_tags %}
 
-<h1 class="text-center">Crear nuevo usuario</h1>
-<hr>
 <div class="row justify-content-md-center">
     <div class="card form-container">
+        <h2 class="display">Crear nuevo usuario</h2>
+        <hr>
         <form method="POST">
             {% csrf_token %}
             <div class="row">
@@ -115,8 +115,8 @@
 
             <div class="row">
                 <div class="col-sm-6 form-element">
-                    <a class="btn btn-secondary float-left" href="{% url 'admin_users' %}">Cancelar</a>
-                    <button type="submit" class="btn btn-primary float-left">Guardar</button>
+                    <a class="btn btn-outline-danger float-left" href="{% url 'admin_users' %}">Cancelar</a>
+                    <button type="submit" class="btn btn-outline-dark float-left">Guardar</button>
                 </div>
             </div>
         </form>

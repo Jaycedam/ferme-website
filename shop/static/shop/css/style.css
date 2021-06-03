@@ -340,6 +340,16 @@ input.error {
         background-color: #3b4046!important;
     }
 
+    /* bootstrap btn */
+    .btn-outline-dark {
+        color: #fff !important;
+        border-color: #fff !important;
+    }
+    .btn-outline-dark:hover {
+        color: #212529 !important;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
     /* Swal */
     .swal2-popup{
         background-color: #212529 !important;

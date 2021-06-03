@@ -3,6 +3,7 @@ from .models import *
 from shop.forms import CustomUserCreationForm, ProfileForm, AdressForm
 from .forms import *
 from django.contrib import messages
+from .filters import UsuarioAdminFilter
 
 # Create your views here.
 def home(request):
@@ -11,8 +12,12 @@ def home(request):
 
 def users(request):
     users = User.objects.select_related('persona').all()
+    users_filtered = UsuarioAdminFilter(request.GET, queryset=users)
+    users = users_filtered.qs
+
     data = {
-        'users':users
+        'users':users,
+        'users_filtered':users_filtered
     }
     return render(request, 'administrator/user/list.html', data)
 

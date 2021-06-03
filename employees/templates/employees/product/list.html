@@ -9,28 +9,31 @@
         <h1>Gestión de productos Ferme</h1>
     </div>
     <div class="col d-flex justify-content-end">
-        <a class="btn btn-outline-primary float-left" style="height: min-content;" href="{% url 'product_create' %}">Registrar nuevo producto</a>
+        <a class="btn btn-outline-dark float-left" style="height: min-content;" href="{% url 'product_create' %}">Registrar nuevo producto</a>
     </div>
 </div>
 
-<br><hr>
+<hr>
+
 <div class="row">
     <form class="form-inline" method="GET">
         {{ productosFiltered.form|crispy }}
         <br>
-        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
-        <a class="btn btn-outline-secondary" href="{% url 'product_management' %}">Limpiar filtros</a>
+        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
+        <a class="btn btn-outline-danger" href="{% url 'product_management' %}">Limpiar filtros</a>
     </form>
 </div>
+
 <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table">
         <thead>
             <tr>
+                <th scope="col">ID</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Stock</th>
                 <th scope="col">Stock crítico</th>
-                <th scope="col">Tipo producto</th>
+                <th scope="col">Familia producto</th>
                 <th scope="col">Marca</th>
                 <th scope="col">Proveedor</th>
                 <th scope="col">Fecha vencimiento</th>
@@ -40,14 +43,20 @@
         <tbody>
             {% for i in productos %}
             <tr>
+                <td>{{ i.id_producto }}</td>
                 <td>{{ i.producto }}</td>
                 <td>${{ i.precio }}</td>
                 <td>{{ i.stock }}</td>
                 <td>{{ i.stock_critico }}</td>
-                <td>{{ i.id_tipo_producto }}</td>
+                <td>{{ i.id_tipo_producto.id_familia_producto }}</td>
                 <td>{{ i.id_marca }}</td>
                 <td>{{ i.id_proveedor }}</td>
+                {% if not i.fecha_vencimiento %}
+                <td>No aplica</td>
+                {% else %}
                 <td>{{ i.fecha_vencimiento }}</td>
+                {% endif %}
+
                 <td>
                     <a class="btn btn-primary" href="{% url 'product_modify' i.id_producto %}">Modificar</a>
                 </td>

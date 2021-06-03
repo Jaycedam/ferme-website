@@ -15,8 +15,8 @@
                 {% csrf_token %}
                 {{ form | crispy }}
                 <br>
-                <a class="btn btn-secondary float-right" href="{% url 'profile' %}">Cancelar</a>
-                <input type="submit" value="Guardar" class="btn btn-primary float-right">
+                <a class="btn btn-outline-danger float-right" href="{% url 'profile' %}">Cancelar</a>
+                <input type="submit" value="Guardar" class="btn btn-outline-dark float-right">
             </form>
         </div>
     </div>

@@ -5,15 +5,15 @@
 {% block content %}
 {% load crispy_forms_tags %}
 
-<h1 class="text-center">Productos en {{ family.familia_producto }}</h1>
-<br>
+<h1>Productos en {{ family.familia_producto }}</h1>
+<hr>
 
 <div class="row">
     <form class="form-inline" method="GET">
         {{ productsFiltered.form|crispy }}
         <br>
-        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
-        <a class="btn btn-outline-secondary" href="{% url 'products' family.id_familia_producto %}">Limpiar filtros</a>
+        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
+        <a class="btn btn-outline-danger" href="{% url 'products' family.id_familia_producto %}">Limpiar filtros</a>
     </form>
 </div>
 
@@ -31,8 +31,11 @@
             <h6 style="display: inline-block">${{i.precio}}</h6>            
             <hr>
 
-            <button data-product={{i.id_producto}} data-action="add" class="btn btn-primary update-cart">Agregar al carro</button>
-            <a class="btn btn-secondary" href="{% url 'product' i.id_producto %}">Detalles</a>
+            <button data-product={{i.id_producto}} data-action="add" class="btn btn-outline-dark update-cart">
+                Agregar al carro
+                <i class="bi bi-cart"></i>
+            </button>
+            <a class="btn btn-outline-dark" href="{% url 'product' i.id_producto %}">Detalles</a>
         </div>
     </div>
     {% endfor %}

@@ -6,48 +6,71 @@
 
 {% block content %}
 
-<div class="row">
+<div class="row align-items-center">
+    <div class="col">
+        <h1>Solicitar productos a {{provider.nombre_empresa}}</h1>
+    </div>
     <div class="col d-flex justify-content-end">
-        <a class="btn btn-primary" href="{% url 'order' %}">
+        <a class="btn btn-outline-dark" href="{% url 'order' %}">
             Generar orden
             <i class="bi bi-file-earmark-text"></i>
         </a>
     </div>
 </div>
-
-
-<h1>Solicitar productos a {{provider.nombre_empresa}}</h1>
-<br>
+<hr>
 
 <div class="row">
     <form class="form-inline" method="GET">
-        {{ productRequestFilter.form|crispy }}
+        {{ products_filtered.form|crispy }}
         <br>
-        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
+        <a class="btn btn-outline-danger" href="{% url 'products_by_provider' provider.id_proveedor %}">Limpiar
+            filtros</a>
     </form>
 </div>
+<br>
 
-<div class="row">
-    {% for i in products %}
-    <div class="col-3">
-        {% if i.imagen_url %}
-        <img class="thumbnail" src="{{i.imagen_url.url}}">
-        {% else %}
-        <img class="thumbnail" src="{% static 'shop/img/noimage.png' %}">
-        {% endif %}
-        <div class="product-text">
-            <h6>{{i.id_marca}}</h6>
-            <h5><strong>{{i.producto}}</strong></h5>
-            <h6>Stock: {{i.stock}}</h6>
-            <h6 style="display: inline-block">Precio proveedor: ${{i.precio_proveedor}}</h6>            
-            <hr>
-            <button data-product={{i.id_producto}} data-action="add" class="btn btn-primary update-order">
-                Agregar
-                <i class="bi bi-file-earmark-text"></i>
-            </button>
-        </div>
-    </div>
-    {% endfor %}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Familia producto</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Fecha vencimiento</th>
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in products %}
+            <tr>
+                <td>{{ i.id_producto }}</td>
+                <td>{{ i.producto }}</td>
+                <td>${{ i.precio }}</td>
+                <td>{{ i.stock }}</td>
+                <td>{{ i.id_tipo_producto.id_familia_producto }}</td>
+                <td>{{ i.id_marca }}</td>
+                <td>{{ i.id_proveedor }}</td>
+                {% if not i.fecha_vencimiento %}
+                <td>No aplica</td>
+                {% else %}
+                <td>{{ i.fecha_vencimiento }}</td>
+                {% endif %}
+
+                <td>
+                    <button data-product={{i.id_producto}} data-action="add" class="btn btn-outline-dark update-order">
+                        Agregar
+                        <i class="bi bi-file-earmark-text"></i>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 

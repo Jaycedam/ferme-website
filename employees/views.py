@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
-from .filters import ProductAdminFilter, UsuarioAdminFilter, ProductRequestFilter
+from .filters import ProductAdminFilter
 from .models import *
 from .utils import cookieOrder
 from .forms import *
@@ -85,12 +85,12 @@ def product_request(request):
 def products_by_provider(request, id):
     provider = Proveedor.objects.get(id_proveedor=id)
     products = Producto.objects.filter(id_proveedor=id)
-    productRequestFilter = ProductRequestFilter(request.GET, queryset=products)
-    products = productRequestFilter.qs
+    products_filtered = ProductAdminFilter(request.GET, queryset=products)
+    products = products_filtered.qs
 
     data = {
         'products':products,
-        'productRequestFilter':productRequestFilter,
+        'products_filtered':products_filtered,
         'provider':provider
     }
 
