@@ -12,8 +12,4 @@ urlpatterns = [
     path('product-request/<id>', views.products_by_provider, name="products_by_provider"),
     path('order', views.order, name="order"),
     path('order/checkout', views.checkout_provider, name="checkout_provider"),
-    # admin
-    path('admin-home', views.admin_home, name="admin_home"),
-    path('admin-users', views.admin_users, name="admin_users"),
-
 ]

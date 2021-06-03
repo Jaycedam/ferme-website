@@ -180,15 +180,3 @@ def checkout_provider(request):
 
         return redirect(to="employees_home")
     return render(request, 'employees/order/checkout.html', data)
-
-#### seccion administrador ####
-def admin_home(request):
-    data = {}
-    return render(request, 'employees/admin/home.html', data)
-
-def admin_users(request):
-    users = User.objects.select_related('persona').all()
-    data = {
-        'users':users
-    }
-    return render(request, 'employees/admin/user/list.html', data)

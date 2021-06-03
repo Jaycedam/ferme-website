@@ -1,0 +1,23 @@
+{% extends 'employees/base.html' %}
+{% block title %}Solicitud de productos{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card">
+            <h2>Modificar usuario</h2>
+            <hr>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <br>
+                <a class="btn btn-secondary float-left" href="{% url 'admin_users' %}">Cancelar</a>
+                <button type="submit" class="btn btn-primary float-left">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

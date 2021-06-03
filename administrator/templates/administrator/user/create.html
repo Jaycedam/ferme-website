@@ -1,0 +1,170 @@
+{% extends 'employees/base.html' %}
+{% block title %}Solicitud de productos{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<h1 class="text-center">Crear nuevo usuario</h1>
+<hr>
+<div class="row justify-content-md-center">
+    <div class="card form-container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <h4>Datos de usuario</h4>
+                <div class="col-sm-6 form-element">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="is_staff" id="is_staff">
+                        <label class="form-check-label" for="is_staff">¿Es empleado?</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="username">{{form.username.label_tag}}</label>
+                    {{form.username}}
+                    {{form.username.errors}}
+                </div>
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="email">{{form.email.label_tag}}</label>
+                    {{form.email}}
+                    {{form.email.errors}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="first_name">{{form.first_name.label_tag}}</label>
+                    {{form.first_name}}
+                    {{form.first_name.errors}}
+                </div>
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="last_name">{{form.last_name.label_tag}}</label>
+                    {{form.last_name}}
+                    {{form.last_name.errors}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="password1">{{form.password1.label_tag}}</label>
+                    {{form.password1}}
+                    {{form.password1.errors}}
+                </div>
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="password2">{{form.password2.label_tag}}</label>
+                    {{form.password2}}
+                    {{form.password2.errors}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{form.password1.help_text}}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <h4>Datos personales</h4>
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="rut_persona">{{profile_form.rut_persona.label_tag}}</label>
+                    {{profile_form.rut_persona}}
+                    {{profile_form.rut_persona.errors}}
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="celular">{{profile_form.celular.label_tag}}</label>
+                    {{profile_form.celular}}
+                    {{profile_form.celular.errors}}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <h4>Datos proveedor</h4>
+
+                <div class="col form-element">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="is_provider" id="is_provider">
+                        <label class="form-check-label" for="is_provider">¿Es usuario proveedor?</label>
+                        <small>(Si no está checheado se ignorarán los datos a continuación)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="nombre_empresa">{{provider_form.nombre_empresa.label_tag}}</label>
+                    {{provider_form.nombre_empresa}}
+                    {{provider_form.nombre_empresa.errors}}
+                </div>
+                <div class="col-sm-6 form-element">
+                    <label class="form-label" for="id_rubro">{{provider_form.id_rubro.label_tag}}</label>
+                    {{provider_form.id_rubro}}
+                    {{provider_form.id_rubro.errors}}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-6 form-element">
+                    <a class="btn btn-secondary float-left" href="{% url 'admin_users' %}">Cancelar</a>
+                    <button type="submit" class="btn btn-primary float-left">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- <div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card">
+            <h2>Registrar nuevo usuario</h2>
+            <br>
+            <hr>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="is_staff" id="is_staff">
+                    <label class="form-check-label" for="is_staff">¿Es empleado?</label>
+                </div>
+
+                <br>
+
+                {{ form | crispy }}
+                {{ profile_form | crispy }}
+
+
+                <br>
+                <hr>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="is_staff" id="is_staff">
+                    <label class="form-check-label" for="is_staff">¿Es proveedor?</label>
+                    <small>(Si no está checheado se ignorarán los datos a continuación)</small>
+                </div>
+
+                <br>
+
+                {{ provider_form | crispy }}
+
+
+                <br>
+                <hr>
+                <a class="btn btn-secondary float-left" href="{% url 'admin_users' %}">Cancelar</a>
+                <button type="submit" class="btn btn-primary float-left">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div> -->
+
+{% endblock content %}

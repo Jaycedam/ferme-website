@@ -53,6 +53,18 @@ body {
     margin-bottom: 20px;
 }
 
+.form-container {
+    width: 50%;
+}
+
+.form-container .form-element {
+    margin: .5em 0;
+}
+
+.errorlist {
+    color: rgb(255, 45, 45);
+}
+
 .form-inline > * {
     margin-right: 10px;
 }
@@ -153,12 +165,6 @@ body {
     width: 50%;
 }
 
-.form-container {
-    margin-top: 10px;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-}
 
 label.error {
     color: red;
@@ -183,6 +189,10 @@ input.error {
 /* TABLET */
 
 @media(max-width: 1024px) {
+    .form-container {
+        width: 80%;
+    }
+
     .form-inline {
         flex-direction: column;
         align-items: stretch;
@@ -221,7 +231,9 @@ input.error {
 
 /* SMARTPHONE */
 @media(max-width: 480px) {
-
+    .form-container {
+        width: 100%;
+    }
     header {
         flex-direction: column;
         height: 80px;

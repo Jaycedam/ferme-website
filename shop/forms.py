@@ -36,6 +36,11 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ["username", "first_name", "last_name", "email", "password1", "password2"]
 
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
 class ProfileForm(forms.ModelForm):
     def clean_rut_persona(self):
         users = Persona.objects.all()
@@ -65,6 +70,11 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Persona
         fields = ["rut_persona", "celular"]
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
 class AdressForm(forms.ModelForm):
     class Meta: 

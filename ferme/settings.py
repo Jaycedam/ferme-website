@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'shop',
     'employees',
     'orders',
+    'administrator',
     'crispy_forms',
     "crispy_bootstrap5",
     'django_filters',
