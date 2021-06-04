@@ -1,29 +1,29 @@
 {% extends 'shop/base.html' %}
-{% block title %}Cart{% endblock %}
+{% block title %}Carro{% endblock %}
 {% load static %}
 
 {% block content %}
-<h1>Carro de compra</h1>
-<br>
 
 <div class="row d-flex align-items-center">
     <div class="col">
-        <h5>Total:<strong> ${{order.get_cart_total}}</strong></h5></th>
+        <h1>Carro de compra</h1>
     </div>
-
     <div class="col">
         {% if user.is_authenticated and order.get_cart_total > 0 %}
-        <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Continuar con la compra</a>
+        <a style="float:right;" class="btn btn-success" href="{% url 'checkout' %}">Continuar</a>
         {% elif not user.is_authenticated %}
         <h5 class="text-end">Inicia sesión para continuar con la compra</h5>
         {% elif order.get_cart_total == 0 %}
         <h5 class="text-end">Agrega productos al carro</h5>
         {% endif %}
     </div>
-
 </div>
 
-<br>
+<hr>
+
+
+
+<h5>Total:<strong> ${{order.get_cart_total}}</strong></h5></th>
 
 <div class="table-responsive">
     <table class="table table-hover">

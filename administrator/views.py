@@ -62,9 +62,7 @@ def create_user(request):
 
         if not is_provider:
             if form.is_valid() and profile_form.is_valid():
-                usuario = form.save(commit=False)
-                usuario.is_staff = is_staff
-                usuario.save()
+                usuario = form.save()
 
                 profile = profile_form.save(commit=False)
                 profile.usuario = usuario
@@ -85,7 +83,7 @@ def modify_user(request, id):
 
     data = {
         'title': 'Modificar usuario',
-        'form': AdminUserForm(instance=user),
+        'form': AdminModifyUserForm(instance=user),
         'profile_form': ModifyProfileForm(instance=profile),
     }
 
@@ -99,7 +97,7 @@ def modify_user(request, id):
 
 
     if request.method == 'POST':
-        form = AdminUserForm(data=request.POST, instance=user)
+        form = AdminModifyUserForm(data=request.POST, instance=user)
         profile_form = ModifyProfileForm(data=request.POST, instance=profile)
 
         # verificamos si el checkbox de proveedor está checkeado

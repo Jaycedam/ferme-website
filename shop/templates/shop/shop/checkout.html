@@ -4,36 +4,39 @@
 
 {% block content %}
 
-<h1>Confirma los datos de tu compra</h1>
+<div class="row d-flex align-items-center">
+    <div class="col">
+        <h1>Confirma tu compra</h1>
+    </div>
+    <div class="col">
+        {% if adress %}
+        <button form="form" style="float:right;" class="btn btn-success" type="submit">Confirmar compra</button>
+        {% endif %}
+    </div>
+</div>
 <hr>
 
 <div class="row">
     <div class="col">
-        <div class="col">
-            <h5>Total:<strong> ${{order.get_cart_total}}</strong></h5>
-        </div>
-        <form method="POST">
+        <form id="form" method="POST">
             {% csrf_token %}
-            <select class="form-select" name="tipoDoc" id="">
+            <label class="form-label" for="tipoDoc">Tipo documento:</label>
+            <select style="width: max-content;" class="form-select" name="tipoDoc" id="tipoDoc">
                 {% for i in tipoDoc %}
                 <option value="{{i.id_tipo}}">{{i.tipo_documento}}</option>
                 {% endfor %}
             </select>
-            <br>
-
-            {% if adress %}
-            <button class="btn btn-success" type="submit">Confirmar compra</button>
-            {% endif %}
         </form>
     </div>
+
     <div class="col">
         {% if adress %}
         <h5>Delivery:</h5>
         <p>{{ adress.calle }}, {{ adress.nro }}, {{ adress.id_comuna }}</p>
 
-            {% if adress.nro_departamento %}
-            <h5>N° departamento: {{ adress.nro_departamento }}</h5>
-            {% endif %}
+        {% if adress.nro_departamento %}
+        <h5>N° departamento: {{ adress.nro_departamento }}</h5>
+        {% endif %}
 
         {% else %}
         <p>No tienes ningún domicilio registrado. Registra uno en tu perfil para poder continuar la compra.</p>
@@ -42,12 +45,11 @@
     </div>
 </div>
 
-<br>
-<hr><br>
+<hr>
+<h5>Total:<strong> ${{order.get_cart_total}}</strong></h5></th>
 
-<h2>Detalle</h2>
 <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table">
         <thead>
             <tr>
                 <th scope="col">Producto</th>
