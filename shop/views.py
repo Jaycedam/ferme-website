@@ -306,4 +306,3 @@ def checkout(request):
 
         return redirect(to="home")
     return render(request, 'shop/shop/checkout.html', data)
-

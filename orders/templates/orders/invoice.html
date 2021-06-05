@@ -1,0 +1,44 @@
+<h1>Ferme Services</h1>
+<h1>{{invoice.id_tipo}} N°{{invoice.nro_recibo}}</h1>
+
+<h5>Rut: {{order.rut_persona}}</h5>
+<h5>Fecha emisión: {{invoice.fecha}}</h5>
+{% if invoice.iva > 0 %}
+<h5>Subotal: ${{invoice.subtotal}}</h5>
+<h5>IVA: ${{invoice.iva}}</h5>
+{% endif %}
+<h5>Total: ${{invoice.total}}</h5>
+<h5>Orden de compra: {{invoice.nro_orden}}</h5>
+
+<hr>
+
+<h1>Detalle</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th style="text-align: start;" scope="col">Producto</th>
+            <th style="text-align: start;" scope="col">Precio</th>
+            <th style="text-align: start;" scope="col">Cantidad</th>
+            <th style="text-align: start;" scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in items %}
+        <tr>
+            <th scope="row">1</th>
+            <td>{{ i.id_producto }}</td>
+            <td>${{ i.precio }}</td>
+            <td>{{ i.cantidad }}</td>
+            <td>${{ i.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+
+</body>
+
+</html>
