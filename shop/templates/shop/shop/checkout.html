@@ -38,7 +38,10 @@
         <h5>N° departamento: {{ adress.nro_departamento }}</h5>
         {% endif %}
 
-        {% else %}
+        {% elif not profile %}
+        <h5 class="text-end">Completa tu perfil para continuar</h5>
+        <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>    
+        {% elif profile and not adress %}        
         <p>No tienes ningún domicilio registrado. Registra uno en tu perfil para poder continuar la compra.</p>
         <a class="btn btn-primary float-left" href="{% url 'profile' %}">Ir a perfil</a>
         {% endif %}

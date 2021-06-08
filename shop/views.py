@@ -97,28 +97,37 @@ def adress_modify(request):
 def profile_modify(request):
     user = request.user
 
+    # si existe el perfil de usuario, se instancia el form con los datos actuales
     if Persona.objects.filter(usuario=request.user).exists():
         profile = Persona.objects.get(usuario=user)
+        instanced = True
 
         data = {
             'form': ModifyUserForm(instance=user),
             'profile_form': ModifyProfileForm(instance=profile)
         }      
 
-    else:
+    # si no existe, se crea un nuevo form de perfil
+    if not Persona.objects.filter(usuario=request.user).exists():
+        instanced = False
         data = {
             'form': ModifyUserForm(instance=user),
+            'profile_form': ProfileForm()
         }   
 
     if request.method == 'POST':
         form = ModifyUserForm(data=request.POST, instance=user)
-        profile_form = ModifyProfileForm(data=request.POST, instance=profile)
+        # si es instanciado, se actualiza, si no existe se crea
+        if instanced:
+            profile_form = ModifyProfileForm(data=request.POST, instance=profile)
+        if not instanced:
+            profile_form = ProfileForm(data=request.POST)
 
         if form.is_valid() and profile_form.is_valid():
             usuario = form.save()
             prof = profile_form.save(False)
 
-            prof.usuario = request.user
+            prof.usuario = usuario
             prof.save()
             messages.success(request, "Tu perfil ha sido actualizado")
             return redirect(to="profile")
@@ -216,14 +225,15 @@ def cart(request):
         'items':items, 
         'order':order
         }
+    if Persona.objects.filter(usuario=request.user).exists():
+        data['profile'] = Persona.objects.get(usuario=request.user)
 
     return render(request, 'shop/shop/cart.html', data)
 
 # Aprobar datos de compra y delivery
 @login_required
 def checkout(request):
-    profile = Persona.objects.get(usuario=request.user)
-
+   
     tipoDoc = TipoDocumento.objects.all()
 
     cart = cookieCart(request)
@@ -237,8 +247,13 @@ def checkout(request):
         'tipoDoc':tipoDoc,
         }
         
-    if Domicilio.objects.filter(rut_persona=profile.rut_persona).exists():
-        data['adress'] = Domicilio.objects.get(rut_persona=profile.rut_persona)
+    if Persona.objects.filter(usuario=request.user).exists():
+        profile = Persona.objects.get(usuario=request.user)
+        data['profile'] = profile
+
+        if Domicilio.objects.filter(rut_persona=profile.rut_persona).exists():
+            data['adress'] = Domicilio.objects.get(rut_persona=profile.rut_persona)
+
 
     # Recibimos tipo documento y guardamos en bd la compra
     if request.method == 'POST':

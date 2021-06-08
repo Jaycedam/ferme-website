@@ -76,15 +76,27 @@ class ProfileForm(forms.ModelForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 
-class AdressForm(forms.ModelForm):
-    class Meta: 
-        model = Domicilio
-        fields = ["id_comuna", "id_tipo_domicilio", "calle", "nro", "nro_departamento"]
+class ModifyProfileForm(forms.ModelForm):
+    def clean_celular(self):
+        celular = self.cleaned_data["celular"]
+        if len(str(celular)) != 9:
+            raise ValidationError("No están todos los dígitos")
+        if str(celular)[0] != "9":
+            raise ValidationError("Formato incorrecto, el celular debe comenzar con 9")
+        return celular
+
+    rut_persona = forms.CharField(disabled=True, label="Rut")
+    celular = forms.IntegerField(required=True, label="Celular (912345678)")
     
+    class Meta:
+        model = Persona
+        fields = ["rut_persona", "celular",]
+
     def __init__(self, *args, **kwargs):
-        super(AdressForm, self).__init__(*args, **kwargs)
+        super(ModifyProfileForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
 
 class ModifyUserForm(forms.ModelForm):
     def clean_first_name(self):
@@ -113,34 +125,24 @@ class ModifyUserForm(forms.ModelForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 
-class ModifyProfileForm(forms.ModelForm):
-    def clean_celular(self):
-        celular = self.cleaned_data["celular"]
-        if len(str(celular)) != 9:
-            raise ValidationError("No están todos los dígitos")
-        if str(celular)[0] != "9":
-            raise ValidationError("Formato incorrecto, el celular debe comenzar con 9")
-        return celular
-
-    rut_persona = forms.CharField(disabled=True, label="Rut")
-    celular = forms.IntegerField(required=True, label="Celular (912345678)")
-    
-    class Meta:
-        model = Persona
-        fields = ["rut_persona", "celular",]
-
-    def __init__(self, *args, **kwargs):
-        super(ModifyProfileForm, self).__init__(*args, **kwargs)
-        for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
 
 class ModifyProviderForm(forms.ModelForm):
-
     class Meta:
         model = Proveedor
         fields = ["nombre_empresa","id_rubro"]
 
     def __init__(self, *args, **kwargs):
         super(ModifyProviderForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+
+class AdressForm(forms.ModelForm):
+    class Meta: 
+        model = Domicilio
+        fields = ["id_comuna", "id_tipo_domicilio", "calle", "nro", "nro_departamento"]
+    
+    def __init__(self, *args, **kwargs):
+        super(AdressForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'

@@ -9,12 +9,15 @@
         <h1>Carro de compra</h1>
     </div>
     <div class="col">
-        {% if user.is_authenticated and order.get_cart_total > 0 %}
+        {% if user.is_authenticated and order.get_cart_total > 0 and profile %}
         <a style="float:right;" class="btn btn-success" href="{% url 'checkout' %}">Continuar</a>
         {% elif not user.is_authenticated %}
         <h5 class="text-end">Inicia sesión para continuar con la compra</h5>
         {% elif order.get_cart_total == 0 %}
         <h5 class="text-end">Agrega productos al carro</h5>
+        {% elif not profile %}
+        <h5 class="text-end">Completa tu perfil para continuar</h5>
+        <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>    
         {% endif %}
     </div>
 </div>

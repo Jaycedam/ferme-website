@@ -79,13 +79,26 @@ def create_user(request):
 
 def modify_user(request, id):
     user = get_object_or_404(User, id=id)
-    profile = get_object_or_404(Persona, usuario=user)
 
-    data = {
-        'title': 'Modificar usuario',
-        'form': AdminModifyUserForm(instance=user),
-        'profile_form': ModifyProfileForm(instance=profile),
-    }
+    if Persona.objects.filter(usuario=user).exists():
+        profile = Persona.objects.get(usuario=user)
+        instanced = True
+
+        data = {
+            'form': AdminModifyUserForm(instance=user),
+            'profile_form': ModifyProfileForm(instance=profile),
+        }      
+
+    # si no existe, se crea un nuevo form de perfil
+    if not Persona.objects.filter(usuario=user).exists():
+        instanced = False
+        data = {
+            'form': AdminModifyUserForm(instance=user),
+            'profile_form': ProfileForm()
+        }   
+
+    data['title']: "Modificar usuario"
+
 
     try:
         provider = get_object_or_404(Proveedor, rut_persona=profile)
@@ -98,7 +111,12 @@ def modify_user(request, id):
 
     if request.method == 'POST':
         form = AdminModifyUserForm(data=request.POST, instance=user)
-        profile_form = ModifyProfileForm(data=request.POST, instance=profile)
+
+        # si el perfil es instanciado, se actualiza, si no existe se crea
+        if instanced:
+            profile_form = ModifyProfileForm(data=request.POST, instance=profile)
+        if not instanced:
+            profile_form = ProfileForm(data=request.POST)
 
         # verificamos si el checkbox de proveedor está checkeado
         is_provider = False

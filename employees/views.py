@@ -108,13 +108,15 @@ def order(request):
         'order':order
         }
 
+    if Persona.objects.filter(usuario=request.user).exists():
+        data['profile'] = Persona.objects.get(usuario=request.user)
+
+
     return render(request, 'employees/order/order.html', data)
 
 # Aprobar datos de compra y delivery
 @staff_member_required
 def checkout_provider(request):
-    profile = Persona.objects.get(usuario=request.user)
-
     tipoDoc = TipoDocumento.objects.all()
 
     cookie = cookieOrder(request)
@@ -127,6 +129,11 @@ def checkout_provider(request):
         'order':order,
         'tipoDoc':tipoDoc,
         }
+    
+    if Persona.objects.filter(usuario=request.user).exists():
+        profile = Persona.objects.get(usuario=request.user)
+        data['profile'] = profile
+
 
     # Recibimos tipo documento y guardamos en bd la compra
     if request.method == 'POST':
@@ -175,6 +182,9 @@ def checkout_provider(request):
             messages.success(request, "Tu orden ha sido generada")
 
         except Exception as e:
+            if new_order:
+                new_order.id_estado = Estado.objects.get(id_estado=3)
+                new_order.save()
             print(e)
             messages.error(request, "No se ha podido realizar la compra, intenta nuevamente")
 

@@ -1,5 +1,5 @@
 import json
-from .models import Producto
+from .models import Producto, Persona
 
 def cookieCart(request):
 	try:

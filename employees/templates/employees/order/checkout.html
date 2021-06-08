@@ -13,10 +13,17 @@
         <div class="col">
             <h5>Total (IVA Incl):<strong> ${{order.get_order_total}}</strong></h5>
         </div>
+        {% if profile %}
         <form method="POST">
             {% csrf_token %}
             <button class="btn btn-success" type="submit">Confirmar orden</button>
         </form>
+        {% elif not profile %}
+        <div class="col">
+            <h5 class="text-end">Completa tu perfil para continuar</h5>
+            <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>
+        </div>
+        {% endif %}
     </div>
 </div>
 
