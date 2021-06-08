@@ -3,7 +3,7 @@ from datetime import datetime
 from django.forms import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Proveedor, Rubro
+from .models import Proveedor, Rubro, Marca, FamiliaProducto, TipoProducto
 
 class ProviderForm(forms.ModelForm):
     nombre_empresa = forms.CharField(label="Nombre empresa", min_length=3, max_length=50, required=False)
@@ -74,3 +74,18 @@ class AdminModifyUserForm(forms.ModelForm):
         super(AdminModifyUserForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
+class BrandForm(forms.ModelForm):
+    class Meta:
+        model = Marca
+        fields = ["marca"]
+
+class CategoryAdminForm(forms.ModelForm):
+    class Meta:
+        model = FamiliaProducto
+        fields = ["familia_producto", "imagen_url"]
+
+class SubCategoryForm(forms.ModelForm):
+    class Meta:
+        model = TipoProducto
+        fields = ["tipo_producto", "id_familia_producto"]

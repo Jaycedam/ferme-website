@@ -29,3 +29,4 @@ class ProductModifyForm(forms.ModelForm):
     class Meta: 
         model = Producto
         fields = ["producto", "descripcion", "precio", "precio_proveedor", "stock", "stock_critico", "imagen_url"]
+

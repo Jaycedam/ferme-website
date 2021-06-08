@@ -12,4 +12,5 @@ urlpatterns = [
     path('product-request/<id>', views.products_by_provider, name="products_by_provider"),
     path('order', views.order, name="order"),
     path('order/checkout', views.checkout_provider, name="checkout_provider"),
+
 ]

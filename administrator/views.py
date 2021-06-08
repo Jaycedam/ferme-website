@@ -3,7 +3,7 @@ from .models import *
 from shop.forms import CustomUserCreationForm, ProfileForm, AdressForm, ModifyUserForm, ModifyProfileForm, ModifyProviderForm
 from .forms import *
 from django.contrib import messages
-from .filters import UsuarioAdminFilter
+from .filters import UsuarioAdminFilter, BrandAdminFilter, CategoryFilter, SubCategoryFilter
 
 # Create your views here.
 def home(request):
@@ -163,3 +163,132 @@ def modify_user(request, id):
         data["profile_form"] = profile_form
         data["provider_form"] = provider_form
     return render(request, 'administrator/user/create.html', data)
+
+# CRUD MARCAS
+def brands(request):
+    brands = Marca.objects.all()
+    brands_filtered = BrandAdminFilter(request.GET, queryset=brands)
+    brands = brands_filtered.qs
+    data = {
+        'brands':brands,
+        'brands_filtered':brands_filtered
+    }
+    return render(request, 'administrator/brand/list.html', data)
+
+def brand_create(request):
+    data = {
+        'form':BrandForm(),
+        'title':'Crear nueva marca'
+    }
+
+    if request.method == 'POST':
+        form = BrandForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Marca creada correctamente")
+            return redirect(to="brands")
+        data['form'] = form
+
+    return render(request, 'administrator/brand/create.html', data)
+
+def brand_modify(request, id):
+    brand = Marca.objects.get(id_marca=id)
+    data = {
+        'form':BrandForm(instance=brand),
+        'title':'Modificar marca'
+    }
+
+    if request.method == 'POST':
+        form = BrandForm(data=request.POST, instance=brand)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Marca modificada correctamente")
+            return redirect(to="brands")
+        data['form'] = form
+    return render(request, 'administrator/brand/create.html', data)
+
+# CRUD FAMILIA PRODUCTOS
+def categories(request):
+    categories = FamiliaProducto.objects.all()
+    categories_filtered = CategoryFilter(request.GET, queryset=categories)
+    categories = categories_filtered.qs
+    data = {
+        'categories':categories,
+        'categories_filtered':categories_filtered
+    }
+    return render(request, 'administrator/category/list.html', data)
+
+def category_create(request):
+    data = {
+        'form':CategoryAdminForm(),
+        'title':'Crear nueva familia'
+    }
+
+    if request.method == 'POST':
+        form = CategoryAdminForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Familia creada correctamente")
+            return redirect(to="categories")
+        data['form'] = form
+
+    return render(request, 'administrator/category/create.html', data)
+
+def category_modify(request, id):
+    category = FamiliaProducto.objects.get(id_familia_producto=id)
+    data = {
+        'form':CategoryAdminForm(instance=category),
+        'title':'Modificar familia'
+    }
+
+    if request.method == 'POST':
+        form = CategoryAdminForm(data=request.POST, instance=category, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Marca modificada correctamente")
+            return redirect(to="categories")
+        data['form'] = form
+    return render(request, 'administrator/category/create.html', data)
+
+# CRUD TIPO PRODUCTO
+def subcategories(request):
+    subcategories = TipoProducto.objects.all()
+    subcategories_filtered = SubCategoryFilter(request.GET, queryset=subcategories)
+    subcategories = subcategories_filtered.qs
+    data = {
+        'subcategories':subcategories,
+        'subcategories_filtered':subcategories_filtered
+    }
+    return render(request, 'administrator/subcategory/list.html', data)
+
+def subcategory_create(request):
+    data = {
+        'form':SubCategoryForm(),
+        'title':'Crear nuevo tipo'
+    }
+
+    if request.method == 'POST':
+        form = SubCategoryForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Tipo creado correctamente")
+            return redirect(to="subcategories")
+        data['form'] = form
+
+    return render(request, 'administrator/subcategory/create.html', data)
+
+def subcategory_modify(request, id):
+    subcategory = TipoProducto.objects.get(id_tipo_producto=id)
+    data = {
+        'form':SubCategoryForm(instance=subcategory),
+        'title':'Modificar tipo'
+    }
+
+    if request.method == 'POST':
+        form = SubCategoryForm(data=request.POST, instance=subcategory)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Tipo modificado correctamente")
+            return redirect(to="subcategories")
+        data['form'] = form
+    return render(request, 'administrator/subcategory/create.html', data)

@@ -59,7 +59,7 @@ def product_modify(request, id):
     }
 
     if request.method == 'POST':
-        form = ProductModifyForm(data=request.POST, instance=product)
+        form = ProductModifyForm(data=request.POST, instance=product, files=request.FILES)
 
         if form.is_valid():
             form.save()
