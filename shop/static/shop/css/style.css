@@ -178,14 +178,6 @@ input.error {
 .admin > * {
     margin-bottom: 2rem;
 }
-.admin-section {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-}
 
 /* MEDIA QUERYS */
 /* TABLET */
