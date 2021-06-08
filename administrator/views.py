@@ -3,7 +3,7 @@ from .models import *
 from shop.forms import CustomUserCreationForm, ProfileForm, AdressForm, ModifyUserForm, ModifyProfileForm, ModifyProviderForm
 from .forms import *
 from django.contrib import messages
-from .filters import UsuarioAdminFilter, BrandAdminFilter, CategoryFilter, SubCategoryFilter
+from .filters import UsuarioAdminFilter, BrandAdminFilter, CategoryFilter, SubCategoryFilter, AreaFilter
 
 # Create your views here.
 def home(request):
@@ -292,3 +292,47 @@ def subcategory_modify(request, id):
             return redirect(to="subcategories")
         data['form'] = form
     return render(request, 'administrator/subcategory/create.html', data)
+
+
+# CRUD RUBRO PROVEEDOR
+def areas(request):
+    areas = Rubro.objects.all()
+    areas_filtered = AreaFilter(request.GET, queryset=areas)
+    areas = areas_filtered.qs
+    data = {
+        'areas':areas,
+        'areas_filtered':areas_filtered
+    }
+    return render(request, 'administrator/area/list.html', data)
+
+def area_create(request):
+    data = {
+        'form':AreaForm(),
+        'title':'Crear nuevo rubro'
+    }
+
+    if request.method == 'POST':
+        form = AreaForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Rubro creado correctamente")
+            return redirect(to="areas")
+        data['form'] = form
+
+    return render(request, 'administrator/area/create.html', data)
+
+def area_modify(request, id):
+    area = Rubro.objects.get(id_rubro=id)
+    data = {
+        'form':AreaForm(instance=area),
+        'title':'Modificar rubro'
+    }
+
+    if request.method == 'POST':
+        form = AreaForm(data=request.POST, instance=area)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Rubro modificado correctamente")
+            return redirect(to="areas")
+        data['form'] = form
+    return render(request, 'administrator/area/create.html', data)

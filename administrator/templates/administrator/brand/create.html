@@ -1,5 +1,5 @@
 {% extends 'employees/base.html' %}
-{% block title %}Registrar marca{% endblock %}
+{% block title %}Admin brands{% endblock %}
 
 {% block content %}
 {% load crispy_forms_tags %}
@@ -10,7 +10,7 @@
 
             <h2>{{title}}</h2>
             <hr>
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST">
                 {% csrf_token %}
                 {{ form | crispy }}
                 <br>

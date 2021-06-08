@@ -18,7 +18,7 @@
             <a onclick="deleteOrder()" href="{% url 'products_by_provider' i.id_proveedor %}">
                 <img class="thumbnail darken" src="{% static 'employees/img/provider.svg' %}">
                 <div class="text-block text-center">
-                    <h3>{{ i.nombre_empresa }}</h3>
+                    <h3 class="fw-bold">{{ i.nombre_empresa }}</h3>
                 </div>
             </a>
         </div>

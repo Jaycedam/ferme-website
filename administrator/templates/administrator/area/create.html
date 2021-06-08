@@ -1,5 +1,5 @@
 {% extends 'employees/base.html' %}
-{% block title %}Admin subcategories{% endblock %}
+{% block title %}Admin areas{% endblock %}
 
 {% block content %}
 {% load crispy_forms_tags %}
@@ -14,7 +14,7 @@
                 {% csrf_token %}
                 {{ form | crispy }}
                 <br>
-                <a class="btn btn-secondary float-left" href="{% url 'subcategories' %}">Cancelar</a>
+                <a class="btn btn-secondary float-left" href="{% url 'areas' %}">Cancelar</a>
                 <button type="submit" class="btn btn-primary float-left">Guardar</button>
             </form>
         </div>

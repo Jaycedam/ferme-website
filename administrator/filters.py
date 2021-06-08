@@ -1,6 +1,6 @@
 import django_filters
 from django_filters import CharFilter, NumberFilter, ModelChoiceFilter, ChoiceFilter
-from .models import Persona, User, Marca, FamiliaProducto, TipoProducto
+from .models import Persona, User, Marca, FamiliaProducto, TipoProducto, Rubro
 from django import forms
 
 class UsuarioAdminFilter(django_filters.FilterSet):
@@ -31,3 +31,9 @@ class SubCategoryFilter(django_filters.FilterSet):
     class Meta:
         model = TipoProducto
         fields = ["tipo_producto", "id_familia_producto"]
+
+class AreaFilter(django_filters.FilterSet):
+    rubro = CharFilter(label='Rubro', lookup_expr='icontains', widget=forms.TextInput(attrs={'placeholder': 'Buscar'}) )
+    class Meta:
+        model = Rubro
+        fields = ["rubro"]

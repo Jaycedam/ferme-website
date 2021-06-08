@@ -30,7 +30,6 @@ class Domicilio(models.Model):
     nro = models.FloatField()
     nro_departamento = models.FloatField(blank=True, null=True)
     id_comuna = models.ForeignKey(Comuna, models.DO_NOTHING, db_column='id_comuna')
-    id_tipo_domicilio = models.ForeignKey('TipoDomicilio', models.DO_NOTHING, db_column='id_tipo_domicilio')
     rut_persona = models.OneToOneField('Persona', models.DO_NOTHING, db_column='rut_persona')
 
     class Meta:
@@ -71,34 +70,6 @@ class Marca(models.Model):
     class Meta:
         managed = False
         db_table = 'marca'
-
-
-class NotaCredito(models.Model):
-    nro_nota_credito = models.AutoField(primary_key=True)
-    fecha = models.DateField()
-    total = models.FloatField()
-    nro_recibo = models.ForeignKey('Recibo', models.DO_NOTHING, db_column='nro_recibo')
-    id_estado = models.ForeignKey(Estado, models.DO_NOTHING, db_column='id_estado')
-
-    def __str__(self):
-        return self.nro_nota_credito
-
-    class Meta:
-        managed = False
-        db_table = 'nota_credito'
-
-
-class NcDetalle(models.Model):
-    id_detalle = models.AutoField(primary_key=True)
-    id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
-    precio = models.FloatField()
-    cantidad = models.FloatField()
-    total = models.FloatField()
-    nro_nota_credito = models.ForeignKey('NotaCredito', models.DO_NOTHING, db_column='nro_nota_credito')
-
-    class Meta:
-        managed = False
-        db_table = 'nc_detalle'
 
 
 class Orden(models.Model):
@@ -246,18 +217,6 @@ class TipoDocumento(models.Model):
     class Meta:
         managed = False
         db_table = 'tipo_documento'
-
-
-class TipoDomicilio(models.Model):
-    id_tipo_domicilio = models.AutoField(primary_key=True)
-    tipo_domicilio = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.tipo_domicilio
-
-    class Meta:
-        managed = False
-        db_table = 'tipo_domicilio'
 
 
 class TipoOrden(models.Model):

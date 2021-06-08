@@ -140,7 +140,7 @@ class ModifyProviderForm(forms.ModelForm):
 class AdressForm(forms.ModelForm):
     class Meta: 
         model = Domicilio
-        fields = ["id_comuna", "id_tipo_domicilio", "calle", "nro", "nro_departamento"]
+        fields = ["id_comuna", "calle", "nro", "nro_departamento"]
     
     def __init__(self, *args, **kwargs):
         super(AdressForm, self).__init__(*args, **kwargs)

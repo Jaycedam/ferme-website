@@ -19,5 +19,8 @@ urlpatterns = [
     path('subcategories', views.subcategories, name="subcategories"),
     path('subcategories/create', views.subcategory_create, name="subcategory_create"),
     path('subcategories/modify/<id>', views.subcategory_modify, name="subcategory_modify"),
-
+    # rubros proveedor crud
+    path('areas', views.areas, name="areas"),
+    path('areas/create', views.area_create, name="area_create"),
+    path('areas/modify/<id>', views.area_modify, name="area_modify"),
 ]

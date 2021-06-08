@@ -1,15 +1,15 @@
 {% extends 'employees/base.html' %}
-{% block title %}Admin subcategories{% endblock %}
+{% block title %}Admin areas{% endblock %}
 
 {% block content %}
 {% load crispy_forms_tags %}
 
 <div class="row align-items-center">
     <div class="col">
-        <h1>Gestión de tipos de producto</h1>
+        <h1>Gestión de rubros</h1>
     </div>
     <div class="col d-flex justify-content-end">
-        <a class="btn btn-outline-dark float-left" style="height: min-content;" href="{% url 'subcategory_create' %}">Registrar nuevo tipo</a>
+        <a class="btn btn-outline-dark float-left" style="height: min-content;" href="{% url 'area_create' %}">Registrar nuevo rubro</a>
     </div>
 </div>
 
@@ -17,10 +17,10 @@
 
 <div class="row">
     <form class="form-inline" method="GET">
-        {{ subcategories_filtered.form|crispy }}
+        {{ areas_filtered.form|crispy }}
         <br>
         <button type="submit" class="btn btn-outline-dark">Filtrar</button>
-        <a class="btn btn-outline-danger" href="{% url 'subcategories' %}">Limpiar filtros</a>
+        <a class="btn btn-outline-danger" href="{% url 'areas' %}">Limpiar filtros</a>
     </form>
 </div>
 
@@ -28,18 +28,16 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Tipo producto</th>
-                <th scope="col">Familia producto</th>
+                <th scope="col">Rubro</th>
                 <th scope="col">Opciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for i in subcategories %}
+            {% for i in areas %}
             <tr>
-                <td>{{ i.tipo_producto }}</td>
-                <td>{{ i.id_familia_producto }}</td>
+                <td>{{ i.rubro }}</td>
                 <td>
-                    <a class="btn btn-outline-dark" href="{% url 'subcategory_modify' i.id_tipo_producto %}">Modificar</a>
+                    <a class="btn btn-outline-dark" href="{% url 'area_modify' i.id_rubro %}">Modificar</a>
                 </td>
             </tr>
             {% endfor %}
