@@ -12,8 +12,8 @@
     <form class="form-inline" method="GET">
         {{ orders_filtered.form|crispy }}
         <br>
-        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
-        <a class="btn btn-outline-secondary" href="{% url 'order_requests' %}">Limpiar filtros</a>
+        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
+        <a class="btn btn-outline-danger" href="{% url 'order_requests' %}">Limpiar filtros</a>
     </form>
 </div>
 
@@ -37,7 +37,7 @@
                 <td>{{ i.fecha }}</td>
                 <td>${{ i.total }}</td>
                 <td>
-                    <a class="btn btn-primary float-left" href="{% url 'order_request' i.nro_orden %}">Ver detalle</a>
+                    <a class="btn btn-outline-dark float-left" href="{% url 'order_request' i.nro_orden %}">Ver detalle</a>
                 </td>
             </tr>
             {% endfor %}

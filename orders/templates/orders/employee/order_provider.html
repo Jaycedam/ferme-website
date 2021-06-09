@@ -13,7 +13,7 @@
 
 {% if recibo %}
 <br>
-<a class="btn btn-secondary" href="#">Descargar recibo</a>
+<a class="btn btn-secondary" href="{% url 'render_pdf' order.nro_orden %}">Descargar recibo</a>
 {% endif %}
 
 <br><hr><br>

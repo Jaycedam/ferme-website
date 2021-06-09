@@ -12,7 +12,6 @@ import datetime
 @login_required
 def orders(request):
     user = request.user
-
     data = {}
     try:
         profile = Persona.objects.get(usuario=user)
@@ -21,10 +20,8 @@ def orders(request):
         orders_filtered = OrdersFilter(request.GET, queryset=orders)
         orders = orders_filtered.qs
 
-        data = {
-            'orders':orders,
-            'orders_filtered':orders_filtered
-        }
+        data['orders'] = orders
+        data['orders_filtered'] = orders_filtered
         
         if Proveedor.objects.filter(rut_persona=profile).exists():
             provider = Proveedor.objects.get(rut_persona=profile)

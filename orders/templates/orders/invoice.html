@@ -1,14 +1,23 @@
 <h1>Ferme Services</h1>
 <h1>{{invoice.id_tipo}} N°{{invoice.nro_recibo}}</h1>
 
+{% if order.id_proveedor %}
+<h5>Rut: 78.827.280-4</h5>
+<h5>Nombre: Ferme Services</h5>
+<h5>Proveedor: {{order.id_proveedor}}</h5>
+
+{% elif not order.id_proveedor %}
 <h5>Rut: {{order.rut_persona}}</h5>
+<h5>Nombre: {{profile.usuario.first_name}} {{profile.usuario.last_name}}</h5>
+{% endif %}
+
 <h5>Fecha emisión: {{invoice.fecha}}</h5>
 {% if invoice.iva > 0 %}
 <h5>Subotal: ${{invoice.subtotal}}</h5>
 <h5>IVA: ${{invoice.iva}}</h5>
 {% endif %}
 <h5>Total: ${{invoice.total}}</h5>
-<h5>Orden de compra: {{invoice.nro_orden}}</h5>
+<h5>Orden de compra: N°{{invoice.nro_orden}}</h5>
 
 <hr>
 

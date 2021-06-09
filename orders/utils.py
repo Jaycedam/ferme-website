@@ -23,11 +23,14 @@ def extract_request_variables(request, id):
     data = template.render(Context({}))
 
     invoice = Recibo.objects.get(nro_orden=id)
+    profile = Persona.objects.get(rut_persona=invoice.nro_orden.rut_persona)
+
     order = Orden.objects.get(nro_orden=id)
     items = OrdenDetalle.objects.filter(nro_orden=id)
 
     return {
         'invoice':invoice,
+        'profile':profile,
         'order':order,
         'items':items,
         'pagesize': pagesize,

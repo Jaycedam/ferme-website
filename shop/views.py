@@ -277,7 +277,6 @@ def checkout(request):
                 producto = Producto.objects.get(id_producto=i['product']['id'])
 
                 if i['quantity'] > producto.stock:
-                    messages.error(request, "No hay stock suficiente para realizar tu compra")
                     raise Exception
 
                 OrdenDetalle.objects.create(
@@ -315,8 +314,6 @@ def checkout(request):
                 new_order.id_estado = Estado.objects.get(id_estado=3)
                 new_order.save()
 
-            # agregar codigo para cambiar estado de orden a rechazada
-            print(e)
             messages.error(request, "No se ha podido realizar la compra, intenta nuevamente")
 
         return redirect(to="home")
