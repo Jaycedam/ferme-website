@@ -2,14 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from shop.forms import CustomUserCreationForm, ProfileForm, AdressForm, ModifyUserForm, ModifyProfileForm, ModifyProviderForm
 from .forms import *
+from .decorators import superuser_required
 from django.contrib import messages
 from .filters import UsuarioAdminFilter, BrandAdminFilter, CategoryFilter, SubCategoryFilter, AreaFilter
 
 # Create your views here.
+
+@superuser_required
 def home(request):
     return render(request, 'administrator/home.html')
 
 
+# CRUD USERS
+@superuser_required
 def users(request):
     users = User.objects.select_related('persona').all()
     users_filtered = UsuarioAdminFilter(request.GET, queryset=users)
@@ -21,7 +26,7 @@ def users(request):
     }
     return render(request, 'administrator/user/list.html', data)
 
-
+@superuser_required
 def create_user(request):
     data = {
         'title': 'Crear usuario',
@@ -76,7 +81,7 @@ def create_user(request):
 
     return render(request, 'administrator/user/create.html', data)
 
-
+@superuser_required
 def modify_user(request, id):
     user = get_object_or_404(User, id=id)
 
@@ -164,7 +169,9 @@ def modify_user(request, id):
         data["provider_form"] = provider_form
     return render(request, 'administrator/user/create.html', data)
 
+
 # CRUD MARCAS
+@superuser_required
 def brands(request):
     brands = Marca.objects.all()
     brands_filtered = BrandAdminFilter(request.GET, queryset=brands)
@@ -175,6 +182,7 @@ def brands(request):
     }
     return render(request, 'administrator/brand/list.html', data)
 
+@superuser_required
 def brand_create(request):
     data = {
         'form':BrandForm(),
@@ -191,6 +199,7 @@ def brand_create(request):
 
     return render(request, 'administrator/brand/create.html', data)
 
+@superuser_required
 def brand_modify(request, id):
     brand = Marca.objects.get(id_marca=id)
     data = {
@@ -207,7 +216,9 @@ def brand_modify(request, id):
         data['form'] = form
     return render(request, 'administrator/brand/create.html', data)
 
+
 # CRUD FAMILIA PRODUCTOS
+@superuser_required
 def categories(request):
     categories = FamiliaProducto.objects.all()
     categories_filtered = CategoryFilter(request.GET, queryset=categories)
@@ -218,6 +229,7 @@ def categories(request):
     }
     return render(request, 'administrator/category/list.html', data)
 
+@superuser_required
 def category_create(request):
     data = {
         'form':CategoryAdminForm(),
@@ -234,6 +246,7 @@ def category_create(request):
 
     return render(request, 'administrator/category/create.html', data)
 
+@superuser_required
 def category_modify(request, id):
     category = FamiliaProducto.objects.get(id_familia_producto=id)
     data = {
@@ -250,7 +263,9 @@ def category_modify(request, id):
         data['form'] = form
     return render(request, 'administrator/category/create.html', data)
 
+
 # CRUD TIPO PRODUCTO
+@superuser_required
 def subcategories(request):
     subcategories = TipoProducto.objects.all()
     subcategories_filtered = SubCategoryFilter(request.GET, queryset=subcategories)
@@ -261,6 +276,7 @@ def subcategories(request):
     }
     return render(request, 'administrator/subcategory/list.html', data)
 
+@superuser_required
 def subcategory_create(request):
     data = {
         'form':SubCategoryForm(),
@@ -277,6 +293,7 @@ def subcategory_create(request):
 
     return render(request, 'administrator/subcategory/create.html', data)
 
+@superuser_required
 def subcategory_modify(request, id):
     subcategory = TipoProducto.objects.get(id_tipo_producto=id)
     data = {
@@ -295,6 +312,7 @@ def subcategory_modify(request, id):
 
 
 # CRUD RUBRO PROVEEDOR
+@superuser_required
 def areas(request):
     areas = Rubro.objects.all()
     areas_filtered = AreaFilter(request.GET, queryset=areas)
@@ -305,6 +323,7 @@ def areas(request):
     }
     return render(request, 'administrator/area/list.html', data)
 
+@superuser_required
 def area_create(request):
     data = {
         'form':AreaForm(),
@@ -321,6 +340,7 @@ def area_create(request):
 
     return render(request, 'administrator/area/create.html', data)
 
+@superuser_required
 def area_modify(request, id):
     area = Rubro.objects.get(id_rubro=id)
     data = {

@@ -5,5 +5,4 @@ cx_oracle
 django-rest-framework
 django-filter
 Pillow
-django-nested-admin
 xhtml2pdf
