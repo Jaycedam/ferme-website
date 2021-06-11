@@ -2,14 +2,14 @@ from .forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
 from .models import *
+from django.http import Http404
 from .filters import ProductoFilter
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from .utils import cookieCart
 import datetime
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -190,16 +190,17 @@ def register(request):
     return render(request, 'registration/register.html', data)
 
 def products(request, id):
-    products = Producto.objects.filter(id_tipo_producto__id_familia_producto=id, stock__gt=0)
-
     family = FamiliaProducto.objects.get(id_familia_producto=id)
-
-    productsFiltered = ProductoFilter(request.GET, queryset=products)
-
+    productsFiltered = ProductoFilter(request.GET, queryset=Producto.objects.filter(id_tipo_producto__id_familia_producto=id, stock__gt=0))
     products = productsFiltered.qs
 
+    paginator = Paginator(products, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
+
     data = {
-        "products":products,
+        "entity":page,
         "family":family,
         "productsFiltered":productsFiltered,
     }

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .filters import OrderToProviderFilter, OrdersFilter
 import datetime
+from django.core.paginator import Paginator
 
 # Create your views here.
 ############################### CLIENTE ###############################
@@ -16,16 +17,16 @@ def orders(request):
     try:
         profile = Persona.objects.get(usuario=user)
 
-        orders = Orden.objects.filter(rut_persona=profile, id_tipo=1)
-        orders_filtered = OrdersFilter(request.GET, queryset=orders)
+        orders_filtered = OrdersFilter(request.GET, queryset=Orden.objects.filter(rut_persona=profile, id_tipo=1))
         orders = orders_filtered.qs
 
-        data['orders'] = orders
+        paginator = Paginator(orders, 20)
+        page_number = request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+
+        data['entity'] = page
         data['orders_filtered'] = orders_filtered
         
-        if Proveedor.objects.filter(rut_persona=profile).exists():
-            provider = Proveedor.objects.get(rut_persona=profile)
-            data['order_provider'] = Orden.objects.filter(id_proveedor=provider)
     except Exception as e:
         print(e)
 
@@ -57,13 +58,15 @@ def order(request, id):
 # listado de ordenes hacia proveedor
 @staff_member_required
 def orders_to_provider(request):
-    orders = Orden.objects.filter(id_tipo=2)
-    ordersFiltered = OrderToProviderFilter(request.GET, queryset=orders)
-
+    ordersFiltered = OrderToProviderFilter(request.GET, queryset=Orden.objects.filter(id_tipo=2))
     orders = ordersFiltered.qs
 
+    paginator = Paginator(orders, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
     data = {
-        'orders':orders,
+        'entity':page,
         'ordersFiltered':ordersFiltered
     }
     return render(request, 'orders/employee/orders_to_provider.html', data)
@@ -96,12 +99,15 @@ def order_requests(request):
     data = {}
     try:
         provider = Proveedor.objects.get(rut_persona=Persona.objects.get(usuario=request.user))
-        order_provider = Orden.objects.filter(id_proveedor=provider)
-        orders_filtered = OrdersFilter(request.GET, queryset=order_provider)
-        order_provider = orders_filtered.qs
+        orders_filtered = OrdersFilter(request.GET, queryset=Orden.objects.filter(id_proveedor=provider))
+        orders = orders_filtered.qs
+
+        paginator = Paginator(orders, 20)
+        page_number = request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
 
         data ={
-            'order_provider':order_provider,
+            'entity':page,
             'orders_filtered':orders_filtered
         }
 

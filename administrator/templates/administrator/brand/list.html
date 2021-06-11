@@ -33,7 +33,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in brands %}
+            {% for i in entity %}
             <tr>
                 <td>{{ i.marca }}</td>
                 <td>
@@ -43,8 +43,8 @@
             {% endfor %}
         </tbody>
     </table>
-
 </div>
 
+{% include 'shop/paginator.html' %}
 
 {% endblock content %}

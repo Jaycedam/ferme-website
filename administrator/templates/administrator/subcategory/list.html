@@ -34,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in subcategories %}
+            {% for i in entity %}
             <tr>
                 <td>{{ i.tipo_producto }}</td>
                 <td>{{ i.id_familia_producto }}</td>
@@ -45,8 +45,8 @@
             {% endfor %}
         </tbody>
     </table>
-
 </div>
 
+{% include 'shop/paginator.html' %}
 
 {% endblock content %}

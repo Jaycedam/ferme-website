@@ -28,9 +28,8 @@
                 <th scope="col">Opciones</th>
             </tr>
         </thead>
-        {% if order_provider %}
         <tbody>
-            {% for i in order_provider %}
+            {% for i in entity %}
             <tr>
                 <td>{{ i.nro_orden }}</td>
                 <td>{{ i.id_estado }}</td>
@@ -42,8 +41,9 @@
             </tr>
             {% endfor %}
         </tbody>
-        {% endif %}
     </table>
 </div>
+
+{% include 'shop/paginator.html' %}
 
 {% endblock %}

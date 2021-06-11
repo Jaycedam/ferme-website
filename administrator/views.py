@@ -5,6 +5,7 @@ from .forms import *
 from .decorators import superuser_required
 from django.contrib import messages
 from .filters import UsuarioAdminFilter, BrandAdminFilter, CategoryFilter, SubCategoryFilter, AreaFilter
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -16,12 +17,15 @@ def home(request):
 # CRUD USERS
 @superuser_required
 def users(request):
-    users = User.objects.select_related('persona').all()
-    users_filtered = UsuarioAdminFilter(request.GET, queryset=users)
+    users_filtered = UsuarioAdminFilter(request.GET, queryset=User.objects.select_related('persona').all())
     users = users_filtered.qs
 
+    paginator = Paginator(users, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
     data = {
-        'users':users,
+        'entity':page,
         'users_filtered':users_filtered
     }
     return render(request, 'administrator/user/list.html', data)
@@ -173,11 +177,15 @@ def modify_user(request, id):
 # CRUD MARCAS
 @superuser_required
 def brands(request):
-    brands = Marca.objects.all()
-    brands_filtered = BrandAdminFilter(request.GET, queryset=brands)
+    brands_filtered = BrandAdminFilter(request.GET, queryset=Marca.objects.all())
     brands = brands_filtered.qs
+
+    paginator = Paginator(brands, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
     data = {
-        'brands':brands,
+        'entity':page,
         'brands_filtered':brands_filtered
     }
     return render(request, 'administrator/brand/list.html', data)
@@ -220,11 +228,15 @@ def brand_modify(request, id):
 # CRUD FAMILIA PRODUCTOS
 @superuser_required
 def categories(request):
-    categories = FamiliaProducto.objects.all()
-    categories_filtered = CategoryFilter(request.GET, queryset=categories)
+    categories_filtered = CategoryFilter(request.GET, queryset=FamiliaProducto.objects.all())
     categories = categories_filtered.qs
+
+    paginator = Paginator(categories, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
     data = {
-        'categories':categories,
+        'entity':page,
         'categories_filtered':categories_filtered
     }
     return render(request, 'administrator/category/list.html', data)
@@ -267,11 +279,15 @@ def category_modify(request, id):
 # CRUD TIPO PRODUCTO
 @superuser_required
 def subcategories(request):
-    subcategories = TipoProducto.objects.all()
-    subcategories_filtered = SubCategoryFilter(request.GET, queryset=subcategories)
+    subcategories_filtered = SubCategoryFilter(request.GET, queryset=TipoProducto.objects.all())
     subcategories = subcategories_filtered.qs
+
+    paginator = Paginator(subcategories, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
     data = {
-        'subcategories':subcategories,
+        'entity':page,
         'subcategories_filtered':subcategories_filtered
     }
     return render(request, 'administrator/subcategory/list.html', data)
@@ -314,11 +330,15 @@ def subcategory_modify(request, id):
 # CRUD RUBRO PROVEEDOR
 @superuser_required
 def areas(request):
-    areas = Rubro.objects.all()
-    areas_filtered = AreaFilter(request.GET, queryset=areas)
+    areas_filtered = AreaFilter(request.GET, queryset=Rubro.objects.all())
     areas = areas_filtered.qs
+
+    paginator = Paginator(areas, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
     data = {
-        'areas':areas,
+        'entity':page,
         'areas_filtered':areas_filtered
     }
     return render(request, 'administrator/area/list.html', data)

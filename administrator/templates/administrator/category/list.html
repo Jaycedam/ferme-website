@@ -34,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in categories %}
+            {% for i in entity %}
             <tr>
                 <td>{{ i.familia_producto }}</td>
                 {% if i.imagen_url %}
@@ -49,8 +49,9 @@
             {% endfor %}
         </tbody>
     </table>
-
 </div>
+
+{% include 'shop/paginator.html' %}
 
 
 {% endblock content %}

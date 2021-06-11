@@ -6,6 +6,7 @@ from .utils import cookieOrder
 from .forms import *
 from django.contrib import messages
 import datetime
+from django.core.paginator import Paginator
 
 # Create your views here.
 @staff_member_required
@@ -39,13 +40,16 @@ def product_create(request):
 
 @staff_member_required
 def product_management(request):
-    productos = Producto.objects.all()
-    productosFiltered = ProductAdminFilter(request.GET, queryset=productos)
-    productos = productosFiltered.qs
+    products_filtered = ProductAdminFilter(request.GET, queryset=Producto.objects.all())
+    products = products_filtered.qs
+    
+    paginator = Paginator(products, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
 
     data = {
-        "productos":productos,
-        "productosFiltered":productosFiltered
+        "entity":page,
+        "products_filtered":products_filtered
     }
 
     return render(request, 'employees/product/list.html', data)
@@ -84,12 +88,15 @@ def product_request(request):
 @staff_member_required
 def products_by_provider(request, id):
     provider = Proveedor.objects.get(id_proveedor=id)
-    products = Producto.objects.filter(id_proveedor=id)
-    products_filtered = ProductAdminFilter(request.GET, queryset=products)
+    products_filtered = ProductAdminFilter(request.GET, queryset=Producto.objects.filter(id_proveedor=id))
     products = products_filtered.qs
 
+    paginator = Paginator(products, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
     data = {
-        'products':products,
+        'entity':page,
         'products_filtered':products_filtered,
         'provider':provider
     }

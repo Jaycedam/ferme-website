@@ -39,7 +39,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in users %}
+            {% for i in entity %}
             <tr>
                 <td>{{ i.username }}</td>
                 <td>{{ i.first_name }} {{i.last_name}}</td>
@@ -72,5 +72,7 @@
         </tbody>
     </table>
 </div>
+
+{% include 'shop/paginator.html' %}
 
 {% endblock content %}

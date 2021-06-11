@@ -18,7 +18,7 @@
 </div>
 
 <div class="row">
-    {% for i in products %}
+    {% for i in entity %}
     <div class="col-3">
         {% if i.imagen_url %}
         <img class="thumbnail" src="{{i.imagen_url.url}}">
@@ -41,5 +41,5 @@
     {% endfor %}
 </div>
 
-
+{% include 'shop/paginator.html' %}
 {% endblock %}

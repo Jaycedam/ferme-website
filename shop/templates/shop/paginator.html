@@ -1,0 +1,34 @@
+{% load shop_extras %}
+
+<br>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+
+        {% if entity.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="{% relative_url entity.previous_page_number 'page' request.GET.urlencode %}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% endif %}
+
+        {% for i in entity.paginator.page_range %}
+            {% if entity.number == i %}
+            <li class="page-item active"><a class="page-link" href="{% relative_url i 'page' request.GET.urlencode %}">{{ i }}</a></li>
+            <!-- solo toma paginas que sean menor o mayor en 3 -->
+            {% elif i > entity.number|add:-3 and i < entity.number|add:3 %}
+            <li class="page-item"><a class="page-link" href="{% relative_url i 'page' request.GET.urlencode %}">{{ i }}</a></li>
+            {% endif %}
+
+        {% endfor %}
+
+        {% if entity.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{% relative_url entity.next_page_number 'page' request.GET.urlencode %}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>

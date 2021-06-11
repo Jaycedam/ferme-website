@@ -17,7 +17,7 @@
 
 <div class="row">
     <form class="form-inline" method="GET">
-        {{ productosFiltered.form|crispy }}
+        {{ products_filtered.form|crispy }}
         <br>
         <button type="submit" class="btn btn-outline-dark">Filtrar</button>
         <a class="btn btn-outline-danger" href="{% url 'product_management' %}">Limpiar filtros</a>
@@ -41,7 +41,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in productos %}
+            {% for i in entity %}
             <tr>
                 <td>{{ i.id_producto }}</td>
                 <td>{{ i.producto }}</td>
@@ -64,8 +64,8 @@
             {% endfor %}
         </tbody>
     </table>
-
 </div>
 
+{% include 'shop/paginator.html' %}
 
 {% endblock content %}

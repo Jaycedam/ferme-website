@@ -27,7 +27,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in orders %}
+            {% for i in entity %}
             <tr>
                 <td>{{ i.nro_orden }}</td>
                 <td>{{ i.id_proveedor }}</td>
@@ -42,4 +42,7 @@
         </tbody>
     </table>
 </div>
+
+{% include 'shop/paginator.html' %}
+
 {% endblock %}
