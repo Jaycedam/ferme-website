@@ -15,7 +15,7 @@ def home(request):
     orders = Orden.objects.filter(id_tipo=2)
 
     # estadísticas de top 10 productos mas vendidos
-    product_stat_sales = Producto.objects.annotate(sales=Sum('ordendetalle__cantidad')).order_by('sales')[:10]
+    product_stat_sales = Producto.objects.annotate(sales=Sum('ordendetalle__cantidad')).order_by('sales')[:5]
     product_stat_sales_labels = []
     product_stat_sales_data = []
     for i in product_stat_sales:
@@ -28,24 +28,43 @@ def home(request):
     user_stats_data = []
 
     active_users = User.objects.count()
-    user_stats_labels.append("Usuarios registrados")
+    user_stats_labels.append("Total usuarios registrados")
     user_stats_data.append(active_users)
 
     today = datetime.date.today() + datetime.timedelta(days=1)
     last_week = datetime.date.today() - datetime.timedelta(days=7)
+    last_month = datetime.date.today() - datetime.timedelta(days=30)
+
+    monthly_users = User.objects.filter(last_login__range=(last_week, today)).count()
+    user_stats_labels.append("Usarios activos (30 días)")
+    user_stats_data.append(monthly_users)
 
     weekly_users = User.objects.filter(last_login__range=(last_week, today)).count()
-
-    user_stats_labels.append("Usarios logueados (7 días)")
+    user_stats_labels.append("Usarios activos (7 días)")
     user_stats_data.append(weekly_users)
 
+    # estadísticas de fechas de venta
+    order_stats_data = []
+    last_year_orders_data = []
+
+    orders = Orden.objects.filter(id_tipo=1, id_estado=2, fecha__year=today.year)
+    last_year_orders = Orden.objects.filter(id_tipo=1, id_estado=2, fecha__year=today.year-1)
+
+    # iteracion por 12 meses donde se filtra por mes y se cuentan las ordenes realizadas por mes/año
+    for i in range(12):
+        orders_by_month = orders.filter(fecha__month=i+1).count()
+        last_year_orders_by_month = last_year_orders.filter(fecha__month=i+1).count()
+        order_stats_data.append(orders_by_month)
+        last_year_orders_data.append(last_year_orders_by_month)
 
     data = {
         'orders':orders,
         'product_stat_sales_labels':product_stat_sales_labels,
         'product_stat_sales_data':product_stat_sales_data,
         'user_stats_labels':user_stats_labels,
-        'user_stats_data':user_stats_data
+        'user_stats_data':user_stats_data,
+        'order_stats_data':order_stats_data,
+        'last_year_orders_data':last_year_orders_data
     }
     return render(request, 'employees/home.html', data)
 

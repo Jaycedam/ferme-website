@@ -13,10 +13,12 @@
     var product_stat_sales_labels = {{ product_stat_sales_labels| safe}}
     var user_stats_labels = {{ user_stats_labels| safe}}
     var user_stats_data = {{ user_stats_data| safe}}
+    var order_stats_data = {{ order_stats_data| safe}}
+    var last_year_orders_data = {{last_year_orders_data|safe}}
     var color_scheme = ['#cc2b2b', '#cc9c2b', '#8ecc2b', '#2bcc69', '#2bb7cc',
         '#2b59cc', '#6e2bcc', '#cc2b2b', '#cc2bc7', '#4d0000',]
 
-    var config = {
+    var product_config = {
         type: 'doughnut',
         data: {
             datasets: [{
@@ -32,12 +34,12 @@
         }
     };
 
-    var config2 = {
+    var user_config = {
         type: 'bar',
         data: {
             datasets: [{
                 data: user_stats_data,
-                backgroundColor: color_scheme,
+                backgroundColor: '#2b59cc',
                 label: 'Usuarios'
             }],
             labels: user_stats_labels,
@@ -53,11 +55,37 @@
     };
 
 
+    var sales_config = {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    data: order_stats_data,
+                    borderColor: '#14c969',
+                    label: 'Ventas año actual'
+                },
+                {
+                    data: last_year_orders_data,
+                    borderColor: '#6210cc',
+                    label: 'Ventas año anterior'
+                }
+            ],
+            labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", 
+                    "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+        },
+        options: {
+            responsive: true
+        }
+    };
+
+
     window.onload = function () {
         var ctx = document.getElementById('product_chart').getContext('2d');
-        window.myPie = new Chart(ctx, config);
+        window.myPie = new Chart(ctx, product_config);
         var ctx2 = document.getElementById('user_chart').getContext('2d');
-        window.myPie_2 = new Chart(ctx2, config2);
+        window.myPie_2 = new Chart(ctx2, user_config);
+        var ctx3 = document.getElementById('sales_chart').getContext('2d');
+        window.myPie_2 = new Chart(ctx3, sales_config);
     };
 
 </script>
@@ -78,9 +106,7 @@
 
     <br><br>
 
-    <div class="d-flex justify-content-center">
-        <img src="{% static 'employees/img/landing.svg' %}" alt="">
-    </div>
+    <img src="{% static 'employees/img/landing.svg' %}" alt="">
 
     <a href="#stats">
         <i class="bi bi-arrow-down-circle-fill" style="font-size: 50px;"></i>
@@ -91,9 +117,17 @@
 
 {% block content %}
 <br>
-
 <div class="row">
     <h1 class="text-center" id="stats">Estadísticas</h1>
+    <hr>
+    <div class="col-12">
+        <h5 class="text-center">Comparación de ventas por mes</h5>
+        <br>
+        <canvas id="sales_chart" class="charts"></canvas>
+    </div>
+</div>
+<br>
+<div class="row">
     <hr>
     <div class="col-lg-6">
         <h5 class="text-center">Productos más vendidos</h5>
@@ -101,7 +135,7 @@
         <canvas id="product_chart" class="charts"></canvas>
     </div>
 
-    <div class="col-6">
+    <div class="col-lg-6">
         <h5 class="text-center">Estadísticas de usuarios</h5>
         <br>
         <canvas id="user_chart" class="charts"></canvas>
