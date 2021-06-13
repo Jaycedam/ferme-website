@@ -2,14 +2,111 @@
 {% block title %}Home{% endblock %}
 {% load static %}
 
-{% block content %}
-<h1>Bienvenido, {{user.username}}</h1>
-<br>
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum animi sunt architecto nesciunt, sapiente molestias error cumque quia minus commodi est harum illum magnam molestiae corporis sint iste laudantium expedita.
-<br><br>
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"
+    integrity="sha512-VCHVc5miKoln972iJPvkQrUYYq7XpxXzvqNfiul1H4aZDwGBGC0lq373KNleaB2LpnC2a/iNfE5zoRYmB4TRDQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<div class="d-flex justify-content-center">
-    <img src="{% static 'employees/img/landing.svg' %}" alt="">
+<!-- script que muestra el query de stats en forma de chart -->
+<script>
+    var product_stat_sales_data = {{ product_stat_sales_data| safe}}
+    var product_stat_sales_labels = {{ product_stat_sales_labels| safe}}
+    var user_stats_labels = {{ user_stats_labels| safe}}
+    var user_stats_data = {{ user_stats_data| safe}}
+    var color_scheme = ['#cc2b2b', '#cc9c2b', '#8ecc2b', '#2bcc69', '#2bb7cc',
+        '#2b59cc', '#6e2bcc', '#cc2b2b', '#cc2bc7', '#4d0000',]
+
+    var config = {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: product_stat_sales_data,
+                backgroundColor: color_scheme,
+                label: 'Population'
+            }],
+            labels: product_stat_sales_labels,
+            hoverOffset: 4
+        },
+        options: {
+            responsive: true
+        }
+    };
+
+    var config2 = {
+        type: 'bar',
+        data: {
+            datasets: [{
+                data: user_stats_data,
+                backgroundColor: color_scheme,
+                label: 'Usuarios'
+            }],
+            labels: user_stats_labels,
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
+
+
+    window.onload = function () {
+        var ctx = document.getElementById('product_chart').getContext('2d');
+        window.myPie = new Chart(ctx, config);
+        var ctx2 = document.getElementById('user_chart').getContext('2d');
+        window.myPie_2 = new Chart(ctx2, config2);
+    };
+
+</script>
+{% endblock %}
+
+{% block landing %}
+
+<div class="landing">
+    <h1 class="display-1 text-center">Ferme empleados</h1>
+    <br>
+    <div class="col-lg-6">
+        <p>
+            Bienvenido {{user.username}}, en ésta sección podrás gestionar, solicitar y ver los estados de los productos
+            de la empresa Ferme. Además podrás gestionar las órdenes de compra a proveedores para abastecer el stock de
+            Ferme.
+        </p>
+    </div>
+
+    <br><br>
+
+    <div class="d-flex justify-content-center">
+        <img src="{% static 'employees/img/landing.svg' %}" alt="">
+    </div>
+
+    <a href="#stats">
+        <i class="bi bi-arrow-down-circle-fill" style="font-size: 50px;"></i>
+    </a>
 </div>
 
-{% endblock content %}
+{% endblock %}
+
+{% block content %}
+<br>
+
+<div class="row">
+    <h1 class="text-center" id="stats">Estadísticas</h1>
+    <hr>
+    <div class="col-lg-6">
+        <h5 class="text-center">Productos más vendidos</h5>
+        <br>
+        <canvas id="product_chart" class="charts"></canvas>
+    </div>
+
+    <div class="col-6">
+        <h5 class="text-center">Estadísticas de usuarios</h5>
+        <br>
+        <canvas id="user_chart" class="charts"></canvas>
+    </div>
+</div>
+
+
+{% endblock %}

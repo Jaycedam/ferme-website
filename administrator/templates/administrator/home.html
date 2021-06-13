@@ -4,7 +4,9 @@
 
 {% block content %}
 <h1>Administrador Ferme</h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores rem accusamus labore alias facere veritatis ratione non natus sunt, ullam deleniti facilis aspernatur. Ut totam vitae illo dignissimos quam voluptates!</p>
+<p>
+    Bienvenido {{request.user.first_name}}, dentro de ésta sección podrás administrar los registros de la base de datos, además podrás otorgar privilegios a los usuarios registrados anexando su rol dentro o fuera de la empresa Ferme.
+</p>
 <hr>
 
 <h5>¿Qué deseas administrar?</h5>

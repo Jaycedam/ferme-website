@@ -7,15 +7,45 @@ from .forms import *
 from django.contrib import messages
 import datetime
 from django.core.paginator import Paginator
+from django.db.models import Sum, Count, Max
 
 # Create your views here.
 @staff_member_required
 def home(request):
-
     orders = Orden.objects.filter(id_tipo=2)
 
+    # estadísticas de top 10 productos mas vendidos
+    product_stat_sales = Producto.objects.annotate(sales=Sum('ordendetalle__cantidad')).order_by('sales')[:10]
+    product_stat_sales_labels = []
+    product_stat_sales_data = []
+    for i in product_stat_sales:
+        # se agregan los labels y data a una lista separada para mostrar en el frontend como chart
+        product_stat_sales_labels.append(i.producto)
+        product_stat_sales_data.append(int(i.sales))
+
+    # estadísticas de usuarios
+    user_stats_labels = []
+    user_stats_data = []
+
+    active_users = User.objects.count()
+    user_stats_labels.append("Usuarios registrados")
+    user_stats_data.append(active_users)
+
+    today = datetime.date.today() + datetime.timedelta(days=1)
+    last_week = datetime.date.today() - datetime.timedelta(days=7)
+
+    weekly_users = User.objects.filter(last_login__range=(last_week, today)).count()
+
+    user_stats_labels.append("Usarios logueados (7 días)")
+    user_stats_data.append(weekly_users)
+
+
     data = {
-        'orders':orders
+        'orders':orders,
+        'product_stat_sales_labels':product_stat_sales_labels,
+        'product_stat_sales_data':product_stat_sales_data,
+        'user_stats_labels':user_stats_labels,
+        'user_stats_data':user_stats_data
     }
     return render(request, 'employees/home.html', data)
 

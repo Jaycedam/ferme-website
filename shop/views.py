@@ -226,8 +226,10 @@ def cart(request):
         'items':items, 
         'order':order
         }
-    if Persona.objects.filter(usuario=request.user).exists():
+    try:
         data['profile'] = Persona.objects.get(usuario=request.user)
+    except:
+        pass
 
     return render(request, 'shop/shop/cart.html', data)
 
@@ -292,12 +294,12 @@ def checkout(request):
             iva = 0
             # definir iva si es factura
             if id_tipo_doc == "2":
-                iva = subtotal*0.19
+                iva = round(subtotal*0.19)
             total = subtotal+iva
 
             recibo = Recibo.objects.create(
                 fecha = datetime.datetime.now(),
-                subtotal = total,
+                subtotal = subtotal,
                 iva = iva,
                 total = total,
                 id_tipo = TipoDocumento.objects.get(id_tipo=id_tipo_doc),
