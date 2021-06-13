@@ -15,14 +15,18 @@ def home(request):
     orders = Orden.objects.filter(id_tipo=2)
 
     # estadísticas de top 10 productos mas vendidos
-    product_stat_sales = Producto.objects.annotate(sales=Sum('ordendetalle__cantidad')).order_by('sales')[:5]
-    product_stat_sales_labels = []
-    product_stat_sales_data = []
-    for i in product_stat_sales:
-        # se agregan los labels y data a una lista separada para mostrar en el frontend como chart
-        product_stat_sales_labels.append(i.producto)
-        product_stat_sales_data.append(int(i.sales))
+    try:
+        product_stat_sales = Producto.objects.annotate(sales=Sum('ordendetalle__cantidad')).order_by('sales')[:5]
+        product_stat_sales_labels = []
+        product_stat_sales_data = []
 
+        for i in product_stat_sales:
+            # se agregan los labels y data a una lista separada para mostrar en el frontend como chart
+            product_stat_sales_labels.append(i.producto)
+            product_stat_sales_data.append(int(i.sales))
+    except:
+        pass
+    
     # estadísticas de usuarios
     user_stats_labels = []
     user_stats_data = []
