@@ -6,6 +6,17 @@ from django.contrib.auth.models import User
 from .models import Producto
 
 class ProductForm(forms.ModelForm):
+    def clean_precio(self):
+        precio = self.cleaned_data["precio"]
+        if precio < 0:
+            raise ValidationError("Ingresa un precio válido")
+        return precio
+
+    def clean_precio_proveedor(self):
+        precio_proveedor = self.cleaned_data["precio_proveedor"]
+        if precio_proveedor < 0:
+            raise ValidationError("Ingresa un precio válido")
+        return precio_proveedor
     def clean_stock(self):
         stock = self.cleaned_data["stock"]
         if stock < 0:
@@ -26,6 +37,29 @@ class ProductForm(forms.ModelForm):
         fields = ["producto", "descripcion", "precio", "precio_proveedor", "stock", "stock_critico", "fecha_vencimiento", "id_tipo_producto", "id_proveedor", "id_marca", "imagen_url"]
 
 class ProductModifyForm(forms.ModelForm):
+    def clean_precio(self):
+        precio = self.cleaned_data["precio"]
+        if precio < 0:
+            raise ValidationError("Ingresa un precio válido")
+        return precio
+
+    def clean_precio_proveedor(self):
+        precio_proveedor = self.cleaned_data["precio_proveedor"]
+        if precio_proveedor < 0:
+            raise ValidationError("Ingresa un precio válido")
+        return precio_proveedor
+    def clean_stock(self):
+        stock = self.cleaned_data["stock"]
+        if stock < 0:
+            raise ValidationError("Ingresa un stock válido")
+        return stock
+
+    def clean_stock_critico(self):
+        stock_critico = self.cleaned_data["stock_critico"]
+        if stock_critico < 0:
+            raise ValidationError("Ingresa un stock válido")
+        return stock_critico
+
     class Meta: 
         model = Producto
         fields = ["producto", "descripcion", "precio", "precio_proveedor", "stock", "stock_critico", "imagen_url"]

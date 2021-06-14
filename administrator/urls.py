@@ -23,4 +23,8 @@ urlpatterns = [
     path('areas', views.areas, name="areas"),
     path('areas/create', views.area_create, name="area_create"),
     path('areas/modify/<id>', views.area_modify, name="area_modify"),
+    # motivos cancelacion crud
+    path('motives', views.motives, name="motives"),
+    path('motives/create', views.motive_create, name="motive_create"),
+    path('motives/modify/<id>', views.motive_modify, name="motive_modify"),
 ]

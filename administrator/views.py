@@ -106,7 +106,7 @@ def modify_user(request, id):
             'profile_form': ProfileForm()
         }   
 
-    data['title']: "Modificar usuario"
+    data['title'] = "Modificar usuario"
 
 
     try:
@@ -376,3 +376,53 @@ def area_modify(request, id):
             return redirect(to="areas")
         data['form'] = form
     return render(request, 'administrator/area/create.html', data)
+
+# CRUD MOTIVOS CANCELACION COMPRA
+@superuser_required
+def motives(request):
+    motives_filtered = AreaFilter(request.GET, queryset=Motivo.objects.all())
+    motives = motives_filtered.qs
+
+    paginator = Paginator(motives, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
+    data = {
+        'entity':page,
+        'motives_filtered':motives_filtered
+    }
+    return render(request, 'administrator/motive/list.html', data)
+
+@superuser_required
+def motive_create(request):
+    data = {
+        'form':MotiveForm(),
+        'title':'Crear nuevo motivo'
+    }
+
+    if request.method == 'POST':
+        form = MotiveForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Motivo creado correctamente")
+            return redirect(to="motives")
+        data['form'] = form
+
+    return render(request, 'administrator/motive/create.html', data)
+
+@superuser_required
+def motive_modify(request, id):
+    motive = Motivo.objects.get(id_motivo=id)
+    data = {
+        'form':MotiveForm(instance=motive),
+        'title':'Modificar motivo'
+    }
+
+    if request.method == 'POST':
+        form = MotiveForm(data=request.POST, instance=motive)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Motivo modificado correctamente")
+            return redirect(to="motives")
+        data['form'] = form
+    return render(request, 'administrator/motive/create.html', data)

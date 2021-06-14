@@ -23,6 +23,23 @@ class Comuna(models.Model):
         db_table = 'comuna'
         ordering = ['comuna']
 
+class Delivery(models.Model):
+    id_delivery = models.FloatField(primary_key=True)
+    nro_orden = models.ForeignKey('Orden', models.DO_NOTHING, db_column='nro_orden')
+    calle = models.CharField(max_length=200)
+    nro = models.FloatField()
+    nro_departamento = models.FloatField(blank=True, null=True)
+    id_comuna = models.ForeignKey(Comuna, models.DO_NOTHING, db_column='id_comuna')
+
+    def __str__(self):
+        if self.nro_departamento is not None:
+            return self.calle + ", N°" + str(self.nro) + " " + " departamento" + str(self.nro_departamento) + ", " + str(self.id_comuna)
+        if self.nro_departamento is None:
+            return self.calle + ", N°" + str(self.nro) + ", " + str(self.id_comuna)
+
+    class Meta:
+        managed = False
+        db_table = 'delivery'
 
 class Domicilio(models.Model):
     id_domicilio = models.AutoField(primary_key=True)
@@ -31,6 +48,12 @@ class Domicilio(models.Model):
     nro_departamento = models.FloatField(blank=True, null=True)
     id_comuna = models.ForeignKey(Comuna, models.DO_NOTHING, db_column='id_comuna')
     rut_persona = models.OneToOneField('Persona', models.DO_NOTHING, db_column='rut_persona')
+    
+    def __str__(self):
+        if self.nro_departamento is not None:
+            return self.calle + ", N°" + str(self.nro) + " " + " departamento" + str(self.nro_departamento) + ", " + str(self.id_comuna)
+        if self.nro_departamento is None:
+            return self.calle + ", N°" + str(self.nro) + ", " + str(self.id_comuna)
 
     class Meta:
         managed = False
@@ -71,6 +94,45 @@ class Marca(models.Model):
         managed = False
         db_table = 'marca'
 
+class Motivo(models.Model):
+    id_motivo = models.FloatField(primary_key=True)
+    motivo = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.motivo
+
+    class Meta:
+        managed = False
+        db_table = 'motivo'
+
+class NcDetalle(models.Model):
+    id_detalle = models.AutoField(primary_key=True)
+    id_producto = models.ForeignKey('Producto', models.DO_NOTHING, db_column='id_producto')
+    precio = models.FloatField()
+    cantidad = models.FloatField()
+    total = models.FloatField()
+    nro_nota_credito = models.ForeignKey('NotaCredito', models.DO_NOTHING, db_column='nro_nota_credito')
+
+    class Meta:
+        managed = False
+        db_table = 'nc_detalle'
+
+
+class NotaCredito(models.Model):
+    nro_nota_credito = models.AutoField(primary_key=True)
+    fecha = models.DateField()
+    total = models.FloatField()
+    descripcion = models.CharField(max_length=500, blank=True, null=True)
+    id_estado = models.ForeignKey(Estado, models.DO_NOTHING, db_column='id_estado')
+    id_motivo = models.ForeignKey(Motivo, models.DO_NOTHING, db_column='id_motivo')
+    nro_orden = models.ForeignKey('Orden', models.DO_NOTHING, db_column='nro_orden')
+
+    def __str__(self):
+        return str(self.nro_nota_credito)
+
+    class Meta:
+        managed = False
+        db_table = 'nota_credito'
 
 class Orden(models.Model):
     nro_orden = models.AutoField(primary_key=True)
@@ -132,11 +194,14 @@ class Producto(models.Model):
     id_marca = models.ForeignKey(Marca, models.DO_NOTHING, db_column='id_marca')
 
     def __str__(self):
-        return self.producto
+        return str(self.id_producto)
 
     class Meta:
         managed = False
         db_table = 'producto'
+
+    def get_name(self):
+        return self.producto
 
 
 class Proveedor(models.Model):

@@ -15,7 +15,14 @@
 <br>
 <a class="btn btn-secondary" href="{% url 'render_pdf' order.nro_orden %}">Descargar recibo</a>
 {% endif %}
-
+{% if order.id_estado == pendiente %}
+<td>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="button" id="btn-delete" class="btn btn-danger">Eliminar solicitud</button>
+    </form>
+</td>
+{% endif %}
 <br><hr><br>
 
 <h1>Detalle</h1>
@@ -32,7 +39,7 @@
         <tbody>
             {% for i in order_items %}
             <tr>
-                <td>{{ i.id_producto }}</td>
+                <td>{{ i.id_producto.get_name }}</td>
                 <td>${{ i.precio }}</td>
                 <td>{{ i.cantidad }}</td>
                 <td>${{ i.total }}</td>
@@ -42,4 +49,8 @@
     </table>
 </div>
 
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'employees/js/notif_before_delete.js' %}"></script>
 {% endblock %}

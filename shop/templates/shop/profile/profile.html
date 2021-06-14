@@ -59,12 +59,7 @@
             {% endif %}
 
             {% if domicilio %}
-            <h5>Comuna: {{ domicilio.id_comuna }}</h5>
-            <h5>Calle: {{ domicilio.calle }}</h5>
-            <h5>Nro: {{ domicilio.nro }}</h5>
-            {% if domicilio.nro_departamento %}
-            <h5>Nro departamento: {{ domicilio.nro_departamento }}</h5>
-            {% endif %}
+            <h5>{{ domicilio }}</h5>
             <br>
             <a class="btn btn-outline-dark float-left" href="{% url 'adress_modify' %}">Modificar</a>
             {% endif %}

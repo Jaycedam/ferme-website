@@ -37,7 +37,7 @@
         {% for i in items %}
         <tr>
             <th scope="row">1</th>
-            <td>{{ i.id_producto }}</td>
+            <td>{{ i.id_producto.get_name }}</td>
             <td>${{ i.precio }}</td>
             <td>{{ i.cantidad }}</td>
             <td>${{ i.total }}</td>

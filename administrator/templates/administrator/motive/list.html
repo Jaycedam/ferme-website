@@ -1,0 +1,50 @@
+{% extends 'employees/base.html' %}
+{% block title %}Admin motives{% endblock %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="row align-items-center">
+    <div class="col">
+        <h1>Gestión de motivos cancelación</h1>
+    </div>
+    <div class="col d-flex justify-content-end">
+        <a class="btn btn-outline-dark float-left" style="height: min-content;" href="{% url 'motive_create' %}">Registrar nuevo motivo</a>
+    </div>
+</div>
+
+<hr>
+
+<div class="row">
+    <form class="form-inline" method="GET">
+        {{ motives_filtered.form|crispy }}
+        <br>
+        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
+        <a class="btn btn-outline-danger" href="{% url 'motives' %}">Limpiar filtros</a>
+    </form>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Motivo</th>
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in entity %}
+            <tr>
+                <td>{{ i.motivo }}</td>
+                <td>
+                    <a class="btn btn-outline-dark" href="{% url 'motive_modify' i.id_motivo %}">Modificar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'shop/paginator.html' %}
+
+{% endblock content %}

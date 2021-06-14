@@ -1,0 +1,65 @@
+{% extends 'shop/base.html' %}
+{% block title %}Cancel order{% endblock %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Cancelar orden</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-6">
+            <label class="form-label" for="motive">Motivo de cancelación</label>
+            <select class="form-select" name="motive" id="motive">
+                {% for i in motives %}
+                <option value="{{i.id_motivo}}">{{i}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label class="form-label" for="desc">Descripción</label>
+            <textarea class="form-control" id="desc" name="desc" aria-label="desc"></textarea>
+
+        </div>
+        <div class="col-lg-6">
+            <button class="btn btn-outline-danger" type="submit">Solicitar cancelación</button>
+
+        </div>
+    </div>
+
+
+    <br>
+    <hr>
+    <h5>Selecciona los productos a cancelar</h5>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in order_items %}
+                <tr>
+                    <td><input type="checkbox" name="items" id="{{ i.id_producto }}" value="{{ i.id_producto }}"></td>
+                    <td>{{ i.id_producto.get_name }}</td>
+                    <td>${{ i.precio }}</td>
+                    <td>{{ i.cantidad }}</td>
+                    <td>${{ i.total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
+{% include 'shop/paginator.html' %}
+
+{% endblock %}

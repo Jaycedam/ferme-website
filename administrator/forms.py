@@ -3,7 +3,7 @@ from datetime import datetime
 from django.forms import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Proveedor, Rubro, Marca, FamiliaProducto, TipoProducto, Rubro
+from .models import Proveedor, Rubro, Marca, FamiliaProducto, TipoProducto, Rubro, Motivo
 
 class ProviderForm(forms.ModelForm):
     nombre_empresa = forms.CharField(label="Nombre empresa", min_length=3, max_length=50, required=False)
@@ -94,3 +94,8 @@ class AreaForm(forms.ModelForm):
     class Meta:
         model = Rubro
         fields = ["rubro"]
+
+class MotiveForm(forms.ModelForm):
+    class Meta:
+        model = Motivo
+        fields = ["motivo"]

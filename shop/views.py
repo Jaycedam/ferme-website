@@ -264,6 +264,8 @@ def checkout(request):
         subtotal = order['get_cart_total']
                 
         try:
+            domicilio = Domicilio.objects.get(rut_persona=profile)
+
             new_order = Orden.objects.create(
                 fecha=datetime.datetime.now(), 
                 total=subtotal, 
@@ -273,6 +275,14 @@ def checkout(request):
                 # asignamos orden como pendiente
                 id_estado=Estado.objects.get(id_estado=1)
                 )
+
+            Delivery.objects.create(
+                nro_orden = new_order,
+                calle = domicilio.calle,
+                nro = domicilio.nro,
+                nro_departamento = domicilio.nro_departamento,
+                id_comuna = domicilio.id_comuna
+            )
 
             # loop de items en cookieCart
             for i in items:

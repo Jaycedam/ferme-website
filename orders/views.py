@@ -1,3 +1,4 @@
+from shop.models import Delivery, Motivo, NcDetalle, NotaCredito, Producto
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.admin.views.decorators import staff_member_required
@@ -38,11 +39,13 @@ def order(request, id):
     order = Orden.objects.get(nro_orden=id)
     order_items = OrdenDetalle.objects.filter(nro_orden=id)
     status = Estado.objects.all()
+    delivery = Delivery.objects.get(nro_orden=order)
 
     data = {
         'order':order,
         'order_items':order_items,
         'status':status,
+        'delivery':delivery,
     }
     
     # instanciamos recibo si existe
@@ -53,6 +56,86 @@ def order(request, id):
 
     return render(request, 'orders/customer/order.html', data)
 
+# cancelar orden por cliente
+@login_required
+def cancel_order(request, id):
+    order = Orden.objects.get(nro_orden=id)
+    order_items = OrdenDetalle.objects.filter(nro_orden=order)
+    profile = Persona.objects.get(usuario=request.user)
+    motives = Motivo.objects.all()
+
+    # si la orden no pertenece al usuario actual, se redirige al home
+    if order.rut_persona != profile:
+        return redirect(to='home')
+
+    data = {
+        'order':order,
+        'order_items':order_items,
+        'motives':motives
+    }
+
+    if request.method == 'POST':
+        items = request.POST.getlist('items')
+        descripcion = request.POST.get('descripcion')
+        motivo = request.POST.get('motive')
+
+        if items == []:
+            messages.error(request, "Debes seleccionar productos a cancelar")
+
+        if items != []:
+            total = 0
+
+            try:
+                nc = NotaCredito.objects.create(
+                    fecha = datetime.datetime.now(),
+                    total = total,
+                    descripcion = descripcion,
+                    id_estado = Estado.objects.get(id_estado=1),
+                    id_motivo = Motivo.objects.get(id_motivo=motivo),
+                    nro_orden = order
+                )
+
+                # iteracion del listado completo de productos de la orden
+                for i in order_items:
+                    # pasamos los productos seleccionados a un listado de objetos
+                    products = Producto.objects.filter(id_producto__in=(items))
+                    # verificamos si i existe dentro del listado para crear el detalle
+                    if i.id_producto in products:
+                        total += i.total
+                        NcDetalle.objects.create(
+                                id_producto = i.id_producto,
+                                precio = i.precio,
+                                cantidad = i.cantidad,
+                                total = i.total,
+                                nro_nota_credito = nc
+                            )
+                    # actualizamos el total de la nc 
+                    # con la suma de los productos seleccionados
+                
+                nc.total = total
+                nc.save()
+        
+                messages.success(request, "Solicitud de anulación enviada")
+                return redirect(to=orders)
+
+
+            except Exception as e:
+                print(e)
+
+
+            
+           
+    return render(request, 'orders/cancel_order/cancel_order.html', data)
+
+@staff_member_required
+def manage_cancel_orders(request):
+    data = {}
+    return render(request, 'orders/cancel_order/manage_cancel_orders.html', data)
+
+@staff_member_required
+def manage_cancel_order(request, id):
+    data = {}
+    return render(request, 'orders/cancel_order/manage_cancel_order.html', data)
 
 ############################### EMPLEADO ###############################
 # listado de ordenes hacia proveedor
@@ -67,10 +150,10 @@ def orders_to_provider(request):
 
     data = {
         'entity':page,
-        'ordersFiltered':ordersFiltered
+        'ordersFiltered':ordersFiltered,
     }
-    return render(request, 'orders/employee/orders_to_provider.html', data)
 
+    return render(request, 'orders/employee/orders_to_provider.html', data)
 
 # detalles de una orden hacia un proveedor
 @staff_member_required
@@ -81,6 +164,7 @@ def order_provider(request, id):
     data = {
         'order':order,
         'order_items':order_items,
+        'pendiente':Estado.objects.get(id_estado=1)
     }
     
     # instanciamos recibo si existe
@@ -89,7 +173,14 @@ def order_provider(request, id):
     except:
         pass
 
+    if request.method == 'POST':
+        order_items.delete()
+        order.delete()
+        messages.success(request, "Orden eliminada correctamente")
+        return redirect(to='orders_to_provider')
+
     return render(request, 'orders/employee/order_provider.html', data)
+
 
 
 ############################### PROVEEDOR ###############################
@@ -122,7 +213,7 @@ def order_requests(request):
 def order_request(request, id):
     order = Orden.objects.get(nro_orden=id)
     order_items = OrdenDetalle.objects.filter(nro_orden=id)
-    status = Estado.objects.all()
+    status = Estado.objects.filter(id_estado__in=(1, 2, 3))
 
     # variable que se usará para validar solo ordenes pendientes
     undefined = status.get(id_estado=1)
@@ -176,3 +267,4 @@ def order_request(request, id):
             print(e)
 
     return render(request, 'orders/provider/order.html', data)
+
