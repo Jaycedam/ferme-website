@@ -1,0 +1,51 @@
+{% extends 'employees/base.html' %}
+{% block title %}Requests{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>Solicitudes</h1>
+<hr>
+<div class="row">
+    <form class="form-inline" method="GET">
+        {{ filter.form|crispy }}
+        <br>
+        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
+        <a class="btn btn-outline-danger" href="#">Limpiar filtros</a>
+    </form>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">N° solicitud</th>
+                <th scope="col">Orden asociada</th>
+                <th scope="col">Motivo</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Total</th>
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in entity %}
+            <tr>
+                <td>{{ i.nro_nota_credito }}</td>
+                <td>{{ i.nro_orden }}</td>
+                <td>{{ i.id_motivo }}</td>
+                <td>{{ i.id_estado }}</td>
+                <td>{{ i.fecha }}</td>
+                <td>${{ i.total }}</td>
+                <td>
+                    <a class="btn btn-outline-dark float-left" href="#">Detalle</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'shop/paginator.html' %}
+
+{% endblock %}

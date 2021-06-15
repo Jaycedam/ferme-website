@@ -86,6 +86,7 @@
                     <li><a class="nav-link" href="{% url 'product_management' %}">Gestión de productos</a></li>
                     <li><a class="nav-link" href="{% url 'product_request' %}">Solicitud de productos</a></li>
                     <li><a class="nav-link" href="{% url 'orders_to_provider' %}">Estado solicitud</a></li>
+                    <li><a class="nav-link" href="#">Solicitudes de cancelación</a></li>
                     {% if user.is_superuser %}
                     <li><a class="nav-link" href="{% url 'admin_home' %}">Administrador</a></li>
                     {% endif %}

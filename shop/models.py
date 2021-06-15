@@ -117,6 +117,9 @@ class NcDetalle(models.Model):
         managed = False
         db_table = 'nc_detalle'
 
+    def get_id_product(self):
+        return self.id_producto
+
 
 class NotaCredito(models.Model):
     nro_nota_credito = models.AutoField(primary_key=True)

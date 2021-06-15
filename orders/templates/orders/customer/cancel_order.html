@@ -2,8 +2,6 @@
 {% block title %}Cancel order{% endblock %}
 {% load crispy_forms_tags %}
 
-{% load static %}
-
 {% block content %}
 
 <h1>Cancelar orden</h1>
@@ -25,7 +23,10 @@
         </div>
         <div class="col-lg-6">
             <button class="btn btn-outline-danger" type="submit">Solicitar cancelación</button>
-
+            <br>
+            {% if item_requests %}
+            <a href="{% url 'cancel_requests' %}">Tienes solicitudes para esta orden, revisa su estado aquí</a>
+            {% endif %}
         </div>
     </div>
 
@@ -58,7 +59,6 @@
         </table>
     </div>
 </form>
-
 
 {% include 'shop/paginator.html' %}
 

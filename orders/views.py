@@ -4,7 +4,7 @@ from .models import *
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .filters import OrderToProviderFilter, OrdersFilter
+from .filters import OrderToProviderFilter, OrdersFilter, NotaCreditoFilter
 import datetime
 from django.core.paginator import Paginator
 
@@ -74,18 +74,39 @@ def cancel_order(request, id):
         'motives':motives
     }
 
+    # si existe una cancelacion, la guardamos 
+    try:
+        nc = NotaCredito.objects.filter(nro_orden=order)
+        item_requests = []
+
+        for i in nc:
+            details = NcDetalle.objects.filter(nro_nota_credito=i).values('id_producto')
+            for e in details:
+                item_requests.append(str(e['id_producto']))
+      
+        data['item_requests']=item_requests
+
+    except Exception as e:
+        print(e)
+
     if request.method == 'POST':
         items = request.POST.getlist('items')
-        descripcion = request.POST.get('descripcion')
+        descripcion = request.POST.get('desc')
         motivo = request.POST.get('motive')
 
         if items == []:
             messages.error(request, "Debes seleccionar productos a cancelar")
 
         if items != []:
-            total = 0
+            # iteramos los productos seleccionados
+            for i in items:
+                # vemos si i existe dentro del listado de cancelaciones ya realizadas, si existe redirige y no continua
+                if i in item_requests:
+                    messages.error(request, "Ya existe una solicitud para uno de los productos seleccionados")
+                    return redirect(to="orders")
 
             try:
+                total = 0
                 nc = NotaCredito.objects.create(
                     fecha = datetime.datetime.now(),
                     total = total,
@@ -109,9 +130,9 @@ def cancel_order(request, id):
                                 total = i.total,
                                 nro_nota_credito = nc
                             )
-                    # actualizamos el total de la nc 
-                    # con la suma de los productos seleccionados
                 
+                # actualizamos el total de la nc 
+                # con la suma de los productos seleccionados
                 nc.total = total
                 nc.save()
         
@@ -120,24 +141,68 @@ def cancel_order(request, id):
 
 
             except Exception as e:
-                print(e)
-
-
-            
+                print(e)    
            
-    return render(request, 'orders/cancel_order/cancel_order.html', data)
+    return render(request, 'orders/customer/cancel_order.html', data)
 
+# ver listado de solicitudes de cancelacion asociadas al usuario actual
+@login_required
+def cancel_requests(request):
+    profile = Persona.objects.get(usuario=request.user)
+
+    filter = NotaCreditoFilter(request.GET, queryset=NotaCredito.objects.filter(nro_orden__rut_persona=profile))
+    cancel_requests = filter.qs
+
+    paginator = Paginator(cancel_requests, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
+    data = {
+        'entity':page,
+        'filter':filter
+    }
+    return render(request, 'orders/customer/cancel_requests.html', data)
+
+# ver detalle de solicitud del usuario actual
+@login_required
+def cancel_request(request, id):
+
+    nc = NotaCredito.objects.get(nro_nota_credito=id)
+    items = NcDetalle.objects.filter(nro_nota_credito=nc)
+    
+    data = {
+        'nc':nc,
+        'items':items
+    }
+
+    return render(request, 'orders/customer/cancel_request.html', data)
+
+
+############################### EMPLEADO ###############################
+# listado de todas las solicitudes de cancelacion (empleado)
 @staff_member_required
 def manage_cancel_orders(request):
-    data = {}
-    return render(request, 'orders/cancel_order/manage_cancel_orders.html', data)
+    filter = NotaCreditoFilter(request.GET, queryset=NotaCredito.objects.all())
+    cancel_requests = filter.qs
 
+    paginator = Paginator(cancel_requests, 20)
+    page_number = request.GET.get('page', 1)
+    page = paginator.get_page(page_number)
+
+    data = {
+        'entity':page,
+        'filter':filter
+    }    
+    
+    return render(request, 'orders/cancel_order/cancel_requests.html', data)
+
+# detalle de cancelacion con opc de cambiar estado (empleado)
 @staff_member_required
 def manage_cancel_order(request, id):
     data = {}
-    return render(request, 'orders/cancel_order/manage_cancel_order.html', data)
+    return render(request, 'orders/cancel_order/cancel_request.html', data)
 
-############################### EMPLEADO ###############################
+
 # listado de ordenes hacia proveedor
 @staff_member_required
 def orders_to_provider(request):

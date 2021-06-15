@@ -11,8 +11,10 @@ urlpatterns = [
     path('order-requests/<id>', views.order_request, name="order_request"),
     path('render_pdf/<id>', utils.render_pdf, name="render_pdf"),
     # cancelar orden
-    path('cancel-order/<id>/', views.cancel_order, name="cancel_order"),
-    path('manage-cancel-orders/', views.order_request, name="manage_cancel_orders"),
+    path('cancel-order/<id>', views.cancel_order, name="cancel_order"),
+    path('cancel-requests', views.cancel_requests, name="cancel_requests"),
+    path('cancel-requests/<id>', views.cancel_request, name="cancel_request"),
+    path('manage-cancel-orders', views.order_request, name="manage_cancel_orders"),
     path('manage-cancel-order/<id>', views.order_request, name="manage_cancel_order"),
 
 ]
