@@ -48,7 +48,7 @@
             <tbody>
                 {% for i in order_items %}
                 <tr>
-                    <td><input type="checkbox" name="items" id="{{ i.id_producto }}" value="{{ i.id_producto }}"></td>
+                    <td><input class="form-check-input mt-0" type="checkbox" name="items" id="{{ i.id_producto }}" value="{{ i.id_producto }}"></td>
                     <td>{{ i.id_producto.get_name }}</td>
                     <td>${{ i.precio }}</td>
                     <td>{{ i.cantidad }}</td>

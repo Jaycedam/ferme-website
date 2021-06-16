@@ -149,6 +149,9 @@ class Orden(models.Model):
     def __str__(self):
         return str(self.nro_orden)
 
+    def get_id(self):
+        return self.nro_orden
+
     class Meta:
         managed = False
         db_table = 'orden'

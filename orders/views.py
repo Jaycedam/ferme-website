@@ -169,6 +169,10 @@ def cancel_request(request, id):
 
     nc = NotaCredito.objects.get(nro_nota_credito=id)
     items = NcDetalle.objects.filter(nro_nota_credito=nc)
+
+    # si la nc no pertenece al usuario actual, redirige al home
+    if nc.nro_orden.rut_persona != Persona.objects.get(usuario=request.user):
+        return redirect(to='home')
     
     data = {
         'nc':nc,
@@ -194,13 +198,37 @@ def manage_cancel_orders(request):
         'filter':filter
     }    
     
-    return render(request, 'orders/cancel_order/cancel_requests.html', data)
+    return render(request, 'orders/employee/cancel_requests.html', data)
 
 # detalle de cancelacion con opc de cambiar estado (empleado)
 @staff_member_required
 def manage_cancel_order(request, id):
-    data = {}
-    return render(request, 'orders/cancel_order/cancel_request.html', data)
+    nc = NotaCredito.objects.get(nro_nota_credito=id)
+    items = NcDetalle.objects.filter(nro_nota_credito=nc)
+    status = Estado.objects.filter(id_estado__in=(1, 2, 3))
+    pendiente = status[0]
+    
+    data = {
+        'nc':nc,
+        'items':items,
+        'status':status,
+        'pendiente':pendiente
+    }
+
+    if request.method == "POST":
+        status_selected = request.POST.get('status')
+        nc.id_estado = Estado.objects.get(id_estado=status_selected)
+        nc.save()
+        if status_selected == "2":
+            order = Orden.objects.get(nro_orden=nc.nro_orden.get_id())
+            # si se aprueba la solicitud, se cancela la orden
+            order.id_estado = Estado.objects.get(id_estado=4)
+            order.save()
+
+        messages.success(request, f"El estado de la solicitud {nc.nro_nota_credito} ha sido actualizado")
+        return redirect(to='manage_cancel_orders')
+
+    return render(request, 'orders/employee/cancel_request.html', data)
 
 
 # listado de ordenes hacia proveedor

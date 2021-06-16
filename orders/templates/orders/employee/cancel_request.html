@@ -1,0 +1,62 @@
+{% extends 'employees/base.html' %}
+{% block title %}Cancel requests{% endblock %}
+
+{% block content %}
+
+<h1>Solicitud N°{{nc.nro_nota_credito}} - <strong>{{nc.id_estado}}</strong></h1>
+<hr>
+<h5>Total: ${{nc.total}}</h5>
+<h5>Fecha de emisión: {{nc.fecha}}</h5>
+<h5>Motivo: {{nc.id_motivo}}</h5>
+<h5>Orden asociada: {{nc.nro_orden}}</h5>
+<h5>Descripción: {{nc.descripcion}}</h5>
+
+<hr>
+
+{% if nc.id_estado == pendiente %}
+<div class="row">
+    <div class="col-12">
+        <h1>Actualizar estado solicitud</h1>
+    </div>
+    <div class="col-lg-6">
+        <form id="status_form" method="POST">
+            {% csrf_token %}
+            <select class="form-select" name="status" id="status">
+                {% for i in status %}
+                    <option value="{{i.id_estado}}">{{i.estado}}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <button class="btn btn-outline-dark" type="submit" form="status_form">Actualizar</button>
+    </div>
+</div>
+<hr>
+{% endif %}
+
+<h1>Detalle</h1>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in items %}
+            <tr>
+                <td>{{ i.id_producto.get_name }}</td>
+                <td>${{ i.precio }}</td>
+                <td>{{ i.cantidad }}</td>
+                <td>${{ i.total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -17,7 +17,7 @@
         <h5 class="text-end">Agrega productos al carro</h5>
         {% elif not profile %}
         <h5 class="text-end">Completa tu perfil para continuar</h5>
-        <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>    
+        <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>
         {% endif %}
     </div>
 </div>
@@ -26,7 +26,8 @@
 
 
 
-<h5>Total:<strong> ${{order.get_cart_total}}</strong></h5></th>
+<h5>Total:<strong> ${{order.get_cart_total}}</strong></h5>
+</th>
 
 <div class="table-responsive">
     <table class="table">
@@ -48,8 +49,10 @@
                 <td>{{ i.product.stock }}</td>
                 <td>
                     {{ i.quantity }}
-                    <button data-product="{{i.product.id}}" data-action="add" class="btn btn-dark bi bi-caret-up-fill update-cart"></button>
-                    <button data-product="{{i.product.id}}" data-action="remove" class="btn btn-dark bi bi-caret-down-fill update-cart"></button>
+                    <button data-product="{{i.product.id}}" data-action="add"
+                        class="btn btn-dark bi bi-caret-up-fill update-cart"></button>
+                    <button data-product="{{i.product.id}}" data-action="remove"
+                        class="btn btn-dark bi bi-caret-down-fill update-cart"></button>
                 </td>
             </tr>
             {% endfor %}

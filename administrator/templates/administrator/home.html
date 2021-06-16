@@ -5,7 +5,8 @@
 {% block content %}
 <h1>Administrador Ferme</h1>
 <p>
-    Bienvenido {{request.user.first_name}}, dentro de ésta sección podrás administrar los registros de la base de datos, además podrás otorgar privilegios a los usuarios registrados anexando su rol dentro o fuera de la empresa Ferme.
+    Bienvenido {{request.user.first_name}}, dentro de ésta sección podrás administrar los registros de la base de datos,
+    además podrás otorgar privilegios a los usuarios registrados anexando su rol dentro o fuera de la empresa Ferme.
 </p>
 <hr>
 
@@ -28,7 +29,7 @@
             <h1 class="fw-bold">Familia Producto</h1>
         </a>
     </div>
-    
+
     <div class="d-grid col-4">
         <a class="btn btn-outline-dark" href="{% url 'subcategories' %}">
             <h1 class="fw-bold">Tipo Producto</h1>

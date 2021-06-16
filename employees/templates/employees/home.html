@@ -9,14 +9,16 @@
 
 <!-- script que muestra el query de stats en forma de chart -->
 <script>
-    var product_stat_sales_data = {{ product_stat_sales_data| safe}}
-    var product_stat_sales_labels = {{ product_stat_sales_labels| safe}}
-    var user_stats_labels = {{ user_stats_labels| safe}}
-    var user_stats_data = {{ user_stats_data| safe}}
-    var order_stats_data = {{ order_stats_data| safe}}
-    var last_year_orders_data = {{last_year_orders_data|safe}}
+    var product_stat_sales_data = {{ product_stat_sales_data | safe }}
+    var product_stat_sales_labels = {{ product_stat_sales_labels | safe }}
+    var user_stats_labels = {{ user_stats_labels | safe }}
+    var user_stats_data = {{ user_stats_data | safe }}
+    var order_stats_data = {{ order_stats_data | safe }}
+    var last_year_orders_data = {{ last_year_orders_data | safe }}
+
     var color_scheme = ['#cc2b2b', '#cc9c2b', '#8ecc2b', '#2bcc69', '#2bb7cc',
-        '#2b59cc', '#6e2bcc', '#cc2b2b', '#cc2bc7', '#4d0000',]
+        '#2b59cc', '#6e2bcc', '#cc2b2b', '#cc2bc7', '#4d0000',
+    ]
 
     var product_config = {
         type: 'doughnut',
@@ -58,8 +60,7 @@
     var sales_config = {
         type: 'line',
         data: {
-            datasets: [
-                {
+            datasets: [{
                     data: order_stats_data,
                     borderColor: '#14c969',
                     label: 'Ventas año actual'
@@ -70,8 +71,9 @@
                     label: 'Ventas año anterior'
                 }
             ],
-            labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", 
-                    "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+            labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo",
+                "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+            ],
         },
         options: {
             responsive: true
@@ -87,7 +89,6 @@
         var ctx3 = document.getElementById('sales_chart').getContext('2d');
         window.myPie_2 = new Chart(ctx3, sales_config);
     };
-
 </script>
 {% endblock %}
 

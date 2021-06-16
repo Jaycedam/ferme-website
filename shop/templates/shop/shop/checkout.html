@@ -40,8 +40,8 @@
 
         {% elif not profile %}
         <h5 class="text-end">Completa tu perfil para continuar</h5>
-        <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>    
-        {% elif profile and not adress %}        
+        <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>
+        {% elif profile and not adress %}
         <p>No tienes ningún domicilio registrado. Registra uno en tu perfil para poder continuar la compra.</p>
         <a class="btn btn-primary float-left" href="{% url 'profile' %}">Ir a perfil</a>
         {% endif %}
@@ -49,7 +49,8 @@
 </div>
 
 <hr>
-<h5>Total:<strong> ${{order.get_cart_total}}</strong></h5></th>
+<h5>Total:<strong> ${{order.get_cart_total}}</strong></h5>
+</th>
 
 <div class="table-responsive">
     <table class="table">

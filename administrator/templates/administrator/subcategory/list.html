@@ -9,7 +9,8 @@
         <h1>Gestión de tipos de producto</h1>
     </div>
     <div class="col d-flex justify-content-end">
-        <a class="btn btn-outline-dark float-left" style="height: min-content;" href="{% url 'subcategory_create' %}">Registrar nuevo tipo</a>
+        <a class="btn btn-outline-dark float-left" style="height: min-content;"
+            href="{% url 'subcategory_create' %}">Registrar nuevo tipo</a>
     </div>
 </div>
 
@@ -39,7 +40,8 @@
                 <td>{{ i.tipo_producto }}</td>
                 <td>{{ i.id_familia_producto }}</td>
                 <td>
-                    <a class="btn btn-outline-dark" href="{% url 'subcategory_modify' i.id_tipo_producto %}">Modificar</a>
+                    <a class="btn btn-outline-dark"
+                        href="{% url 'subcategory_modify' i.id_tipo_producto %}">Modificar</a>
                 </td>
             </tr>
             {% endfor %}

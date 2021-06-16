@@ -1,4 +1,4 @@
-{% extends 'shop/base.html' %}
+{% extends 'employees/base.html' %}
 {% block title %}Requests{% endblock %}
 {% load crispy_forms_tags %}
 
@@ -21,6 +21,7 @@
             <tr>
                 <th scope="col">N° solicitud</th>
                 <th scope="col">Orden asociada</th>
+                <th scope="col">Rut cliente</th>
                 <th scope="col">Motivo</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Fecha</th>
@@ -33,13 +34,14 @@
             <tr>
                 <td>{{ i.nro_nota_credito }}</td>
                 <td>{{ i.nro_orden }}</td>
+                <td>{{ i.nro_orden.rut_persona }}</td>
                 <td>{{ i.id_motivo }}</td>
                 <td>{{ i.id_estado }}</td>
                 <td>{{ i.fecha }}</td>
                 <td>${{ i.total }}</td>
                 <td>
                     <a class="btn btn-outline-dark float-left"
-                        href="{% url 'cancel_request' i.nro_nota_credito %}">Detalle</a>
+                        href="{% url 'manage_cancel_order' i.nro_nota_credito %}">Detalle</a>
                 </td>
             </tr>
             {% endfor %}

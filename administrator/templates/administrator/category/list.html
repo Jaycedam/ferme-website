@@ -9,7 +9,8 @@
         <h1>Gestión de familias de producto</h1>
     </div>
     <div class="col d-flex justify-content-end">
-        <a class="btn btn-outline-dark float-left" style="height: min-content;" href="{% url 'category_create' %}">Registrar nueva familia</a>
+        <a class="btn btn-outline-dark float-left" style="height: min-content;"
+            href="{% url 'category_create' %}">Registrar nueva familia</a>
     </div>
 </div>
 
@@ -43,7 +44,8 @@
                 <td>Sin imagen</td>
                 {% endif %}
                 <td>
-                    <a class="btn btn-outline-dark" href="{% url 'category_modify' i.id_familia_producto %}">Modificar</a>
+                    <a class="btn btn-outline-dark"
+                        href="{% url 'category_modify' i.id_familia_producto %}">Modificar</a>
                 </td>
             </tr>
             {% endfor %}
