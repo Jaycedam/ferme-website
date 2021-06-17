@@ -16,5 +16,4 @@ urlpatterns = [
     path('cancel-requests/<id>', views.cancel_request, name="cancel_request"),
     path('manage-cancel-orders', views.manage_cancel_orders, name="manage_cancel_orders"),
     path('manage-cancel-order/<id>', views.manage_cancel_order, name="manage_cancel_order"),
-
 ]

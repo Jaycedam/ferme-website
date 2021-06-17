@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'employees',
     'orders',
     'administrator',
+    'email_sender',
     'crispy_forms',
     "crispy_bootstrap5",
     'django_filters',
@@ -144,3 +145,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'yourgmail'
+EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_USE_TLS = True

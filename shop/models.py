@@ -117,9 +117,11 @@ class NcDetalle(models.Model):
         managed = False
         db_table = 'nc_detalle'
 
+    def __str__(self):
+        return "Solicitud " + str(self.nro_nota_credito) + ", producto " + str(self.id_producto.get_name()) + " (x" + str(self.cantidad) + "), total $" + str(self.total) + ". " + str(self.nro_nota_credito.get_status())
+
     def get_id_product(self):
         return self.id_producto
-
 
 class NotaCredito(models.Model):
     nro_nota_credito = models.AutoField(primary_key=True)
@@ -132,6 +134,9 @@ class NotaCredito(models.Model):
 
     def __str__(self):
         return str(self.nro_nota_credito)
+
+    def get_status(self):
+        return self.id_estado
 
     class Meta:
         managed = False

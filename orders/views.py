@@ -47,6 +47,19 @@ def order(request, id):
         'status':status,
         'delivery':delivery,
     }
+
+    
+    if NotaCredito.objects.filter(nro_orden=order).exists():
+        nc = NotaCredito.objects.filter(nro_orden=order)
+        nc_items = []
+        for i in nc:
+            items = NcDetalle.objects.filter(nro_nota_credito=i)
+            for e in items:    
+                nc_items.append(e)
+
+        data['nc'] = nc
+        data['nc_items'] = nc_items
+        print(nc_items)
     
     # instanciamos recibo si existe
     try: 
@@ -205,7 +218,7 @@ def manage_cancel_orders(request):
 def manage_cancel_order(request, id):
     nc = NotaCredito.objects.get(nro_nota_credito=id)
     items = NcDetalle.objects.filter(nro_nota_credito=nc)
-    status = Estado.objects.filter(id_estado__in=(1, 2, 3))
+    status = Estado.objects.all()
     pendiente = status[0]
     
     data = {
@@ -221,9 +234,6 @@ def manage_cancel_order(request, id):
         nc.save()
         if status_selected == "2":
             order = Orden.objects.get(nro_orden=nc.nro_orden.get_id())
-            # si se aprueba la solicitud, se cancela la orden
-            order.id_estado = Estado.objects.get(id_estado=4)
-            order.save()
 
         messages.success(request, f"El estado de la solicitud {nc.nro_nota_credito} ha sido actualizado")
         return redirect(to='manage_cancel_orders')
@@ -275,7 +285,6 @@ def order_provider(request, id):
     return render(request, 'orders/employee/order_provider.html', data)
 
 
-
 ############################### PROVEEDOR ###############################
 # listado de ordenes asociadas al proveedor actual 
 @login_required
@@ -306,7 +315,7 @@ def order_requests(request):
 def order_request(request, id):
     order = Orden.objects.get(nro_orden=id)
     order_items = OrdenDetalle.objects.filter(nro_orden=id)
-    status = Estado.objects.filter(id_estado__in=(1, 2, 3))
+    status = Estado.objects.all()
 
     # variable que se usará para validar solo ordenes pendientes
     undefined = status.get(id_estado=1)

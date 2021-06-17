@@ -1,0 +1,40 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <h1>Tu orden N°{{order.nro_orden}} ha sido confirmada</h1>
+    <p>Total: ${{order.total}}</p>
+    <p>Fecha: {{order.fecha}}</p>
+    <p>Rut: {{order.rut_persona}}</p>
+    <p>Delivery: {{delivery}}</p>
+    <br>
+
+    <h2>Detalle</h2>
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th style="text-align: start;" scope="col">Producto</th>
+                <th style="text-align: start;" scope="col">Precio</th>
+                <th style="text-align: start;" scope="col">Cantidad</th>
+                <th style="text-align: start;" scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in items %}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{ i.id_producto.get_name }}</td>
+                <td>${{ i.precio }}</td>
+                <td>{{ i.cantidad }}</td>
+                <td>${{ i.total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

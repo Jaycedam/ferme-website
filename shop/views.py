@@ -10,6 +10,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from .utils import cookieCart
 import datetime
 from django.core.paginator import Paginator
+from email_sender.views import send_order_email
 
 # Create your views here.
 
@@ -320,9 +321,11 @@ def checkout(request):
             new_order.id_estado=Estado.objects.get(id_estado=2)
             new_order.save()
 
+            send_order_email(request.user.email, new_order)
             messages.success(request, "Tu compra ha sido confirmada")
 
         except Exception as e:
+            print(e)
             if new_order:
                 new_order.id_estado = Estado.objects.get(id_estado=3)
                 new_order.save()
