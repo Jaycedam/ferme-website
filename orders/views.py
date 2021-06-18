@@ -7,6 +7,8 @@ from django.contrib import messages
 from .filters import OrderToProviderFilter, OrdersFilter, NotaCreditoFilter
 import datetime
 from django.core.paginator import Paginator
+from email_sender.views import cancel_order_email, cancel_order_update_email
+from django.contrib.auth.models import User
 
 # Create your views here.
 ############################### CLIENTE ###############################
@@ -148,7 +150,9 @@ def cancel_order(request, id):
                 # con la suma de los productos seleccionados
                 nc.total = total
                 nc.save()
-        
+
+                # enviamos mail y nc a la función encargada de mandar el correo al usuario actual
+                cancel_order_email(request.user.email, nc)
                 messages.success(request, "Solicitud de anulación enviada")
                 return redirect(to=orders)
 
@@ -232,8 +236,10 @@ def manage_cancel_order(request, id):
         status_selected = request.POST.get('status')
         nc.id_estado = Estado.objects.get(id_estado=status_selected)
         nc.save()
-        if status_selected == "2":
-            order = Orden.objects.get(nro_orden=nc.nro_orden.get_id())
+
+        profile = Persona.objects.get(rut_persona=nc.nro_orden.rut_persona)
+        email = profile.usuario.email
+        cancel_order_update_email(email, nc)
 
         messages.success(request, f"El estado de la solicitud {nc.nro_nota_credito} ha sido actualizado")
         return redirect(to='manage_cancel_orders')
