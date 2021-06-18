@@ -27,7 +27,9 @@ class CategoryFilter(django_filters.FilterSet):
         fields = ["familia_producto"]
 
 class SubCategoryFilter(django_filters.FilterSet):
-    tipo_producto = CharFilter(label='Familia producto', lookup_expr='icontains', widget=forms.TextInput(attrs={'placeholder': 'Buscar'}) )
+    tipo_producto = CharFilter(label='Tipo producto', lookup_expr='icontains', widget=forms.TextInput(attrs={'placeholder': 'Buscar'}) )
+    id_familia_producto = ModelChoiceFilter(field_name='id_familia_producto', label='Familia producto', queryset=FamiliaProducto.objects.all(), empty_label='Seleccionar' )
+
     class Meta:
         model = TipoProducto
         fields = ["tipo_producto", "id_familia_producto"]

@@ -4,7 +4,7 @@ from django.forms import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Persona, Domicilio, Producto, Proveedor
-
+from itertools import cycle
 
 class CustomUserCreationForm(UserCreationForm):
     def clean_first_name(self):
@@ -46,15 +46,32 @@ class ProfileForm(forms.ModelForm):
         users = Persona.objects.all()
         rut = self.cleaned_data["rut_persona"]
 
-        if len(rut) != 10:
-            raise ValidationError("Formato incorrecto")
-        if len(rut) == 10 and rut[-2] != "-":
-            raise ValidationError("Formato incorrecto")
-
         for u in users:
             if u.rut_persona == rut:
                 raise ValidationError("Este rut ya está registrado")
-        return rut
+
+        # validación de rut
+       	rut_validation = rut.upper();
+        rut_validation = rut_validation.replace("-","")
+        rut_validation = rut_validation.replace(".","")
+        aux = rut_validation[:-1]
+        try:
+            int(aux)
+        except:
+            raise ValidationError("RUT Inválido")
+        dv = rut_validation[-1:]
+        revertido = map(int, reversed(str(aux)))
+        factors = cycle(range(2,8))
+        s = sum(d * f for d, f in zip(revertido,factors))
+        res = (-s)%11
+
+        if str(res) == dv:
+            return rut
+        elif dv=="K" and res==10:
+            return rut
+        else:
+            raise ValidationError("RUT Inválido")
+
     
     def clean_celular(self):
         celular = self.cleaned_data["celular"]
@@ -64,7 +81,7 @@ class ProfileForm(forms.ModelForm):
             raise ValidationError("Formato incorrecto, el celular debe comenzar con 9")
         return celular
 
-    rut_persona = forms.CharField(min_length=10, max_length=10, required=True, label="Rut (sin puntos con guión)")
+    rut_persona = forms.CharField(required=True, label="Rut (sin puntos con guión)")
     celular = forms.IntegerField(required=True, label="Celular (912345678)")
 
     class Meta:
