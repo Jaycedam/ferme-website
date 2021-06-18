@@ -258,6 +258,14 @@ def checkout(request):
         if Domicilio.objects.filter(rut_persona=profile.rut_persona).exists():
             data['adress'] = Domicilio.objects.get(rut_persona=profile.rut_persona)
 
+    for i in items:
+        # instanciamos un producto desde el valor del carro de compra 
+        producto = Producto.objects.get(id_producto=i['product']['id'])
+
+        if i['quantity'] > producto.stock:
+            messages.error(request, "No tenemos stock suficiente para tu compra, por favor actualiza tu carro")
+            return redirect(to='cart')
+
 
     # Recibimos tipo documento y guardamos en bd la compra
     if request.method == 'POST':

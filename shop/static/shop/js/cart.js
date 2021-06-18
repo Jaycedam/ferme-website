@@ -43,6 +43,12 @@ function addCartItem(id_producto, action){
 		}
 		location.reload()
 	}
+
+	if (action == 'delete'){
+		delete cart[id_producto];
+		location.reload()
+	}
+		
 	console.log('CART:', cart)
 	document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/;SameSite=Lax"
 }

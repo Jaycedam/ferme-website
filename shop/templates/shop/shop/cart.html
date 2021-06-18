@@ -50,9 +50,11 @@
                 <td>
                     {{ i.quantity }}
                     <button data-product="{{i.product.id}}" data-action="add"
-                        class="btn btn-dark bi bi-caret-up-fill update-cart"></button>
+                        class="btn btn-outline-dark bi bi-caret-up-fill update-cart"></button>
                     <button data-product="{{i.product.id}}" data-action="remove"
-                        class="btn btn-dark bi bi-caret-down-fill update-cart"></button>
+                        class="btn btn-outline-dark bi bi-caret-down-fill update-cart"></button>
+                    <button data-product="{{i.product.id}}" data-action="delete"
+                        class="btn btn-outline-danger bi bi-trash-fill update-cart"></button>
                 </td>
             </tr>
             {% endfor %}
