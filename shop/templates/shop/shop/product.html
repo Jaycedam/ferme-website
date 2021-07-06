@@ -37,6 +37,10 @@
         <p class="text-muted">Lo sentimos, pero actualmente no existe stock para este producto. Intenta de nuevo en un
             par de días.</p>
         {% endif %}
+
+        {% if user.is_staff %}
+        <a class="btn btn-outline-dark" href="{% url 'product_modify' producto.id_producto %}">Modificar</a>
+        {% endif %}
     </div>
 </div>
 
