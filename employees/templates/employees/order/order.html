@@ -14,8 +14,7 @@
 
     <div class="col">
         {% if order.get_order_total > 0 and profile %}
-        <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout_provider' %}">Continuar con
-            la compra</a>
+        <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout_provider' %}">Continuar</a>
         {% elif order.get_order_total == 0 and profile %}
         <h5 class="text-end">Agrega productos a la orden</h5>
         {% elif not profile %}
