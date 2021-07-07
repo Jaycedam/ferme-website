@@ -309,6 +309,10 @@ input.error {
         background: #131518;
     }
 
+    .link-dark {
+        color: white !important;
+    }
+
     .card,
     .filtros,
     .container-productos .wrapper,

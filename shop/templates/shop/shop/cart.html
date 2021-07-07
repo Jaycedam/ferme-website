@@ -43,7 +43,7 @@
         <tbody>
             {% for i in items %}
             <tr>
-                <td>{{ i.product.name }}</td>
+                <td><a class="link-dark" href="{% url 'product' i.product.id %}">{{ i.product.name }}</a></td>
                 <td>${{ i.product.price }}</td>
                 <td>${{ i.get_total }}</td>
                 <td>{{ i.product.stock }}</td>
