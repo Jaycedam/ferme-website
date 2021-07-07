@@ -181,6 +181,10 @@ input.error {
     margin-bottom: 2rem;
 }
 
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+}
+
 /* MEDIA QUERYS */
 /* TABLET */
 
