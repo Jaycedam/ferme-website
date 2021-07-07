@@ -46,6 +46,12 @@ function addOrderItem(id_producto, action){
 		}
 		location.reload()
 	}
+
+	if (action == 'delete'){
+		delete order[id_producto];
+		location.reload()
+	}
+
 	console.log('order:', order)
 	document.cookie = 'order=' + JSON.stringify(order) + ";domain=;path=/;SameSite=Lax"
 
