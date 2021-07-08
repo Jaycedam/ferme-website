@@ -139,6 +139,7 @@ class NotaCredito(models.Model):
         return self.id_estado
 
     class Meta:
+        ordering = ['-fecha', '-nro_nota_credito']
         managed = False
         db_table = 'nota_credito'
 
