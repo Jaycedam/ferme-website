@@ -23,7 +23,7 @@ class OrderToProviderFilter(django_filters.FilterSet):
 class NotaCreditoFilter(django_filters.FilterSet): 
     nro_nota_credito = CharFilter(field_name='nro_nota_credito', lookup_expr='icontains', label='N° Solicitud', widget=forms.TextInput(attrs={'placeholder': 'Buscar'}) )
     id_motivo = ModelChoiceFilter(field_name='id_motivo', label='Motivo', queryset=Motivo.objects.all(), empty_label='Seleccionar' )
-    id_estado = ModelChoiceFilter(field_name='id_estado', label='Estado', queryset=Motivo.objects.all(), empty_label='Seleccionar' )
+    id_estado = ModelChoiceFilter(field_name='id_estado', label='Estado', queryset=Estado.objects.all(), empty_label='Seleccionar' )
 
     class Meta:
         model = NotaCredito
