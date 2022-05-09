@@ -40,6 +40,10 @@ body {
     margin-bottom: 2em;
 }
 
+.down-icon {
+    color: black;
+}
+
 .thumbnail {
     width: 100%;
     height: 200px;
@@ -325,6 +329,11 @@ input.error {
     .link-dark {
         color: white !important;
     }
+
+    .down-icon {
+        color: white;
+    }
+    
 
     .card,
     .filtros,
