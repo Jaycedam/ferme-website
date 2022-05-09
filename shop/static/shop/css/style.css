@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;900&display=swap');
+
 body {
     background-color: #EDF2F7;
+    font-family: 'Nunito';
 }
 
 .container-sm {
@@ -27,8 +30,14 @@ body {
     height: 90vh;
 }
 
+.landing .landing-title {
+    font-weight: 900;
+    font-size: clamp(3em, 5vw, 8em);
+}
+
 .landing img {
     height: 50%;
+    margin-bottom: 2em;
 }
 
 .thumbnail {
