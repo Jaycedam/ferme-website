@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from .models import Persona, Domicilio, Producto, Proveedor
 from itertools import cycle
 
+
 class CustomUserCreationForm(UserCreationForm):
     def clean_first_name(self):
         first_name = self.cleaned_data["first_name"]
@@ -28,18 +29,30 @@ class CustomUserCreationForm(UserCreationForm):
                 raise ValidationError("Este mail ya está registrado")
         return email
 
-    first_name = forms.CharField(min_length=3, max_length=80, required=True, label="Nombre")
-    last_name = forms.CharField(min_length=3, max_length=80, required=True, label="Apellido")
+    first_name = forms.CharField(
+        min_length=3, max_length=80, required=True, label="Nombre"
+    )
+    last_name = forms.CharField(
+        min_length=3, max_length=80, required=True, label="Apellido"
+    )
     email = forms.EmailField(required=True, label="Correo electrónico")
 
     class Meta:
         model = User
-        fields = ["username", "first_name", "last_name", "email", "password1", "password2"]
+        fields = [
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "password1",
+            "password2",
+        ]
 
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
+
 
 class ProfileForm(forms.ModelForm):
     def clean_rut_persona(self):
@@ -51,9 +64,9 @@ class ProfileForm(forms.ModelForm):
                 raise ValidationError("Este rut ya está registrado")
 
         # validación de rut
-       	rut_validation = rut.upper();
-        rut_validation = rut_validation.replace("-","")
-        rut_validation = rut_validation.replace(".","")
+        rut_validation = rut.upper()
+        rut_validation = rut_validation.replace("-", "")
+        rut_validation = rut_validation.replace(".", "")
         aux = rut_validation[:-1]
         try:
             int(aux)
@@ -61,18 +74,17 @@ class ProfileForm(forms.ModelForm):
             raise ValidationError("RUT Inválido")
         dv = rut_validation[-1:]
         revertido = map(int, reversed(str(aux)))
-        factors = cycle(range(2,8))
-        s = sum(d * f for d, f in zip(revertido,factors))
-        res = (-s)%11
+        factors = cycle(range(2, 8))
+        s = sum(d * f for d, f in zip(revertido, factors))
+        res = (-s) % 11
 
         if str(res) == dv:
             return rut
-        elif dv=="K" and res==10:
+        elif dv == "K" and res == 10:
             return rut
         else:
             raise ValidationError("RUT Inválido")
 
-    
     def clean_celular(self):
         celular = self.cleaned_data["celular"]
         if len(str(celular)) != 9:
@@ -91,7 +103,8 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
+
 
 class ModifyProfileForm(forms.ModelForm):
     def clean_celular(self):
@@ -104,15 +117,18 @@ class ModifyProfileForm(forms.ModelForm):
 
     rut_persona = forms.CharField(disabled=True, label="Rut")
     celular = forms.IntegerField(required=True, label="Celular (912345678)")
-    
+
     class Meta:
         model = Persona
-        fields = ["rut_persona", "celular",]
+        fields = [
+            "rut_persona",
+            "celular",
+        ]
 
     def __init__(self, *args, **kwargs):
         super(ModifyProfileForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
 
 class ModifyUserForm(forms.ModelForm):
@@ -129,8 +145,12 @@ class ModifyUserForm(forms.ModelForm):
         raise ValidationError("Ingrese sólo letras")
 
     username = forms.CharField(label="Nombre de usuario")
-    first_name = forms.CharField(min_length=3, max_length=80, required=True, label="Nombre")
-    last_name = forms.CharField(min_length=3, max_length=80, required=True, label="Apellido")
+    first_name = forms.CharField(
+        min_length=3, max_length=80, required=True, label="Nombre"
+    )
+    last_name = forms.CharField(
+        min_length=3, max_length=80, required=True, label="Apellido"
+    )
     email = forms.EmailField(required=True, label="Correo electrónico")
 
     class Meta:
@@ -140,26 +160,27 @@ class ModifyUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ModifyUserForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
 
 class ModifyProviderForm(forms.ModelForm):
     class Meta:
         model = Proveedor
-        fields = ["nombre_empresa","id_rubro"]
+        fields = ["nombre_empresa", "id_rubro"]
 
     def __init__(self, *args, **kwargs):
         super(ModifyProviderForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
 
 
 class AdressForm(forms.ModelForm):
-    class Meta: 
+    class Meta:
         model = Domicilio
-        fields = ["id_comuna", "calle", "nro", "nro_departamento"]
-    
+        fields = ["calle", "nro", "nro_departamento"]
+
     def __init__(self, *args, **kwargs):
         super(AdressForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs["class"] = "form-control"
+
