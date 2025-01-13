@@ -1,60 +1,55 @@
 {% extends 'shop/base.html' %}
 {% block title %}Home{% endblock %}
-
 {% load static %}
-
 {% block landing %}
-
-{% if provider %}
-<div class="d-flex justify-content-end">
-    <a style="margin: 1rem;" class="btn btn-outline-dark" href="{% url 'order_requests' %}">
-        Gestionar solicitudes
-        <i class="bi bi-file-earmark-check"></i>
-    </a>
-</div>
-{% endif %}
-
-<div class="landing">
-    <h1 class="landing-title text-center">FERME SERVICES</h1>
-    <img src="{% static 'shop/img/landing.svg' %}" alt="">
-    <a class="down-icon" href="#productos">
-        <i class="bi bi-arrow-down-circle" style="font-size: 50px;"></i>
-    </a>
-</div>
-{% endblock %}
-
-{% block content %}
-<h1 id="productos" class="text-center">Productos</h1>
-<div class="row">
-    {% for i in familia_producto %}
-    <div class="col-lg-6">
-        <div class="categoria">
-            <a href="{% url 'products' i.id_familia_producto %}">
-                {% if i.imagen_url %}
-                <img class="thumbnail darken" src="{{i.imagen_url.url}}">
-                {% else %}
-                <img class="thumbnail darken" src="{% static 'shop/img/noimage.png' %}">
-                {% endif %}
-                <div class="text-block text-center">
-                    <h3>{{ i.familia_producto }}</h3>
-                </div>
+    {% if provider %}
+        <div class="d-flex justify-content-end">
+            <a style="margin: 1rem"
+               class="btn btn-outline-dark"
+               href="{% url 'order_requests' %}">
+                Gestionar solicitudes
+                <i class="bi bi-file-earmark-check"></i>
+            </a>
+        </div>
+    {% endif %}
+    <div class="d-flex flex-column gap-4">
+        <h1 class="fs-1">FERME SERVICES</h1>
+        <p>
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+        <!--call to action-->
+        <div>
+            <a href="/#productos" class="btn btn-primary">
+                Ver productos
+                <i class="bi bi-arrow-down"></i>
             </a>
         </div>
     </div>
-    {% endfor %}
-</div>
-
-<br>
-
-<div class="row justify-content-center">
-    <div class="col-lg-6">
-        <h1 id="nosotros" class="text-center">Acerca de nosotros</h1>
-        <p>Somos una empresa familiar con décadas de experiencia en el rubro Ferretero en la comuna de Puente Alto,
-            con un amplio conocimiento del medio, conservando la atención de la ferretería tradicional de antaño,
-            con modernos proceso acordes a nuestros tiempos, lo que hasta la fecha nos hace mantener altos
-            estándares en atención personalizada a nuestros clientes.</p>
-
+{% endblock %}
+{% block content %}
+    <h2 id="productos">Productos</h2>
+    <div class="row">
+        {% for i in familia_producto %}
+            <a class="col-6 g-4" href="{% url 'products' i.id_familia_producto %}">
+                <div class="card text-bg-dark bg-black ratio ratio-16x9">
+                    <img src="{{ i.imagen_url.url }}" class="card-img" alt="...">
+                    <div class="card-img-overlay bg-gradient bg-black bg-opacity-75">
+                        <h3 class="card-title p-3">{{ i.familia_producto }}</h3>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
     </div>
-</div>
-
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1 id="nosotros" class="text-center">Acerca de nosotros</h1>
+            <p>
+                Somos una empresa familiar con décadas de experiencia en el rubro Ferretero en la comuna de Puente Alto,
+                con un amplio conocimiento del medio, conservando la atención de la ferretería tradicional de antaño,
+                con modernos proceso acordes a nuestros tiempos, lo que hasta la fecha nos hace mantener altos
+                estándares en atención personalizada a nuestros clientes.
+            </p>
+        </div>
+    </div>
 {% endblock %}
