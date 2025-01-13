@@ -1,7 +1,7 @@
 django
 django-crispy-forms
 crispy-bootstrap5
-cx_oracle
 django-filter
 Pillow
 xhtml2pdf
+oracledb
