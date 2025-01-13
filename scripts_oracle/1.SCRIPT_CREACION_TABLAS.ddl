@@ -1,18 +1,9 @@
-CREATE TABLE comuna (
-    id_comuna     NUMBER NOT NULL,
-    comuna        VARCHAR2(200) NOT NULL,
-    id_provincia  NUMBER NOT NULL
-);
-
-ALTER TABLE comuna ADD CONSTRAINT comuna_pk PRIMARY KEY ( id_comuna );
-
 CREATE TABLE delivery (
     id_delivery       NUMBER NOT NULL,
     nro_orden         NUMBER NOT NULL,
     calle             VARCHAR2(200) NOT NULL,
     nro               NUMBER NOT NULL,
-    nro_departamento  NUMBER,
-    id_comuna         NUMBER NOT NULL
+    nro_departamento  NUMBER
 );
 
 CREATE UNIQUE INDEX delivery__idx ON
@@ -27,7 +18,6 @@ CREATE TABLE domicilio (
     calle             VARCHAR2(200) NOT NULL,
     nro               NUMBER NOT NULL,
     nro_departamento  NUMBER,
-    id_comuna         NUMBER NOT NULL,
     rut_persona       VARCHAR2(10) NOT NULL
 );
 
@@ -152,14 +142,6 @@ CREATE UNIQUE INDEX proveedor__idx ON
 
 ALTER TABLE proveedor ADD CONSTRAINT proveedor_pk PRIMARY KEY ( id_proveedor );
 
-CREATE TABLE provincia (
-    id_provincia  NUMBER NOT NULL,
-    provincia     VARCHAR2(200) NOT NULL,
-    id_region     NUMBER NOT NULL
-);
-
-ALTER TABLE provincia ADD CONSTRAINT provincia_pk PRIMARY KEY ( id_provincia );
-
 CREATE TABLE recibo (
     nro_recibo  NUMBER NOT NULL,
     fecha       DATE NOT NULL,
@@ -176,13 +158,6 @@ CREATE UNIQUE INDEX recibo__idx ON
     ASC );
 
 ALTER TABLE recibo ADD CONSTRAINT recibo_pk PRIMARY KEY ( nro_recibo );
-
-CREATE TABLE region (
-    id_region  NUMBER NOT NULL,
-    region     VARCHAR2(200) NOT NULL
-);
-
-ALTER TABLE region ADD CONSTRAINT region_pk PRIMARY KEY ( id_region );
 
 CREATE TABLE rubro (
     id_rubro  NUMBER NOT NULL,
@@ -213,21 +188,9 @@ CREATE TABLE tipo_producto (
 
 ALTER TABLE tipo_producto ADD CONSTRAINT tipo_producto_pk PRIMARY KEY ( id_tipo_producto );
 
-ALTER TABLE comuna
-    ADD CONSTRAINT comuna_provincia_fk FOREIGN KEY ( id_provincia )
-        REFERENCES provincia ( id_provincia );
-
-ALTER TABLE delivery
-    ADD CONSTRAINT delivery_comuna_fk FOREIGN KEY ( id_comuna )
-        REFERENCES comuna ( id_comuna );
-
 ALTER TABLE delivery
     ADD CONSTRAINT delivery_orden_fk FOREIGN KEY ( nro_orden )
         REFERENCES orden ( nro_orden );
-
-ALTER TABLE domicilio
-    ADD CONSTRAINT domicilio_comuna_fk FOREIGN KEY ( id_comuna )
-        REFERENCES comuna ( id_comuna );
 
 ALTER TABLE domicilio
     ADD CONSTRAINT domicilio_persona_fk FOREIGN KEY ( rut_persona )
@@ -296,10 +259,6 @@ ALTER TABLE proveedor
 ALTER TABLE proveedor
     ADD CONSTRAINT proveedor_rubro_fk FOREIGN KEY ( id_rubro )
         REFERENCES rubro ( id_rubro );
-
-ALTER TABLE provincia
-    ADD CONSTRAINT provincia_region_fk FOREIGN KEY ( id_region )
-        REFERENCES region ( id_region );
 
 ALTER TABLE recibo
     ADD CONSTRAINT recibo_orden_fk FOREIGN KEY ( nro_orden )
