@@ -63,13 +63,13 @@
         console.log('Cart:', cart)
         </script>
     </head>
-    <body data-bs-theme="light">
+    <body data-bs-theme="light" class="d-flex flex-column vh-100">
         {% include './shop/navbar.html' %}
-        <main class="container py-5">
+        <main class="container py-5 d-flex flex-column gap-5 flex-grow-1">
             <div class="">
                 {% block landing %}{% endblock %}
             </div>
-            <div class="mt-5">
+            <div class="d-flex flex-column gap-5">
                 {% block content %}{% endblock %}
             </div>
         </main>
