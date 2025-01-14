@@ -1,45 +1,41 @@
 {% extends 'shop/base.html' %}
 {% block title %}{{ family.familia_producto }}{% endblock %}
 {% load static %}
-
 {% block content %}
-{% load crispy_forms_tags %}
-
-<h1>Productos en {{ family.familia_producto }}</h1>
-<hr>
-
-<div class="row">
-    <form class="form-inline" method="GET">
+    {% load crispy_forms_tags %}
+    <h1>Productos en {{ family.familia_producto }}</h1>
+    <form class="row row-cols-md-4" method="GET">
         {{ productsFiltered.form|crispy }}
-        <br>
-        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
-        <a class="btn btn-outline-danger" href="{% url 'products' family.id_familia_producto %}">Limpiar filtros</a>
-    </form>
-</div>
-
-<div class="row">
-    {% for i in entity %}
-    <div class="col-3">
-        {% if i.imagen_url %}
-        <img class="thumbnail" src="{{i.imagen_url.url}}">
-        {% else %}
-        <img class="thumbnail" src="{% static 'shop/img/noimage.png' %}">
-        {% endif %}
-        <div class="product-text">
-            <h6>{{i.id_marca}}</h6>
-            <h5><strong>{{i.producto}}</strong></h5>
-            <h6 style="display: inline-block">${{i.precio}}</h6>
-            <hr>
-
-            <button data-product={{i.id_producto}} data-action="add" class="btn btn-outline-dark update-cart">
-                Agregar al carro
-                <i class="bi bi-cart"></i>
-            </button>
-            <a class="btn btn-outline-dark" href="{% url 'product' i.id_producto %}">Detalles</a>
+        <div class="gap-2 d-flex col-md-12">
+            <button type="submit" class="btn btn-outline-secondary">Filtrar</button>
+            <a class="btn btn-outline-danger text-nowrap"
+               href="{% url 'products' family.id_familia_producto %}">Limpiar filtros</a>
         </div>
+    </form>
+    <div class="row g-4 row-cols-md-2 row-cols-lg-4">
+        {% for i in entity %}
+            <div class="card">
+                <a href={% url 'product' i.id_producto %}>
+                    {% if i.imagen_url %}
+                        <img class="card-img-top" src="{{ i.imagen_url.url }}">
+                    {% else %}
+                        <img class="img-fluid img-thumbnail"
+                             src="{% static 'shop/img/noimage.png' %}">
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h3 class="card-title">{{ i.producto }}</h3>
+                    <p class="card-text text-body-secondary">{{ i.id_marca }}</p>
+                    <p class="card-text">${{ i.precio }}</p>
+                    <button data-product="{{ i.id_producto }}"
+                            data-action="add"
+                            class="btn btn-outline-primary w-100 update-cart">
+                        <i class="bi bi-cart"></i>
+                        Agregar al carro
+                    </button>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
-
-{% include 'shop/paginator.html' %}
+    {% include 'shop/paginator.html' %}
 {% endblock %}
