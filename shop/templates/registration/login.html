@@ -2,17 +2,17 @@
 {% block title %}Login{% endblock %}
 {% block content %}
     {% load crispy_forms_tags %}
-    <div class="row justify-content-center">
-        <div class="col-6">
-            <div class="card">
-                <h2>Ingrese sus credenciales</h2>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    {{ form | crispy }}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Iniciar sesión</h2>
+            <form action="" method="post" class="row row-cols-lg-2">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="w-100 mt-4">
                     <input type="submit" value="Ingresar" class="btn btn-dark float-right">
                     <a href="{% url 'register' %}">Registrarse</a>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}

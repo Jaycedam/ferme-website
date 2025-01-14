@@ -2,17 +2,17 @@
 {% block title %}Registrarse{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="row justify-content-center">
-        <div class="col-6">
-            <div class="card">
-                <h2>Registro de usuario</h2>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    {{ form | crispy }}
-                    {{ profile_form | crispy }}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Registro de usuario</h2>
+            <form method="POST" class="row row-cols-lg-2">
+                {% csrf_token %}
+                {{ form | crispy }}
+                {{ profile_form | crispy }}
+                <div class="w-100 mt-4">
                     <input type="submit" value="Registrarse" class="btn btn-dark float-right">
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}
