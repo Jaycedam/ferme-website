@@ -1,5 +1,5 @@
 from .forms import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
@@ -347,3 +347,10 @@ def checkout(request):
 
         return redirect(to="home")
     return render(request, "shop/shop/checkout.html", data)
+
+
+# logout
+@login_required
+def signout(request):
+    logout(request)
+    return redirect(to="home")

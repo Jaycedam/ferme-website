@@ -66,7 +66,7 @@
                             >
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{% url 'logout' %}"
+                            <a class="dropdown-item" href="{% url 'signout' %}"
                                 >Cerrar sesión</a
                             >
                         </li>
@@ -80,18 +80,18 @@
                         role="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
-                        >Dropdown link</a
+                        >Iniciar sesión</a
                     >
                     <ul class="dropdown-menu">
                         <form
-                            class="px-4 py-3"
+                            class="px-3 py-4 d-flex flex-column gap-2"
                             method="POST"
                             action="{% url 'login' %}"
                         >
                             {% csrf_token %}
-                            <div class="mb-3">
+                            <div>
                                 <label for="username" class="form-label"
-                                    >Nombre de usuario</label
+                                    >Usuario</label
                                 >
                                 <input
                                     type="text"
@@ -99,7 +99,7 @@
                                     name="username"
                                 />
                             </div>
-                            <div class="mb-3">
+                            <div>
                                 <label for="password" class="form-label"
                                     >Contraseña</label
                                 >
@@ -109,7 +109,10 @@
                                     name="password"
                                 />
                             </div>
-                            <button type="submit" class="btn btn-dark">
+                            <button
+                                type="submit"
+                                class="btn btn-dark w-100 mt-2"
+                            >
                                 Iniciar sesión
                             </button>
                         </form>
