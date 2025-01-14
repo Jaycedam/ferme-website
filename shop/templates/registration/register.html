@@ -1,23 +1,18 @@
 {% extends 'shop/base.html' %}
 {% block title %}Registrarse{% endblock %}
 {% load crispy_forms_tags %}
-
 {% block content %}
-
-<div class="row justify-content-center">
-    <div class="col-6">
-        <div class="card">
-            <h2>Registro de usuario</h2>
-            <hr>
-            <form action="" method="post">
-                {% csrf_token %}
-                {{ form | crispy }}
-                {{ profile_form | crispy }}
-                <br>
-                <input type="submit" value="Registrarse" class="btn btn-primary float-right">
-            </form>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <h2>Registro de usuario</h2>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    {{ profile_form | crispy }}
+                    <input type="submit" value="Registrarse" class="btn btn-dark float-right">
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
 {% endblock %}

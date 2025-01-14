@@ -1,32 +1,32 @@
 {% extends 'employees/base.html' %}
 {% block title %}Order{% endblock %}
 {% load static %}
-
 {% block content %}
-<h1>Orden de compra proveedor</h1>
-<br>
-
-<div class="row d-flex align-items-center">
-    <div class="col">
-        <h5>Total (IVA Incl):<strong> ${{order.get_order_total}}</strong></h5>
+    <h1>Orden de compra proveedor</h1>
+    <div class="row d-flex align-items-center">
+        <div class="col">
+            <h5>
+                Total (IVA Incl):<strong>${{ order.get_order_total }}</strong>
+            </h5>
         </th>
     </div>
-
     <div class="col">
         {% if order.get_order_total > 0 and profile %}
-        <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout_provider' %}">Continuar</a>
+            <a style="float:right;
+                      margin:5px"
+               class="btn btn-success"
+               href="{% url 'checkout_provider' %}">Continuar</a>
         {% elif order.get_order_total == 0 and profile %}
-        <h5 class="text-end">Agrega productos a la orden</h5>
+            <h5 class="text-end">Agrega productos a la orden</h5>
         {% elif not profile %}
-        <h5 class="text-end">Completa tu perfil para continuar</h5>
-        <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>
+            <h5 class="text-end">Completa tu perfil para continuar</h5>
+            <a style="float:right;
+                      margin:5px"
+               class="btn btn-outline-secondary"
+               href="{% url 'profile' %}">Ir a perfil</a>
         {% endif %}
     </div>
-
 </div>
-
-<br>
-
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -40,25 +40,26 @@
         </thead>
         <tbody>
             {% for i in items %}
-            <tr>
-                <td>{{ i.product.name }}</td>
-                <td>{{ i.provider }}</td>
-                <td>${{ i.product.price }}</td>
-                <td>${{ i.get_total }}</td>
-                <td>
-                    {{ i.quantity }}
-                    <button data-product="{{i.product.id}}" data-action="add"
-                        class="btn btn-outline-dark bi bi-caret-up-fill update-order"></button>
-                    <button data-product="{{i.product.id}}" data-action="remove"
-                        class="btn btn-outline-dark bi bi-caret-down-fill update-order"></button>
-                    <button data-product="{{i.product.id}}" data-action="delete"
-                        class="btn btn-outline-danger bi bi-trash-fill update-order"></button>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ i.product.name }}</td>
+                    <td>{{ i.provider }}</td>
+                    <td>${{ i.product.price }}</td>
+                    <td>${{ i.get_total }}</td>
+                    <td>
+                        {{ i.quantity }}
+                        <button data-product="{{ i.product.id }}"
+                                data-action="add"
+                                class="btn btn-outline-secondary bi bi-caret-up-fill update-order"></button>
+                        <button data-product="{{ i.product.id }}"
+                                data-action="remove"
+                                class="btn btn-outline-secondary bi bi-caret-down-fill update-order"></button>
+                        <button data-product="{{ i.product.id }}"
+                                data-action="delete"
+                                class="btn btn-outline-danger bi bi-trash-fill update-order"></button>
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
-
 </div>
-
 {% endblock content %}

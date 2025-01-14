@@ -1,57 +1,48 @@
 {% extends 'employees/base.html' %}
 {% block title %}Orden{% endblock %}
 {% load static %}
-
 {% block content %}
-
-<h1>Orden de compra N°{{order.nro_orden}}</h1>
-<hr>
-<h5>Proveedor: {{order.id_proveedor}}</h5>
-<h5>Total: ${{order.total}}</h5>
-<h5>Fecha de emisión: {{order.fecha}}</h5>
-<h5>Estado: {{order.id_estado}}</h5>
-
-{% if recibo %}
-<br>
-<a class="btn btn-secondary" href="{% url 'render_pdf' order.nro_orden %}">Descargar recibo</a>
-{% endif %}
-{% if order.id_estado == pendiente %}
-<td>
-    <form method="POST">
-        {% csrf_token %}
-        <button type="button" id="btn-delete" class="btn btn-danger">Eliminar solicitud</button>
-    </form>
-</td>
-{% endif %}
-<br>
-<hr><br>
-
-<h1>Detalle</h1>
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in order_items %}
-            <tr>
-                <td>{{ i.id_producto.get_name }}</td>
-                <td>${{ i.precio }}</td>
-                <td>{{ i.cantidad }}</td>
-                <td>${{ i.total }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
+    <h1>Orden de compra N°{{ order.nro_orden }}</h1>
+    <h5>Proveedor: {{ order.id_proveedor }}</h5>
+    <h5>Total: ${{ order.total }}</h5>
+    <h5>Fecha de emisión: {{ order.fecha }}</h5>
+    <h5>Estado: {{ order.id_estado }}</h5>
+    {% if recibo %}
+        <a class="btn btn-outline-dark"
+           href="{% url 'render_pdf' order.nro_orden %}">Descargar recibo</a>
+    {% endif %}
+    {% if order.id_estado == pendiente %}
+        <td>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="button" id="btn-delete" class="btn btn-danger">Eliminar solicitud</button>
+            </form>
+        </td>
+    {% endif %}
+    <h1>Detalle</h1>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in order_items %}
+                    <tr>
+                        <td>{{ i.id_producto.get_name }}</td>
+                        <td>${{ i.precio }}</td>
+                        <td>{{ i.cantidad }}</td>
+                        <td>${{ i.total }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
-
 {% block js %}
-<script src="{% static 'employees/js/notif_before_delete.js' %}"></script>
+    <script src="{% static 'employees/js/notif_before_delete.js' %}"></script>
 {% endblock %}

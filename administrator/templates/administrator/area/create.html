@@ -1,24 +1,18 @@
 {% extends 'employees/base.html' %}
 {% block title %}Admin areas{% endblock %}
-
 {% block content %}
-{% load crispy_forms_tags %}
-
-<div class="row justify-content-center">
-    <div class="col-6">
-        <div class="card">
-
-            <h2>{{title}}</h2>
-            <hr>
+    {% load crispy_forms_tags %}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mb-4">{{ title }}</h2>
             <form method="POST">
                 {% csrf_token %}
                 {{ form | crispy }}
-                <br>
-                <a class="btn btn-outline-danger float-left" href="{% url 'areas' %}">Cancelar</a>
-                <button type="submit" class="btn btn-outline-dark float-left">Guardar</button>
+                <div class="mt-4 w-100">
+                    <a class="btn btn-outline-danger float-left" href="{% url 'areas' %}">Cancelar</a>
+                    <button type="submit" class="btn btn-dark float-left">Guardar</button>
+                </div>
             </form>
         </div>
     </div>
-</div>
-
 {% endblock content %}

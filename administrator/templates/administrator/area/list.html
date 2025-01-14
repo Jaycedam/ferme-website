@@ -1,51 +1,45 @@
 {% extends 'employees/base.html' %}
 {% block title %}Admin areas{% endblock %}
-
 {% block content %}
-{% load crispy_forms_tags %}
-
-<div class="row align-items-center">
-    <div class="col">
-        <h1>Gestión de rubros</h1>
-    </div>
-    <div class="col d-flex justify-content-end">
-        <a class="btn btn-outline-dark float-left" style="height: min-content;" href="{% url 'area_create' %}">Registrar
+    {% load crispy_forms_tags %}
+    <div class="row align-items-center">
+        <div class="col">
+            <h1>Gestión de rubros</h1>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <a class="btn btn-dark float-left"
+               style="height: min-content"
+               href="{% url 'area_create' %}">Registrar
             nuevo rubro</a>
+        </div>
     </div>
-</div>
-
-<hr>
-
-<div class="row">
-    <form class="form-inline" method="GET">
-        {{ areas_filtered.form|crispy }}
-        <br>
-        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
-        <a class="btn btn-outline-danger" href="{% url 'areas' %}">Limpiar filtros</a>
-    </form>
-</div>
-
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Rubro</th>
-                <th scope="col">Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in entity %}
-            <tr>
-                <td>{{ i.rubro }}</td>
-                <td>
-                    <a class="btn btn-outline-dark" href="{% url 'area_modify' i.id_rubro %}">Modificar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-{% include 'shop/paginator.html' %}
-
+    <div class="row">
+        <form class="form-inline" method="GET">
+            {{ areas_filtered.form|crispy }}
+            <button type="submit" class="btn btn-outline-dark">Filtrar</button>
+            <a class="btn btn-outline-danger" href="{% url 'areas' %}">Limpiar filtros</a>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Rubro</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in entity %}
+                    <tr>
+                        <td>{{ i.rubro }}</td>
+                        <td>
+                            <a class="btn btn-outline-dark"
+                               href="{% url 'area_modify' i.id_rubro %}">Modificar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'shop/paginator.html' %}
 {% endblock content %}

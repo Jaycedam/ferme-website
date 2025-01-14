@@ -1,25 +1,24 @@
 <html>
-    <head>
-    </head>
+    <head> </head>
 
-<body>
-    <h1>Tu orden N°{{order.nro_orden}} ha sido confirmada</h1>
-    <p>Total: ${{order.total}}</p>
-    <p>Fecha: {{order.fecha}}</p>
-    <p>Rut: {{order.rut_persona}}</p>
-    <p>Delivery: {{delivery}}</p>
-    <br>
+    <body>
+        <h1>Tu orden N°{{order.nro_orden}} ha sido confirmada</h1>
+        <p>Total: ${{order.total}}</p>
+        <p>Fecha: {{order.fecha}}</p>
+        <p>Rut: {{order.rut_persona}}</p>
+        <p>Delivery: {{delivery}}</p>
 
-    <h2>Detalle</h2>
-    {% for i in items %}
-    <ul>
-        <li>
-            <p>{{ i.id_producto.get_name }} ${{ i.precio }} (x{{ i.cantidad }}), total ${{ i.total }} </p>
-        </li>
-    </ul>
-    {% endfor %}
-          
-
-</body>
-
+        <h2>Detalle</h2>
+        {% for i in items %}
+        <ul>
+            <li>
+                <p>
+                    {{ i.id_producto.get_name }} ${{ i.precio }} (x{{ i.cantidad
+                    }}), total ${{ i.total }}
+                </p>
+            </li>
+        </ul>
+        {% endfor %}
+    </body>
 </html>
+

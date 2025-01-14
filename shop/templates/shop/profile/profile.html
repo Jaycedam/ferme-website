@@ -1,71 +1,55 @@
 {% extends 'shop/base.html' %}
 {% block title %}Perfil{% endblock %}
-
 {% load static %}
-
 {% block content %}
-{% load crispy_forms_tags %}
-
-<div class="row">
-    <div class="col-sm">
-        <h1 class="text-center">Perfil {{user.username}}</h1>
-    </div>
-</div>
-
-<br>
-
-<div class="card p-5">
-    <div class="row" style="gap: 1rem;">
-        <div class="col-sm">
-            <h3>Datos personales</h3>
-            <hr>
-            <h5>Nombre de usuario: {{ user.username }}</h5>
-            <h5>Nombre: {{ user.first_name }}</h5>
-            <h5>Apellido: {{ user.last_name }}</h5>
-            <h5>Email: {{ user.email }}</h5>
-            <h5>Rut: {{ profile.rut_persona }}</h5>
-            <h5>Celular: {{ profile.celular }}</h5>
-            <br>
-            <a class="btn btn-outline-dark float-left" href="{% url 'profile_modify'%}">Modificar</a>
-        </div>
-
-        {% if provider %}
-        <div class="col-sm">
-            <h3>Datos proveedor</h3>
-            <hr>
-            <h5>Id: {{ provider.id_proveedor }}</h5>
-            <h5>Empresa: {{ provider.nombre_empresa }}</h5>
-            <h5>Rubro: {{ provider.id_rubro }}</h5>
-            <br>
-            <a class="btn btn-outline-dark float-left" href="{% url 'provider_modify' %}">Modificar</a>
-        </div>
-        {% endif %}
-
-        <div class="col-sm">
-            <h3>Domicilio</h3>
-            <hr>
+    {% load crispy_forms_tags %}
+    <div class="d-flex flex-column gap-4">
+        <h1>Hola, {{ user.username }}.</h1>
+        <div>
             {% if not profile %}
-            <p>*Tu perfil no se encuentra completo, por favor llena los datos de tu perfil o contacta a un
-                administrador.*</p>
+                <p>
+                    *Tu perfil no se encuentra completo, por favor llena los datos de tu perfil o contacta a un
+                    administrador.*
+                </p>
             {% endif %}
-
             {% if not domicilio and profile %}
-            <form action="" method="POST">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <br>
-                <button class="btn btn-outline-dark float-left" type="submit">Registrar</button>
-            </form>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="btn btn-outline-secondary float-left" type="submit">Registrar</button>
+                </form>
             {% endif %}
-
             {% if domicilio %}
-            <h5>{{ domicilio }}</h5>
-            <br>
-            <a class="btn btn-outline-dark float-left" href="{% url 'adress_modify' %}">Modificar</a>
+                <h2>Domicilio</h2>
+                <p>{{ domicilio }}</p>
+                <a class="btn btn-outline-dark float-left"
+                   href="{% url 'adress_modify' %}">Modificar</a>
+            {% endif %}
+        </div>
+        <div class="row" style="gap: 1rem;">
+            <div>
+                <h2>Datos personales</h2>
+                <div>
+                    <p>Nombre de usuario: {{ user.username }}</p>
+                    <p>Nombre: {{ user.first_name }}</p>
+                    <p>Apellido: {{ user.last_name }}</p>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Rut: {{ profile.rut_persona }}</p>
+                    <p>Celular: {{ profile.celular }}</p>
+                    <a class="btn btn-outline-dark float-left"
+                       href="{% url 'profile_modify' %}">Modificar</a>
+                </div>
+            </div>
+            {% if provider %}
+                <div>
+                    <h2>Datos proveedor</h2>
+                    <p>Id: {{ provider.id_proveedor }}</p>
+                    <p>Empresa: {{ provider.nombre_empresa }}</p>
+                    <p>Rubro: {{ provider.id_rubro }}</p>
+                    <a class="btn btn-outline-dark float-left"
+                       href="{% url 'provider_modify' %}">Modificar</a>
+                </div>
             {% endif %}
         </div>
     </div>
-</div>
-
-
 {% endblock %}

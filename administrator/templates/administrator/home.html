@@ -1,54 +1,35 @@
 {% extends 'employees/base.html' %}
 {% block title %}Admin{% endblock %}
 {% load static %}
-
 {% block content %}
-<h1>Administrador Ferme</h1>
-<p>
-    Bienvenido {{request.user.first_name}}, dentro de ésta sección podrás administrar los registros de la base de datos,
-    además podrás otorgar privilegios a los usuarios registrados anexando su rol dentro o fuera de la empresa Ferme.
-</p>
-<hr>
-
-<h5>¿Qué deseas administrar?</h5>
-<div class="row admin">
-    <div class="d-grid col-4">
-        <a class="btn btn-outline-dark" href="{% url 'admin_users' %}">
-            <h1 class="fw-bold">Usuarios</h1>
-        </a>
+    <div>
+        <h1>Administrador Ferme</h1>
+        <p>
+            Bienvenido {{ request.user.first_name }}, dentro de ésta sección podrás administrar los registros de la base de datos,
+            además podrás otorgar privilegios a los usuarios registrados anexando su rol dentro o fuera de la empresa Ferme.
+        </p>
     </div>
-
-    <div class="d-grid col-4">
-        <a class="btn btn-outline-dark" href="{% url 'brands' %}">
-            <h1 class="fw-bold">Marcas</h1>
-        </a>
+    <div class="d-flex flex-column gap-2">
+        <h5>¿Qué deseas administrar?</h5>
+        <div class="d-flex gap-4">
+            <div>
+                <a class="btn btn-dark" href="{% url 'admin_users' %}">Usuarios</a>
+            </div>
+            <div>
+                <a class="btn btn-dark" href="{% url 'brands' %}">Marcas</a>
+            </div>
+            <div>
+                <a class="btn btn-dark" href="{% url 'categories' %}">Familia Producto</a>
+            </div>
+            <div>
+                <a class="btn btn-dark" href="{% url 'subcategories' %}">Tipo Producto</a>
+            </div>
+            <div>
+                <a class="btn btn-dark" href="{% url 'areas' %}">Rubros Proveedor</a>
+            </div>
+            <div>
+                <a class="btn btn-dark" href="{% url 'motives' %}">Motivos Cancelación</a>
+            </div>
+        </div>
     </div>
-
-    <div class="d-grid col-4">
-        <a class="btn btn-outline-dark" href="{% url 'categories' %}">
-            <h1 class="fw-bold">Familia Producto</h1>
-        </a>
-    </div>
-
-    <div class="d-grid col-4">
-        <a class="btn btn-outline-dark" href="{% url 'subcategories' %}">
-            <h1 class="fw-bold">Tipo Producto</h1>
-        </a>
-    </div>
-
-    <div class="d-grid col-4">
-        <a class="btn btn-outline-dark" href="{% url 'areas' %}">
-            <h1 class="fw-bold">Rubros Proveedor</h1>
-        </a>
-    </div>
-
-    <div class="d-grid col-4">
-        <a class="btn btn-outline-dark" href="{% url 'motives' %}">
-            <h1 class="fw-bold">Motivos Cancelación</h1>
-        </a>
-    </div>
-
-</div>
-
-
 {% endblock content %}

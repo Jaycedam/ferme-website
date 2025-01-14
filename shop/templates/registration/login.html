@@ -1,22 +1,18 @@
 {% extends 'shop/base.html' %}
 {% block title %}Login{% endblock %}
-
 {% block content %}
-{% load crispy_forms_tags %}
-
-<div class="row justify-content-center">
-    <div class="col-6">
-        <div class="card">
-            <h2>Ingrese sus credenciales</h2>
-            <hr>
-            <form action="" method="post">
-                {% csrf_token %}
-                {{ form | crispy }}
-                <br>
-                <input type="submit" value="Ingresar" class="btn btn-primary float-right">
-                <a href="{% url 'register' %}">Registrarse</a>
-            </form>
+    {% load crispy_forms_tags %}
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <h2>Ingrese sus credenciales</h2>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <input type="submit" value="Ingresar" class="btn btn-dark float-right">
+                    <a href="{% url 'register' %}">Registrarse</a>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

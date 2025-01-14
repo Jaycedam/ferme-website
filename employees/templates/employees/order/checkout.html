@@ -1,60 +1,52 @@
 {% extends 'employees/base.html' %}
 {% block title %}Checkout{% endblock %}
 {% load static %}
-
 {% block content %}
-
-<h1>Confirma los datos de la orden</h1>
-
-<br>
-
-<div class="row">
-    <div class="col">
+    <h1>Confirma los datos de la orden</h1>
+    <div class="row">
         <div class="col">
-            <h5>Total (IVA Incl):<strong> ${{order.get_order_total}}</strong></h5>
+            <div class="col">
+                <h5>
+                    Total (IVA Incl):<strong>${{ order.get_order_total }}</strong>
+                </h5>
+            </div>
+            {% if profile %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-success" type="submit">Confirmar orden</button>
+                </form>
+            {% elif not profile %}
+                <div class="col">
+                    <h5 class="text-end">Completa tu perfil para continuar</h5>
+                    <a style="float:right;
+                              margin:5px"
+                       class="btn btn-outline-secondary"
+                       href="{% url 'profile' %}">Ir a perfil</a>
+                </div>
+            {% endif %}
         </div>
-        {% if profile %}
-        <form method="POST">
-            {% csrf_token %}
-            <button class="btn btn-success" type="submit">Confirmar orden</button>
-        </form>
-        {% elif not profile %}
-        <div class="col">
-            <h5 class="text-end">Completa tu perfil para continuar</h5>
-            <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>
-        </div>
-        {% endif %}
     </div>
-</div>
-
-<br>
-<hr><br>
-
-<h2>Detalle</h2>
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Total</th>
-                <th scope="col">Cantidad</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in items %}
-            <tr>
-                <td>{{ i.product.name }}</td>
-                <td>${{ i.product.price }}</td>
-                <td>${{ i.get_total }}</td>
-                <td>{{ i.quantity }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-
-
-
+    <h2>Detalle</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in items %}
+                    <tr>
+                        <td>{{ i.product.name }}</td>
+                        <td>${{ i.product.price }}</td>
+                        <td>${{ i.get_total }}</td>
+                        <td>{{ i.quantity }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

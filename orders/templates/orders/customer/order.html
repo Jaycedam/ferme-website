@@ -1,60 +1,51 @@
 {% extends 'shop/base.html' %}
 {% block title %}Order{% endblock %}
 {% load static %}
-
 {% block content %}
-
-<h1>Orden de compra N°{{order.nro_orden}} - <strong>{{order.id_estado}}</strong></h1>
-<hr>
-<h5>Total: ${{order.total}}</h5>
-<h5>Fecha de emisión: {{order.fecha}}</h5>
-<h5>Delivery: {{delivery}}</h5>
-
-{% if recibo %}
-<br>
-<a class="btn btn-outline-dark" href="{% url 'render_pdf' order.nro_orden %}">Descargar recibo</a>
-{% endif %}
-
-<a class="btn btn-outline-danger" href="{% url 'cancel_order' order.nro_orden %}">Cancelar orden</a>
-<br><hr>
-
-<h1>Detalle</h1>
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in order_items %}
-            <tr>
-                <td>{{ i.id_producto.get_name }}</td>
-                <td>${{ i.precio }}</td>
-                <td>{{ i.cantidad }}</td>
-                <td>${{ i.total }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<br><hr>
-{% if nc %}
-<div class="row align-items-center">
-    <div class="col-12">
-        <h1>Solicitudes asociadas a esta orden</h1>
+    <h1>
+        Orden de compra N°{{ order.nro_orden }} - <strong>{{ order.id_estado }}</strong>
+    </h1>
+    <h5>Total: ${{ order.total }}</h5>
+    <h5>Fecha de emisión: {{ order.fecha }}</h5>
+    <h5>Delivery: {{ delivery }}</h5>
+    {% if recibo %}
+        <a class="btn btn-outline-secondary"
+           href="{% url 'render_pdf' order.nro_orden %}">Descargar recibo</a>
+    {% endif %}
+    <a class="btn btn-outline-danger"
+       href="{% url 'cancel_order' order.nro_orden %}">Cancelar orden</a>
+    <h1>Detalle</h1>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in order_items %}
+                    <tr>
+                        <td>{{ i.id_producto.get_name }}</td>
+                        <td>${{ i.precio }}</td>
+                        <td>{{ i.cantidad }}</td>
+                        <td>${{ i.total }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    <div class="col-lg-6">
-        {% for i in nc_items %}
-        <p class="lead">{{i}}</p>
-        {% endfor %}
-        <a class="btn btn-outline-dark" href="{% url 'cancel_requests' %}">Tus solicitudes</a>
-    </div>
-</div>
-{% endif %}
-
+    {% if nc %}
+        <div class="row align-items-center">
+            <div class="col-12">
+                <h1>Solicitudes asociadas a esta orden</h1>
+            </div>
+            <div class="col-lg-6">
+                {% for i in nc_items %}<p class="lead">{{ i }}</p>{% endfor %}
+                <a class="btn btn-outline-secondary" href="{% url 'cancel_requests' %}">Tus solicitudes</a>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

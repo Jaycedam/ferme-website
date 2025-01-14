@@ -109,7 +109,7 @@
                                     name="password"
                                 />
                             </div>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-dark">
                                 Iniciar sesión
                             </button>
                         </form>
@@ -121,13 +121,15 @@
                 </li>
                 {% endif %} {% if user.is_superuser %}
                 <li class="nav-item">
-                    <a class="btn btn-secondary" href="{% url 'admin_home' %}"
+                    <a
+                        class="btn btn-outline-dark"
+                        href="{% url 'admin_home' %}"
                         >Administrador</a
                     >
                 </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="btn btn-primary" href="{% url 'cart' %}">
+                    <a class="btn btn-dark" href="{% url 'cart' %}">
                         <i class="bi bi-cart"></i>
                         <span>Carro de compra</span>
                     </a>

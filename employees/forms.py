@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Producto
 
+
 class ProductForm(forms.ModelForm):
     def clean_precio(self):
         precio = self.cleaned_data["precio"]
@@ -17,6 +18,7 @@ class ProductForm(forms.ModelForm):
         if precio_proveedor < 0:
             raise ValidationError("Ingresa un precio válido")
         return precio_proveedor
+
     def clean_stock(self):
         stock = self.cleaned_data["stock"]
         if stock < 0:
@@ -30,11 +32,27 @@ class ProductForm(forms.ModelForm):
         return stock_critico
 
     producto = forms.CharField(label="Nombre", min_length=3, max_length=50)
-    fecha_vencimiento = forms.DateField(label="Fecha vencimiento (dd/mm/yy)", required=False)
+    fecha_vencimiento = forms.DateField(
+        label="Fecha vencimiento (dd/mm/yy)", required=False
+    )
     imagen_url = forms.FileField(label="Imagen", required=False)
-    class Meta: 
+
+    class Meta:
         model = Producto
-        fields = ["producto", "descripcion", "precio", "precio_proveedor", "stock", "stock_critico", "fecha_vencimiento", "id_tipo_producto", "id_proveedor", "id_marca", "imagen_url"]
+        fields = [
+            "producto",
+            "descripcion",
+            "precio",
+            "precio_proveedor",
+            "stock",
+            "stock_critico",
+            "fecha_vencimiento",
+            "id_tipo_producto",
+            "id_proveedor",
+            "id_marca",
+            "imagen_url",
+        ]
+
 
 class ProductModifyForm(forms.ModelForm):
     def clean_precio(self):
@@ -48,6 +66,7 @@ class ProductModifyForm(forms.ModelForm):
         if precio_proveedor < 0:
             raise ValidationError("Ingresa un precio válido")
         return precio_proveedor
+
     def clean_stock(self):
         stock = self.cleaned_data["stock"]
         if stock < 0:
@@ -60,7 +79,14 @@ class ProductModifyForm(forms.ModelForm):
             raise ValidationError("Ingresa un stock válido")
         return stock_critico
 
-    class Meta: 
+    class Meta:
         model = Producto
-        fields = ["producto", "descripcion", "precio", "precio_proveedor", "stock", "stock_critico", "imagen_url"]
-
+        fields = [
+            "producto",
+            "descripcion",
+            "precio",
+            "precio_proveedor",
+            "stock",
+            "stock_critico",
+            "imagen_url",
+        ]

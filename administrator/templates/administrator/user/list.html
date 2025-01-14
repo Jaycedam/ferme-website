@@ -2,78 +2,67 @@
 {% block title %}Admin users{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-
-<div class="row align-items-center">
-    <div class="col">
-        <h1>Administrar usuarios</h1>
+    <div class="row align-items-center">
+        <div class="col">
+            <h1>Administrar usuarios</h1>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <a class="btn btn-dark float-left"
+               style="height: min-content"
+               href="{% url 'admin_create_user' %}">Registrar nuevo usuario</a>
+        </div>
     </div>
-    <div class="col d-flex justify-content-end">
-        <a class="btn btn-outline-dark float-left" style="height: min-content;"
-            href="{% url 'admin_create_user' %}">Registrar nuevo usuario</a>
+    <div class="row">
+        <form class="form-inline" method="GET">
+            {{ users_filtered.form|crispy }}
+            <button type="submit" class="btn btn-outline-dark">Filtrar</button>
+            <a class="btn btn-outline-danger" href="{% url 'admin_users' %}">Limpiar filtros</a>
+        </form>
     </div>
-</div>
-
-<hr>
-
-<div class="row">
-    <form class="form-inline" method="GET">
-        {{ users_filtered.form|crispy }}
-        <br>
-        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
-        <a class="btn btn-outline-danger" href="{% url 'admin_users' %}">Limpiar filtros</a>
-    </form>
-</div>
-
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Nombre de usuario</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Email</th>
-                <th scope="col">Rut</th>
-                <th scope="col">Proveedor</th>
-                <th scope="col">Empleado</th>
-                <th scope="col">Superusuario</th>
-
-                <th scope="col">Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in entity %}
-            <tr>
-                <td>{{ i.username }}</td>
-                <td>{{ i.first_name }} {{i.last_name}}</td>
-                <td>{{ i.email }}</td>
-                <td>{{ i.persona.rut_persona }}</td>
-
-                {% if i.persona.proveedor %}
-                <td>Sí</td>
-                {% else %}
-                <td>No</td>
-                {% endif %}
-
-                {% if i.is_staff %}
-                <td>Sí</td>
-                {% else %}
-                <td>No</td>
-                {% endif %}
-
-                {% if i.is_superuser %}
-                <td>Sí</td>
-                {% else %}
-                <td>No</td>
-                {% endif %}
-
-                <td>
-                    <a class="btn btn-outline-dark" href="{% url 'admin_modify_user' i.id %}">Modificar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-{% include 'shop/paginator.html' %}
-
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre de usuario</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Rut</th>
+                    <th scope="col">Proveedor</th>
+                    <th scope="col">Empleado</th>
+                    <th scope="col">Superusuario</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in entity %}
+                    <tr>
+                        <td>{{ i.username }}</td>
+                        <td>{{ i.first_name }} {{ i.last_name }}</td>
+                        <td>{{ i.email }}</td>
+                        <td>{{ i.persona.rut_persona }}</td>
+                        {% if i.persona.proveedor %}
+                            <td>Sí</td>
+                        {% else %}
+                            <td>No</td>
+                        {% endif %}
+                        {% if i.is_staff %}
+                            <td>Sí</td>
+                        {% else %}
+                            <td>No</td>
+                        {% endif %}
+                        {% if i.is_superuser %}
+                            <td>Sí</td>
+                        {% else %}
+                            <td>No</td>
+                        {% endif %}
+                        <td>
+                            <a class="btn btn-outline-dark"
+                               href="{% url 'admin_modify_user' i.id %}">Modificar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'shop/paginator.html' %}
 {% endblock content %}

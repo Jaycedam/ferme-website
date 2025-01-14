@@ -1,147 +1,113 @@
 {% extends 'employees/base.html' %}
 {% block title %}Home{% endblock %}
 {% load static %}
-
 {% block js %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"
-    integrity="sha512-VCHVc5miKoln972iJPvkQrUYYq7XpxXzvqNfiul1H4aZDwGBGC0lq373KNleaB2LpnC2a/iNfE5zoRYmB4TRDQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<!-- script que muestra el query de stats en forma de chart -->
-<script>
-    var product_stat_sales_data = {{ product_stat_sales_data | safe }}
-    var product_stat_sales_labels = {{ product_stat_sales_labels | safe }}
-    var user_stats_labels = {{ user_stats_labels | safe }}
-    var user_stats_data = {{ user_stats_data | safe }}
-    var order_stats_data = {{ order_stats_data | safe }}
-    var last_year_orders_data = {{ last_year_orders_data | safe }}
-
-    var color_scheme = ['#cc2b2b', '#cc9c2b', '#8ecc2b', '#2bcc69', '#2bb7cc',
-        '#2b59cc', '#6e2bcc', '#cc2b2b', '#cc2bc7', '#4d0000',
-    ]
-
-    var product_config = {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: product_stat_sales_data,
-                backgroundColor: color_scheme,
-                label: 'Productos'
-            }],
-            labels: product_stat_sales_labels,
-            hoverOffset: 4
-        },
-        options: {
-            responsive: true
-        }
-    };
-
-    var user_config = {
-        type: 'bar',
-        data: {
-            datasets: [{
-                data: user_stats_data,
-                backgroundColor: '#2b59cc',
-                label: 'Usuarios'
-            }],
-            labels: user_stats_labels,
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"
+            integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+    <script>
+var product_stat_sales_data = {{ product_stat_sales_data | safe }}
+var product_stat_sales_labels = {{ product_stat_sales_labels | safe }}
+var user_stats_labels = {{ user_stats_labels | safe }}
+var user_stats_data = {{ user_stats_data | safe }}
+var order_stats_data = {{ order_stats_data | safe }}
+var last_year_orders_data = {{ last_year_orders_data | safe }}
+var color_scheme = ['#cc2b2b', '#cc9c2b', '#8ecc2b', '#2bcc69', '#2bb7cc',
+'#2b59cc', '#6e2bcc', '#cc2b2b', '#cc2bc7', '#4d0000',
+]
+var product_config = {
+    type: 'doughnut',
+    data: {
+        datasets: [{
+            data: product_stat_sales_data,
+            backgroundColor: color_scheme,
+            label: 'Productos'
+        }],
+        labels: product_stat_sales_labels,
+        hoverOffset: 4
+    },
+    options: {
+        responsive: true
+    }
+};
+var user_config = {
+    type: 'bar',
+    data: {
+        datasets: [{
+            data: user_stats_data,
+            backgroundColor: '#2b59cc',
+            label: 'Usuarios'
+        }],
+        labels: user_stats_labels,
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginvAtZero: true
             }
         }
-    };
-
-
-    var sales_config = {
-        type: 'line',
-        data: {
-            datasets: [{
-                    data: order_stats_data,
-                    borderColor: '#14c969',
-                    label: 'Ventas año actual'
-                },
-                {
-                    data: last_year_orders_data,
-                    borderColor: '#6210cc',
-                    label: 'Ventas año anterior'
-                }
-            ],
-            labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo",
-                "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-            ],
+    }
+};
+var sales_config = {
+    type: 'line',
+    data: {
+        datasets: [{
+            data: order_stats_data,
+            borderColor: '#14c969',
+            label: 'Ventas año actual'
         },
-        options: {
-            responsive: true
-        }
-    };
-
-
-    window.onload = function () {
-        var ctx = document.getElementById('product_chart').getContext('2d');
-        window.myPie = new Chart(ctx, product_config);
-        var ctx2 = document.getElementById('user_chart').getContext('2d');
-        window.myPie_2 = new Chart(ctx2, user_config);
-        var ctx3 = document.getElementById('sales_chart').getContext('2d');
-        window.myPie_2 = new Chart(ctx3, sales_config);
-    };
-</script>
+            {
+                data: last_year_orders_data,
+                borderColor: '#6210cc',
+                label: 'Ventas año anterior'
+            }
+        ],
+        labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo",
+            "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ],
+    },
+    options: {
+        responsive: true
+    }
+};
+window.onload = function () {
+    var ctx = document.getElementById('product_chart').getContext('2d');
+    var ctx2 = document.getElementById('user_chart').getContext('2d');
+    var ctx3 = document.getElementById('sales_chart').getContext('2d');
+    new Chart(ctx, product_config);
+    new Chart(ctx2, user_config);
+    new Chart(ctx3, sales_config);
+};
+    </script>
 {% endblock %}
-
 {% block landing %}
-
-<div class="landing">
-    <h1 class="display-1 text-center">Ferme empleados</h1>
-    <br>
-    <div class="col-lg-6">
+    <div class="d-flex gap-4 flex-column">
+        <h1>Ferme empleados</h1>
         <p>
-            Bienvenido {{user.username}}, en ésta sección podrás gestionar, solicitar y ver los estados de los productos
+            Bienvenido {{ user.username }}, en ésta sección podrás gestionar, solicitar y ver los estados de los productos
             de la empresa Ferme. Además podrás gestionar las órdenes de compra a proveedores para abastecer el stock de
             Ferme.
         </p>
     </div>
-
-    <br><br>
-
-    <img src="{% static 'employees/img/landing.svg' %}" alt="">
-
-    <a href="#stats">
-        <i class="bi bi-arrow-down-circle-fill" style="font-size: 50px;"></i>
-    </a>
-</div>
-
 {% endblock %}
-
 {% block content %}
-<br>
-<div class="row">
-    <h1 class="text-center" id="stats">Estadísticas</h1>
-    <hr>
-    <div class="col-12">
-        <h5 class="text-center">Comparación de ventas por mes</h5>
-        <br>
-        <canvas id="sales_chart" class="charts"></canvas>
+    <div class="d-flex flex-column gap-4">
+        <h1 id="stats">Estadísticas</h1>
+        <div class="row row-cols-lg-2 g-5">
+            <div class="col w-100">
+                <p class="text-center">Comparación de ventas por mes</p>
+                <canvas id="sales_chart" class="charts"></canvas>
+            </div>
+            <div class="col">
+                <p class="text-center">Productos más vendidos</p>
+                <canvas id="product_chart" class="charts"></canvas>
+            </div>
+            <div class="col">
+                <p class="text-center">Estadísticas de usuarios</p>
+                <canvas id="user_chart" class="charts"></canvas>
+            </div>
+        </div>
     </div>
-</div>
-<br>
-<div class="row">
-    <hr>
-    <div class="col-lg-6">
-        <h5 class="text-center">Productos más vendidos</h5>
-        <br>
-        <canvas id="product_chart" class="charts"></canvas>
-    </div>
-
-    <div class="col-lg-6">
-        <h5 class="text-center">Estadísticas de usuarios</h5>
-        <br>
-        <canvas id="user_chart" class="charts"></canvas>
-    </div>
-</div>
-
-
 {% endblock %}

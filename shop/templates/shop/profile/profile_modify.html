@@ -1,26 +1,22 @@
 {% extends 'shop/base.html' %}
 {% block title %}Modificar perfil{% endblock %}
-
 {% load static %}
-
 {% block content %}
-{% load crispy_forms_tags %}
-
-<div class="row justify-content-center">
-    <div class="col-6">
-        <div class="card">
-            <h2>Editar perfil de usuario</h2>
-            <hr>
+    {% load crispy_forms_tags %}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Editar perfil de usuario</h2>
             <form action="" method="post">
                 {% csrf_token %}
-                {{ form|crispy }}
-                {{ profile_form|crispy }}
-                <br>
-                <a class="btn btn-outline-danger float-right" href="{% url 'profile' %}">Cancelar</a>
-                <input type="submit" value="Guardar" class="btn btn-outline-dark float-right">
+                <div class="row row-cols-lg-2">{{ form|crispy }}</div>
+                <div class="row row-cols-lg-2">{{ profile_form|crispy }}</div>
+                <div class="mt-4 w-100">
+                    <a class="btn btn-outline-danger float-right" href="{% url 'profile' %}">Cancelar</a>
+                    <input type="submit"
+                           value="Guardar"
+                           class="btn btn-outline-secondary float-right">
+                </div>
             </form>
         </div>
     </div>
-</div>
-
 {% endblock %}

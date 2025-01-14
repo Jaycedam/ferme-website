@@ -1,57 +1,51 @@
 {% extends 'shop/base.html' %}
 {% block title %}Checkout{% endblock %}
 {% load static %}
-
 {% block content %}
-
-<div class="row d-flex align-items-center">
-    <div class="col">
-        <h1>Confirma tu compra</h1>
+    <div class="row d-flex align-items-center">
+        <div class="col">
+            <h1>Confirma tu compra</h1>
+        </div>
+        <div class="col">
+            {% if adress %}
+                <button form="form" style="float:right" class="btn btn-success" type="submit">Confirmar compra</button>
+            {% endif %}
+        </div>
     </div>
-    <div class="col">
-        {% if adress %}
-        <button form="form" style="float:right;" class="btn btn-success" type="submit">Confirmar compra</button>
-        {% endif %}
+    <div class="row">
+        <div class="col">
+            <form id="form" method="POST">
+                {% csrf_token %}
+                <label class="form-label" for="tipoDoc">Tipo documento:</label>
+                <select style="width: max-content"
+                        class="form-select"
+                        name="tipoDoc"
+                        id="tipoDoc">
+                    {% for i in tipoDoc %}<option value="{{ i.id_tipo }}">{{ i.tipo_documento }}</option>{% endfor %}
+                </select>
+            </form>
+        </div>
+        <div class="col">
+            {% if adress %}
+                <h5>Delivery:</h5>
+                <p>{{ adress }}</p>
+                {% if adress.nro_departamento %}<h5>N° departamento: {{ adress.nro_departamento }}</h5>{% endif %}
+            {% elif not profile %}
+                <h5 class="text-end">Completa tu perfil para continuar</h5>
+                <a style="float:right;
+                          margin:5px"
+                   class="btn btn-outline-secondary"
+                   href="{% url 'profile' %}">Ir a perfil</a>
+            {% elif profile and not adress %}
+                <p>No tienes ningún domicilio registrado. Registra uno en tu perfil para poder continuar la compra.</p>
+                <a class="btn btn-dark float-left" href="{% url 'profile' %}">Ir a perfil</a>
+            {% endif %}
+        </div>
     </div>
-</div>
-<hr>
-
-<div class="row">
-    <div class="col">
-        <form id="form" method="POST">
-            {% csrf_token %}
-            <label class="form-label" for="tipoDoc">Tipo documento:</label>
-            <select style="width: max-content;" class="form-select" name="tipoDoc" id="tipoDoc">
-                {% for i in tipoDoc %}
-                <option value="{{i.id_tipo}}">{{i.tipo_documento}}</option>
-                {% endfor %}
-            </select>
-        </form>
-    </div>
-
-    <div class="col">
-        {% if adress %}
-        <h5>Delivery:</h5>
-        <p>{{ adress }}</p>
-
-        {% if adress.nro_departamento %}
-        <h5>N° departamento: {{ adress.nro_departamento }}</h5>
-        {% endif %}
-
-        {% elif not profile %}
-        <h5 class="text-end">Completa tu perfil para continuar</h5>
-        <a style="float:right; margin:5px;" class="btn btn-outline-dark" href="{% url 'profile' %}">Ir a perfil</a>
-        {% elif profile and not adress %}
-        <p>No tienes ningún domicilio registrado. Registra uno en tu perfil para poder continuar la compra.</p>
-        <a class="btn btn-primary float-left" href="{% url 'profile' %}">Ir a perfil</a>
-        {% endif %}
-    </div>
-</div>
-
-<hr>
-<h5>Total:<strong> ${{order.get_cart_total}}</strong></h5>
+    <h5>
+        Total:<strong>${{ order.get_cart_total }}</strong>
+    </h5>
 </th>
-
 <div class="table-responsive">
     <table class="table">
         <thead>
@@ -64,18 +58,14 @@
         </thead>
         <tbody>
             {% for i in items %}
-            <tr>
-                <td>{{ i.product.name }}</td>
-                <td>${{ i.product.price }}</td>
-                <td>${{ i.get_total }}</td>
-                <td>{{ i.quantity }}</td>
-            </tr>
+                <tr>
+                    <td>{{ i.product.name }}</td>
+                    <td>${{ i.product.price }}</td>
+                    <td>${{ i.get_total }}</td>
+                    <td>{{ i.quantity }}</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
-
-
-
-
 {% endblock %}

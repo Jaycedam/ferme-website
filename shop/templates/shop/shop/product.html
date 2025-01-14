@@ -25,7 +25,7 @@
                 {% if producto.stock > 0 %}
                     <button data-product="{{ producto.id_producto }}"
                             data-action="add"
-                            class="btn btn-outline-primary update-cart">
+                            class="btn btn-dark update-cart">
                         Agregar al carro
                         <i class="bi bi-cart"></i>
                     </button>
@@ -36,7 +36,7 @@
                     </p>
                 {% endif %}
                 {% if user.is_staff %}
-                    <a class="btn btn-outline-secondary"
+                    <a class="btn btn-outline-dark"
                        href="{% url 'product_modify' producto.id_producto %}">Modificar</a>
                 {% endif %}
             </div>

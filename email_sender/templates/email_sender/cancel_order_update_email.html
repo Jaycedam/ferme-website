@@ -1,30 +1,35 @@
 <html>
-    <head>
-    </head>
+    <head> </head>
 
-<body>
-    <h1>Tu solicitud N°{{nc.nro_nota_credito}} ha cambiado su estado a {{ nc.id_estado }}</h1>
-    <br>
-    <p>Motivo: {{ nc.id_motivo }}</p>
-    <p>Estado: {{ nc.id_estado }}</p>
-    <p>Descripción: {{ nc.descripcion }}</p>
-    <p>Total: ${{nc.total}}</p>
-    <p>Fecha: {{nc.fecha}}</p>
-    <p>Orden asociada: {{nc.nro_orden}}</p>
-    <br>
+    <body>
+        <h1>
+            Tu solicitud N°{{nc.nro_nota_credito}} ha cambiado su estado a {{
+            nc.id_estado }}
+        </h1>
 
-    <h2>Detalle</h2>
-    {% for i in items %}
-    <ul>
-        <li>
-            <p>{{ i.id_producto.get_name }} ${{ i.precio }} (x{{ i.cantidad }}), total ${{ i.total }} </p>
-        </li>
-    </ul>
-    {% endfor %}
+        <p>Motivo: {{ nc.id_motivo }}</p>
+        <p>Estado: {{ nc.id_estado }}</p>
+        <p>Descripción: {{ nc.descripcion }}</p>
+        <p>Total: ${{nc.total}}</p>
+        <p>Fecha: {{nc.fecha}}</p>
+        <p>Orden asociada: {{nc.nro_orden}}</p>
 
-    <p>Si tu solicitud fue aprobada debes esperar 72hr hábiles para la devolución a tu cuenta.</p>
-          
+        <h2>Detalle</h2>
+        {% for i in items %}
+        <ul>
+            <li>
+                <p>
+                    {{ i.id_producto.get_name }} ${{ i.precio }} (x{{ i.cantidad
+                    }}), total ${{ i.total }}
+                </p>
+            </li>
+        </ul>
+        {% endfor %}
 
-</body>
-
+        <p>
+            Si tu solicitud fue aprobada debes esperar 72hr hábiles para la
+            devolución a tu cuenta.
+        </p>
+    </body>
 </html>
+

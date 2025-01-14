@@ -1,50 +1,43 @@
 {% extends 'shop/base.html' %}
 {% block title %}Orders{% endblock %}
 {% load crispy_forms_tags %}
-
 {% load static %}
-
 {% block content %}
-
-<h1>Ordenes hacia tu empresa</h1>
-<hr>
-<div class="row">
-    <form class="form-inline" method="GET">
-        {{ orders_filtered.form|crispy }}
-        <br>
-        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
-        <a class="btn btn-outline-danger" href="{% url 'order_requests' %}">Limpiar filtros</a>
-    </form>
-</div>
-
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">N° orden</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Total</th>
-                <th scope="col">Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in entity %}
-            <tr>
-                <td>{{ i.nro_orden }}</td>
-                <td>{{ i.id_estado }}</td>
-                <td>{{ i.fecha }}</td>
-                <td>${{ i.total }}</td>
-                <td>
-                    <a class="btn btn-outline-dark float-left" href="{% url 'order_request' i.nro_orden %}">Ver
-                        detalle</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-{% include 'shop/paginator.html' %}
-
+    <h1>Ordenes hacia tu empresa</h1>
+    <div class="row">
+        <form class="form-inline" method="GET">
+            {{ orders_filtered.form|crispy }}
+            <button type="submit" class="btn btn-outline-secondary">Filtrar</button>
+            <a class="btn btn-outline-danger" href="{% url 'order_requests' %}">Limpiar filtros</a>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">N° orden</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in entity %}
+                    <tr>
+                        <td>{{ i.nro_orden }}</td>
+                        <td>{{ i.id_estado }}</td>
+                        <td>{{ i.fecha }}</td>
+                        <td>${{ i.total }}</td>
+                        <td>
+                            <a class="btn btn-outline-secondary float-left"
+                               href="{% url 'order_request' i.nro_orden %}">Ver
+                            detalle</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'shop/paginator.html' %}
 {% endblock %}

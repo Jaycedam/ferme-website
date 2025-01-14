@@ -1,139 +1,99 @@
 {% extends 'employees/base.html' %}
 {% block title %}Admin users{% endblock %}
-
 {% block content %}
-{% load crispy_forms_tags %}
-
-<div class="row justify-content-md-center">
-    <div class="card form-container">
-        <h2 class="display">{{title}}</h2>
-        <hr>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col">
-                    <h4>Datos de usuario</h4>
+    {% load crispy_forms_tags %}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">{{ title }}</h2>
+            <form method="POST" class="d-flex flex-column gap-5">
+                {% csrf_token %}
+                <!--user-->
+                <div class="row row-cols-lg-2">
+                    <h3 class="w-100 text-secondary">Datos de usuario</h3>
+                    <div>
+                        <label class="form-label" for="username">{{ form.username.label_tag }}</label>
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+                    <div>
+                        <label class="form-label" for="email">{{ form.email.label_tag }}</label>
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                    <div>
+                        <label class="form-label" for="first_name">{{ form.first_name.label_tag }}</label>
+                        {{ form.first_name }}
+                        {{ form.first_name.errors }}
+                    </div>
+                    <div>
+                        <label class="form-label" for="last_name">{{ form.last_name.label_tag }}</label>
+                        {{ form.last_name }}
+                        {{ form.last_name.errors }}
+                    </div>
+                    <div>
+                        <label class="form-label" for="first_name">{{ form.is_staff.label_tag }}</label>
+                        {{ form.is_staff }}
+                    </div>
+                    <div>
+                        <label class="form-label" for="first_name">{{ form.is_superuser.label_tag }}</label>
+                        {{ form.is_superuser }}
+                    </div>
+                    {% if form.password1 %}
+                        <div>
+                            <label class="form-label" for="password1">{{ form.password1.label_tag }}</label>
+                            {{ form.password1 }}
+                            {{ form.password1.errors }}
+                        </div>
+                        <div>
+                            <label class="form-label" for="password2">{{ form.password2.label_tag }}</label>
+                            {{ form.password2 }}
+                            {{ form.password2.errors }}
+                        </div>
+                        <div>{{ form.password1.help_text }}</div>
+                    {% endif %}
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="username">{{form.username.label_tag}}</label>
-                    {{form.username}}
-                    {{form.username.errors}}
+                <!--datos personales -->
+                <div class="row row-cols-lg-2">
+                    <h3 class="w-100 text-secondary">Datos personales</h3>
+                    <div class=" form-element">
+                        <label class="form-label" for="rut_persona">{{ profile_form.rut_persona.label_tag }}</label>
+                        {{ profile_form.rut_persona }}
+                        {{ profile_form.rut_persona.errors }}
+                    </div>
+                    <div class=" form-element">
+                        <label class="form-label" for="celular">{{ profile_form.celular.label_tag }}</label>
+                        {{ profile_form.celular }}
+                        {{ profile_form.celular.errors }}
+                    </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="email">{{form.email.label_tag}}</label>
-                    {{form.email}}
-                    {{form.email.errors}}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="first_name">{{form.first_name.label_tag}}</label>
-                    {{form.first_name}}
-                    {{form.first_name.errors}}
-                </div>
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="last_name">{{form.last_name.label_tag}}</label>
-                    {{form.last_name}}
-                    {{form.last_name.errors}}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="first_name">{{form.is_staff.label_tag}}</label>
-                    {{form.is_staff}}
-                </div>
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="first_name">{{form.is_superuser.label_tag}}</label>
-                    {{form.is_superuser}}
-                </div>
-            </div>
-
-            {% if form.password1 %}
-            <div class="row">
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="password1">{{form.password1.label_tag}}</label>
-                    {{form.password1}}
-                    {{form.password1.errors}}
-                </div>
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="password2">{{form.password2.label_tag}}</label>
-                    {{form.password2}}
-                    {{form.password2.errors}}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    {{form.password1.help_text}}
-                </div>
-            </div>
-            {% endif %}
-
-            <hr>
-
-            <div class="row">
-                <h4>Datos personales</h4>
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="rut_persona">{{profile_form.rut_persona.label_tag}}</label>
-                    {{profile_form.rut_persona}}
-                    {{profile_form.rut_persona.errors}}
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="celular">{{profile_form.celular.label_tag}}</label>
-                    {{profile_form.celular}}
-                    {{profile_form.celular.errors}}
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="row">
-                <h4>Datos proveedor</h4>
-
-                <div class="col form-element">
+                <!--datos proveedor-->
+                <div class="row align-items-center row-cols-lg-2">
+                    <h3 class="w-100 text-secondary">Datos proveedor</h3>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="is_provider" id="is_provider">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="is_provider"
+                               id="is_provider">
                         <label class="form-check-label" for="is_provider">¿Es usuario proveedor?</label>
                         <small>(Si no está checheado se ignorarán los datos a continuación)</small>
                     </div>
+                    <div>
+                        <label class="form-label" for="nombre_empresa">{{ provider_form.nombre_empresa.label_tag }}</label>
+                        {{ provider_form.nombre_empresa }}
+                        {{ provider_form.nombre_empresa.errors }}
+                    </div>
+                    <div>
+                        <label class="form-label" for="id_rubro">{{ provider_form.id_rubro.label_tag }}</label>
+                        {{ provider_form.id_rubro }}
+                        {{ provider_form.id_rubro.errors }}
+                    </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="nombre_empresa">{{provider_form.nombre_empresa.label_tag}}</label>
-                    {{provider_form.nombre_empresa}}
-                    {{provider_form.nombre_empresa.errors}}
+                <div>
+                    <a class="btn btn-outline-danger float-left"
+                       href="{% url 'admin_users' %}">Cancelar</a>
+                    <button type="submit" class="btn btn-dark float-left">Guardar</button>
                 </div>
-                <div class="col-sm-6 form-element">
-                    <label class="form-label" for="id_rubro">{{provider_form.id_rubro.label_tag}}</label>
-                    {{provider_form.id_rubro}}
-                    {{provider_form.id_rubro.errors}}
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="row">
-                <div class="col-sm-6 form-element">
-                    <a class="btn btn-outline-danger float-left" href="{% url 'admin_users' %}">Cancelar</a>
-                    <button type="submit" class="btn btn-outline-dark float-left">Guardar</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
-
-
 {% endblock content %}

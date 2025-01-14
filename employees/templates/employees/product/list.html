@@ -1,72 +1,64 @@
 {% extends 'employees/base.html' %}
 {% block title %}Gestión productos{% endblock %}
-
 {% block content %}
-{% load crispy_forms_tags %}
-
-<div class="row align-items-center">
-    <div class="col">
-        <h1>Gestión de productos Ferme</h1>
+    {% load crispy_forms_tags %}
+    <div class="row align-items-center">
+        <div class="col">
+            <h1>Gestión de productos Ferme</h1>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <a class="btn btn-dark float-left"
+               style="height: min-content"
+               href="{% url 'product_create' %}">Registrar nuevo producto</a>
+        </div>
     </div>
-    <div class="col d-flex justify-content-end">
-        <a class="btn btn-outline-dark float-left" style="height: min-content;"
-            href="{% url 'product_create' %}">Registrar nuevo producto</a>
+    <div class="row">
+        <form class="form-inline" method="GET">
+            {{ products_filtered.form|crispy }}
+            <button type="submit" class="btn btn-outline-secondary">Filtrar</button>
+            <a class="btn btn-outline-danger" href="{% url 'product_management' %}">Limpiar filtros</a>
+        </form>
     </div>
-</div>
-
-<hr>
-
-<div class="row">
-    <form class="form-inline" method="GET">
-        {{ products_filtered.form|crispy }}
-        <br>
-        <button type="submit" class="btn btn-outline-dark">Filtrar</button>
-        <a class="btn btn-outline-danger" href="{% url 'product_management' %}">Limpiar filtros</a>
-    </form>
-</div>
-
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Stock crítico</th>
-                <th scope="col">Familia producto</th>
-                <th scope="col">Marca</th>
-                <th scope="col">Proveedor</th>
-                <th scope="col">Fecha vencimiento</th>
-                <th scope="col">Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in entity %}
-            <tr>
-                <td>{{ i.id_producto }}</td>
-                <td>{{ i.producto }}</td>
-                <td>${{ i.precio }}</td>
-                <td>{{ i.stock }}</td>
-                <td>{{ i.stock_critico }}</td>
-                <td>{{ i.id_tipo_producto.id_familia_producto }}</td>
-                <td>{{ i.id_marca }}</td>
-                <td>{{ i.id_proveedor }}</td>
-                {% if not i.fecha_vencimiento %}
-                <td>No aplica</td>
-                {% else %}
-                <td>{{ i.fecha_vencimiento }}</td>
-                {% endif %}
-
-                <td>
-                    <a class="btn btn-outline-dark" href="{% url 'product_modify' i.id_producto %}">Modificar</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-{% include 'shop/paginator.html' %}
-
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Stock crítico</th>
+                    <th scope="col">Familia producto</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Proveedor</th>
+                    <th scope="col">Fecha vencimiento</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in entity %}
+                    <tr>
+                        <td>{{ i.id_producto }}</td>
+                        <td>{{ i.producto }}</td>
+                        <td>${{ i.precio }}</td>
+                        <td>{{ i.stock }}</td>
+                        <td>{{ i.stock_critico }}</td>
+                        <td>{{ i.id_tipo_producto.id_familia_producto }}</td>
+                        <td>{{ i.id_marca }}</td>
+                        <td>{{ i.id_proveedor }}</td>
+                        {% if not i.fecha_vencimiento %}
+                            <td>No aplica</td>
+                        {% else %}
+                            <td>{{ i.fecha_vencimiento }}</td>
+                        {% endif %}
+                        <td>
+                            <a class="btn btn-outline-dark"
+                               href="{% url 'product_modify' i.id_producto %}">Modificar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'shop/paginator.html' %}
 {% endblock content %}

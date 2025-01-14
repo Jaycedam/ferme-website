@@ -1,30 +1,23 @@
 {% extends 'employees/base.html' %}
 {% load static %}
-
 {% block title %}Solicitar productos{% endblock %}
-
 {% block content %}
-<h1 class="text-center">Selecciona un proveedor</h1>
-<p>
-    Dentro de ésta sección, tenemos a los mejores proveedores del país, quienes nos proporcionan los mejores productos
-    en toda su gamma disponible. Además cuentan con listas de productos actualizados que te ayudarán a escoger según el
-    tipo que necesites.
-</p>
-
-<br>
-
-<div class="row">
-    {% for i in providers %}
-    <div class="col-lg-6">
-        <div class="categoria">
-            <a onclick="deleteOrder()" href="{% url 'products_by_provider' i.id_proveedor %}">
-                <img class="thumbnail darken" src="{% static 'employees/img/provider.svg' %}">
-                <div class="text-block text-center">
-                    <h3 class="fw-bold">{{ i.nombre_empresa }}</h3>
+    <h1>Selecciona un proveedor</h1>
+    <p>
+        Dentro de ésta sección, tenemos a los mejores proveedores del país, quienes nos proporcionan los mejores productos
+        en toda su gamma disponible. Además cuentan con listas de productos actualizados que te ayudarán a escoger según el
+        tipo que necesites.
+    </p>
+    <div class="row row-cols-md-3">
+        {% for i in providers %}
+            <a class="card"
+               onclick="deleteOrder()"
+               href="{% url 'products_by_provider' i.id_proveedor %}">
+                <img class="card-img-top" src="{% static 'employees/img/provider.svg' %}">
+                <div class="card-body">
+                    <p class="card-title">{{ i.nombre_empresa }}</p>
                 </div>
             </a>
-        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 {% endblock content %}
