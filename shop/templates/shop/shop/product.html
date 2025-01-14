@@ -1,48 +1,44 @@
 {% extends 'shop/base.html' %}
 {% block title %}{{ producto.producto }}{% endblock %}
 {% load static %}
-
 {% block content %}
-
-<div class="row">
-    <div class="col-6">
-        {% if producto.imagen_url %}
-        <img src="{{producto.imagen_url.url}}" alt="">
-        {% else %}
-        <img src="{% static 'shop/img/noimage.png' %}">
-        {% endif %}
-    </div>
-    <div class="col-6">
-        <h6 class="font-weight-bold text-uppercase">Marca: {{ producto.id_marca }}</h6>
-        <h2 class="text-capitalize">{{ producto.producto }}</h2>
-        <h2>${{ producto.precio }}</h2>
-        <h6>En stock: {{ producto.stock }}</h6>
-        {% if producto.fecha_vencimiento %}
-        <h6>Fecha vencimiento: {{ producto.fecha_vencimiento }}</h6>
-        {% endif %}
-
-        {% if producto.descripcion %}
-        <h6 class="font-weight-bold">Descripción del producto:</h6>
-        <p class="font-weight-normal">{{ producto.descripcion }}</p>
-        {% endif %}
-
-        <br>
-
-        {% if producto.stock > 0 %}
-        <button data-product={{producto.id_producto}} data-action="add" class="btn btn-outline-dark update-cart">
-            Agregar al carro
-            <i class="bi bi-cart"></i>
-        </button>
-        {% else %}
-        <p class="text-muted">Lo sentimos, pero actualmente no existe stock para este producto. Intenta de nuevo en un
-            par de días.</p>
-        {% endif %}
-
-        {% if user.is_staff %}
-        <a class="btn btn-outline-dark" href="{% url 'product_modify' producto.id_producto %}">Modificar</a>
-        {% endif %}
-    </div>
-</div>
-
-
-{% endblock %}
+    <div class="row">
+        <div class="col-6">
+            {% if producto.imagen_url %}
+                <img class="img-fluid img-thumbnail"
+                     src="{{ producto.imagen_url.url }}"
+                     alt="">
+            {% else %}
+                <img class="img-fluid img-thumbnail"
+                     src="{% static 'shop/img/noimage.png' %}">
+            {% endif %}
+        </div>
+        <div class="col-6">
+            <h1 class="text-capitalize">{{ producto.producto }}</h1>
+            <p class="font-weight-bold text-uppercase">Marca: {{ producto.id_marca }}</p>
+            <p>
+                ${{ producto.precio }}</o>
+                {% if producto.fecha_vencimiento %}<p>Fecha vencimiento: {{ producto.fecha_vencimiento }}</p>{% endif %}
+                {% if producto.descripcion %}
+                    <p class="font-weight-normal text-body-secondary">{{ producto.descripcion }}</p>
+                {% endif %}
+                {% if producto.stock > 0 %}
+                    <button data-product="{{ producto.id_producto }}"
+                            data-action="add"
+                            class="btn btn-outline-primary update-cart">
+                        Agregar al carro
+                        <i class="bi bi-cart"></i>
+                    </button>
+                {% else %}
+                    <p class="text-body-secondary">
+                        Lo sentimos, pero actualmente no existe stock para este producto. Intenta de nuevo en un
+                        par de días.
+                    </p>
+                {% endif %}
+                {% if user.is_staff %}
+                    <a class="btn btn-outline-secondary"
+                       href="{% url 'product_modify' producto.id_producto %}">Modificar</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endblock %}
