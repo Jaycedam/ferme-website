@@ -12,7 +12,7 @@
             </a>
         </div>
     {% endif %}
-    <div class="d-flex flex-column gap-3">
+    <div class="d-flex flex-column py-4 gap-3">
         <h1 class="fs-1">FERME SERVICES</h1>
         <p>
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -27,10 +27,10 @@
     </div>
 {% endblock %}
 {% block content %}
-    <div class="row">
-        <h2 id="productos">Productos</h2>
+    <div class="row row-cols-md-2 g-4">
+        <h2 class="w-100" id="productos">Productos</h2>
         {% for i in familia_producto %}
-            <a class="col-6 g-4" href="{% url 'products' i.id_familia_producto %}">
+            <a class="" href="{% url 'products' i.id_familia_producto %}">
                 <div class="card text-bg-dark bg-black ratio ratio-16x9">
                     <img src="{{ i.imagen_url.url }}" class="card-img" alt="...">
                     <div class="card-img-overlay bg-gradient bg-black bg-opacity-75">

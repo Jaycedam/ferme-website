@@ -2,67 +2,58 @@
 {% block title %}Carro{% endblock %}
 {% load static %}
 {% block content %}
-    <div class="row d-flex align-items-center">
-        <div class="col">
-            <h1>Carro de compra</h1>
-        </div>
-        <div class="col">
+    <div class="d-flex flex-column gap-5">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>
+                Carro de compra: <span class="text-secondary">${{ order.get_cart_total }}</span>
+            </h1>
             {% if user.is_authenticated and order.get_cart_total > 0 and profile %}
-                <a style="float:right"
-                   class="btn btn-success"
-                   href="{% url 'checkout' %}">Continuar</a>
+                <a class="btn btn-dark btn-lg" href="{% url 'checkout' %}">Continuar</a>
             {% elif not user.is_authenticated %}
-                <h5 class="text-end">Inicia sesión para continuar con la compra</h5>
+                <p class="text-end">Inicia sesión para continuar con la compra</p>
             {% elif order.get_cart_total == 0 %}
-                <h5 class="text-end">Agrega productos al carro</h5>
+                <p class="text-end">No tienes ningún productos en el carro</p>
             {% elif not profile %}
-                <h5 class="text-end">Completa tu perfil para continuar</h5>
-                <a style="float:right;
-                          margin:5px"
-                   class="btn btn-outline-secondary"
-                   href="{% url 'profile' %}">Ir a perfil</a>
+                <p class="text-end">Completa tu perfil para continuar</p>
+                <a class="btn btn-outline-secondary" href="{% url 'profile' %}">Ir a perfil</a>
             {% endif %}
         </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Stock disponible</th>
+                        <th scope="col">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in items %}
+                        <tr>
+                            <td>
+                                <a class="link" href="{% url 'product' i.product.id %}">{{ i.product.name }}</a>
+                            </td>
+                            <td>${{ i.product.price }}</td>
+                            <td>${{ i.get_total }}</td>
+                            <td>{{ i.product.stock }}</td>
+                            <td class="d-flex gap-2 align-items-center">
+                                <p class="mb-0 text-bold">{{ i.quantity }}</p>
+                                <button data-product="{{ i.product.id }}"
+                                        data-action="add"
+                                        class="btn btn-sm btn-outline-secondary bi bi-arrow-up update-cart"></button>
+                                <button data-product="{{ i.product.id }}"
+                                        data-action="remove"
+                                        class="btn btn-sm btn-outline-secondary bi bi-arrow-down update-cart"></button>
+                                <button data-product="{{ i.product.id }}"
+                                        data-action="delete"
+                                        class="btn btn-sm btn-outline-danger bi bi-trash-fill update-cart"></button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <h5>
-        Total:<strong>${{ order.get_cart_total }}</strong>
-    </h5>
-</th>
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Total</th>
-                <th scope="col">Stock disponible</th>
-                <th scope="col">Cantidad</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in items %}
-                <tr>
-                    <td>
-                        <a class="link" href="{% url 'product' i.product.id %}">{{ i.product.name }}</a>
-                    </td>
-                    <td>${{ i.product.price }}</td>
-                    <td>${{ i.get_total }}</td>
-                    <td>{{ i.product.stock }}</td>
-                    <td>
-                        {{ i.quantity }}
-                        <button data-product="{{ i.product.id }}"
-                                data-action="add"
-                                class="btn btn-outline-secondary bi bi-caret-up-fill update-cart"></button>
-                        <button data-product="{{ i.product.id }}"
-                                data-action="remove"
-                                class="btn btn-outline-secondary bi bi-caret-down-fill update-cart"></button>
-                        <button data-product="{{ i.product.id }}"
-                                data-action="delete"
-                                class="btn btn-outline-danger bi bi-trash-fill update-cart"></button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
 {% endblock %}

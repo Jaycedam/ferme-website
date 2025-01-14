@@ -66,9 +66,7 @@
     <body data-bs-theme="light" class="d-flex flex-column vh-100">
         {% include './shop/navbar.html' %}
         <main class="container py-5 d-flex flex-column gap-5 flex-grow-1">
-            <div>
-                {% block landing %}{% endblock %}
-            </div>
+            {% block landing %}{% endblock %}
             <div class="d-flex flex-column gap-5">
                 {% block content %}{% endblock %}
             </div>
