@@ -98,17 +98,7 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-12. Actualizar EMAIL_HOST_USER/EMAIL_HOST_PASSWORD en **ferme/settings.py** (La cuenta debe tener acceso de apps menos seguras)
-
-```python
-EMAIL_HOST = 'smtp.googlemail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'email@example.com'
-EMAIL_HOST_PASSWORD = 'password'
-EMAIL_USE_TLS = True
-```
-
-13. Corre el servidor para comprobar que todo está funcionando correctamente:
+12. Corre el servidor para comprobar que todo está funcionando correctamente:
 
 ```sh
 python manage.py runserver

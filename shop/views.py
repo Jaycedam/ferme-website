@@ -332,7 +332,7 @@ def checkout(request):
             new_order.save()
 
             # enviamos mail y orden a la función encargada de mandar el correo al usuario actual
-            order_email(request.user.email, new_order)
+            # order_email(request.user.email, new_order)
             messages.success(request, "Tu compra ha sido confirmada")
 
         except Exception as e:
